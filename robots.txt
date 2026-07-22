@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lcanet2.github.io/it-desk-site/sitemap.xml
