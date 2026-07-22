@@ -19,14 +19,25 @@ En ligne : <https://lcanet2.github.io/it-desk-site/>
 
 Aucune dépendance, aucun script tiers, aucune requête vers un CDN.
 
+## Bascule sur un nom de domaine
+
+Le script `configurer.sh` fait tout le travail dans le dépôt — URL canonique,
+Open Graph, JSON-LD, `robots.txt`, `sitemap.xml`, fichier `CNAME` :
+
+```sh
+./configurer.sh it-desk.fr contact@it-desk.fr
+```
+
+Le second argument est facultatif : sans lui, seule l'adresse du site change.
+Le script est rejouable et affiche ensuite les étapes qui se passent en dehors
+du dépôt (enregistrements DNS, HTTPS côté GitHub, Search Console).
+
 ## À personnaliser
 
-- **Adresse de contact** : remplacer `contact@it-desk.fr` (8 occurrences dans
-  `index.html`) par la vraie boîte mail.
-- **Nom de domaine** : remplacer `https://lcanet2.github.io/it-desk-site/`
-  partout dans `index.html`, `robots.txt` et `sitemap.xml`, puis ajouter un
-  fichier `CNAME` à la racine contenant le domaine.
-- **Date du sitemap** : mettre `<lastmod>` à jour lors des modifications de fond.
+- **Adresse de contact** : `contact@it-desk.fr` est un texte d'attente
+  (8 occurrences dans `index.html`) — le script ci-dessus le remplace partout.
+- **Date du sitemap** : `<lastmod>` est remis à jour à chaque exécution du
+  script ; à ajuster à la main lors d'une refonte du contenu.
 
 ## Référencement
 
