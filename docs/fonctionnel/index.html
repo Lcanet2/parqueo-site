@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation fonctionnelle | Parqueo</title>
+<meta name="description" content="Rôles, cycle de vie d'un ticket, workflows, inventaire et paramètres de Parqueo, écran par écran.">
+<link rel="canonical" href="https://parqueo.fr/docs/fonctionnel/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="theme-color" content="#f6f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0e13" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Parqueo">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Documentation fonctionnelle | Parqueo">
+<meta property="og:description" content="Rôles, cycle de vie d'un ticket, workflows, inventaire et paramètres de Parqueo, écran par écran.">
+<meta property="og:url" content="https://parqueo.fr/docs/fonctionnel/">
+<meta property="og:image" content="https://parqueo.fr/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://parqueo.fr/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://parqueo.fr/docs/fonctionnel/#article",
+      "headline": "Documentation fonctionnelle",
+      "name": "Parqueo — documentation fonctionnelle",
+      "description": "Rôles, cycle de vie d'un ticket, workflows, inventaire et paramètres de Parqueo, écran par écran.",
+      "inLanguage": "fr-FR",
+      "url": "https://parqueo.fr/docs/fonctionnel/",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Utilisateurs, techniciens et administrateurs fonctionnels"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Parqueo",
+        "applicationCategory": "BusinessApplication"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Parqueo",
+        "url": "https://parqueo.fr/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://parqueo.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://parqueo.fr/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fonctionnelle",
+          "item": "https://parqueo.fr/docs/fonctionnel/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Parqueo"><svg class="mk" viewBox="6 3 12 18" fill="none" aria-hidden="true">
+        <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent)"/>
+        <path d="M7 4v16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>arqueo</a>
+    <nav class="nav-links" aria-label="Documentation">
+      <a href="/docs/fonctionnel/" aria-current="page">Fonctionnelle</a>
+      <a href="/docs/technique/">Technique</a>
+      <a href="/docs/installation/">Installation</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="/#contact">Demander une démo</a>
+  </div>
+</header>
+<main class="wrap doc-layout" id="contenu">
+  <aside class="toc" aria-label="Sommaire du document">
+    <p class="toc-t">Sommaire</p>
+    <nav>
+      <ul>
+        <li class="n2"><a href="#1-à-quoi-sert-parqueo">1. À quoi sert Parqueo</a></li>
+        <li class="n2"><a href="#2-les-trois-rôles">2. Les trois rôles</a></li>
+        <li class="n2"><a href="#3-se-connecter">3. Se connecter</a></li>
+        <li class="n2"><a href="#4-le-tableau-de-bord">4. Le tableau de bord</a></li>
+        <li class="n3"><a href="#41-widgets-disponibles">4.1 Widgets disponibles</a></li>
+        <li class="n3"><a href="#42-métriques-des-tuiles">4.2 Métriques des tuiles</a></li>
+        <li class="n3"><a href="#43-personnalisation">4.3 Personnalisation</a></li>
+        <li class="n2"><a href="#5-créer-une-demande">5. Créer une demande</a></li>
+        <li class="n3"><a href="#51-le-catalogue-de-demandes">5.1 Le catalogue de demandes</a></li>
+        <li class="n3"><a href="#52-la-demande-libre">5.2 La demande libre</a></li>
+        <li class="n3"><a href="#53-par-email">5.3 Par email</a></li>
+        <li class="n2"><a href="#6-suivre-et-traiter-un-ticket">6. Suivre et traiter un ticket</a></li>
+        <li class="n3"><a href="#61-la-liste-des-tickets">6.1 La liste des tickets</a></li>
+        <li class="n3"><a href="#62-le-détail-dun-ticket">6.2 Le détail d&amp;#39;un ticket</a></li>
+        <li class="n3"><a href="#63-qui-peut-faire-quoi">6.3 Qui peut faire quoi</a></li>
+        <li class="n2"><a href="#7-le-cycle-de-vie-dun-ticket">7. Le cycle de vie d&amp;#39;un ticket</a></li>
+        <li class="n2"><a href="#8-la-base-de-connaissances">8. La base de connaissances</a></li>
+        <li class="n2"><a href="#9-linventaire-du-parc">9. L&amp;#39;inventaire du parc</a></li>
+        <li class="n2"><a href="#10-ladministration">10. L&amp;#39;administration</a></li>
+        <li class="n3"><a href="#101-utilisateurs">10.1 Utilisateurs</a></li>
+        <li class="n3"><a href="#102-équipes-et-catégories">10.2 Équipes et catégories</a></li>
+        <li class="n3"><a href="#103-formulaires">10.3 Formulaires</a></li>
+        <li class="n3"><a href="#104-workflows">10.4 Workflows</a></li>
+        <li class="n2"><a href="#11-les-workflows">11. Les workflows</a></li>
+        <li class="n3"><a href="#111-déclencheur-et-filtres">11.1 Déclencheur et filtres</a></li>
+        <li class="n3"><a href="#112-les-blocs">11.2 Les blocs</a></li>
+        <li class="n3"><a href="#113-variables">11.3 Variables</a></li>
+        <li class="n3"><a href="#114-exemple-complet">11.4 Exemple complet</a></li>
+        <li class="n3"><a href="#115-bon-à-savoir">11.5 Bon à savoir</a></li>
+        <li class="n2"><a href="#12-les-paramètres">12. Les paramètres</a></li>
+        <li class="n3"><a href="#tableaux-de-bord">Tableaux de bord</a></li>
+        <li class="n3"><a href="#tickets">Tickets</a></li>
+        <li class="n3"><a href="#notifications-email">Notifications email</a></li>
+        <li class="n3"><a href="#base-de-connaissances">Base de connaissances</a></li>
+        <li class="n3"><a href="#inventaire">Inventaire</a></li>
+        <li class="n2"><a href="#13-les-emails">13. Les emails</a></li>
+        <li class="n3"><a href="#131-ce-que-parqueo-envoie">13.1 Ce que Parqueo envoie</a></li>
+        <li class="n3"><a href="#132-ce-que-parqueo-reçoit">13.2 Ce que Parqueo reçoit</a></li>
+        <li class="n2"><a href="#14-questions-fréquentes">14. Questions fréquentes</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <article class="doc">
+    <nav class="fil" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a> <span>/</span> <a href="/docs/">Documentation</a> <span>/</span> <span>Fonctionnelle</span>
+    </nav>
+    <p class="doc-public">Utilisateurs, techniciens et administrateurs fonctionnels</p>
+<h1 id="parqueo-documentation-fonctionnelle">Parqueo — documentation fonctionnelle</h1>
+<p>Ce que fait le logiciel, écran par écran. Public visé : les utilisateurs, les
+techniciens et les administrateurs fonctionnels.</p>
+<ul class="toc-inline">
+<li><a href="#1-%C3%A0-quoi-sert-parqueo">1. À quoi sert Parqueo</a></li>
+<li><a href="#2-les-trois-r%C3%B4les">2. Les trois rôles</a></li>
+<li><a href="#3-se-connecter">3. Se connecter</a></li>
+<li><a href="#4-le-tableau-de-bord">4. Le tableau de bord</a></li>
+<li><a href="#5-cr%C3%A9er-une-demande">5. Créer une demande</a></li>
+<li><a href="#6-suivre-et-traiter-un-ticket">6. Suivre et traiter un ticket</a></li>
+<li><a href="#7-le-cycle-de-vie-dun-ticket">7. Le cycle de vie d&#39;un ticket</a></li>
+<li><a href="#8-la-base-de-connaissances">8. La base de connaissances</a></li>
+<li><a href="#9-linventaire-du-parc">9. L&#39;inventaire du parc</a></li>
+<li><a href="#10-ladministration">10. L&#39;administration</a></li>
+<li><a href="#11-les-workflows">11. Les workflows</a></li>
+<li><a href="#12-les-param%C3%A8tres">12. Les paramètres</a></li>
+<li><a href="#13-les-emails">13. Les emails</a></li>
+<li><a href="#14-questions-fr%C3%A9quentes">14. Questions fréquentes</a></li>
+</ul>
+<hr>
+<h2 id="1-à-quoi-sert-parqueo">1. À quoi sert Parqueo<a class="anchor" href="#1-à-quoi-sert-parqueo" aria-label="Lien vers cette section">#</a></h2>
+<p>Parqueo réunit quatre usages d&#39;un service informatique dans une seule
+application :</p>
+<ul>
+<li><strong>le ticketing</strong> — recevoir, suivre et clôturer les demandes ;</li>
+<li><strong>la gestion de parc</strong> — savoir quel matériel existe, où il est, qui l&#39;utilise
+et ce qu&#39;il a subi ;</li>
+<li><strong>le catalogue de demandes</strong> — des formulaires guidés pour les demandes
+récurrentes, plutôt que du texte libre ;</li>
+<li><strong>l&#39;automatisation</strong> — des workflows visuels qui appliquent vos procédures à
+chaque ticket, sans intervention.</li>
+</ul>
+<p>Tout est installé sur vos serveurs : aucune donnée ne transite par un service
+tiers.</p>
+<hr>
+<h2 id="2-les-trois-rôles">2. Les trois rôles<a class="anchor" href="#2-les-trois-rôles" aria-label="Lien vers cette section">#</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Rôle</th>
+<th>Pour qui</th>
+<th>Ce qu&#39;il voit et fait</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Utilisateur</strong></td>
+<td>tout le personnel</td>
+<td>crée des demandes, suit <strong>les siennes</strong>, répond aux messages, consulte la base de connaissances</td>
+</tr>
+<tr>
+<td><strong>Technicien</strong></td>
+<td>l&#39;équipe informatique</td>
+<td>voit les tickets <strong>qui lui sont assignés, non assignés, ou portés par son équipe</strong> ; les traite, les assigne, gère l&#39;inventaire</td>
+</tr>
+<tr>
+<td><strong>Administrateur</strong></td>
+<td>responsable du service</td>
+<td><strong>tout</strong>, plus la gestion des comptes, équipes, catégories, formulaires, workflows et paramètres</td>
+</tr>
+</tbody></table>
+</div>
+<p>Trois précisions qui reviennent souvent :</p>
+<ul>
+<li><strong>Un technicien ne voit pas tous les tickets.</strong> Il voit les siens, ceux de son
+équipe, et ceux que personne n&#39;a encore pris. Un ticket assigné à un
+technicien d&#39;une autre équipe lui est invisible.</li>
+<li><strong>Un utilisateur ne voit que ses propres demandes</strong>, jamais celles de ses
+collègues, même dans la même catégorie.</li>
+<li><strong>Un changement de rôle ne prend effet qu&#39;à la reconnexion.</strong> Si vous
+promouvez quelqu&#39;un pendant qu&#39;il travaille, demandez-lui de se déconnecter et
+de se reconnecter.</li>
+</ul>
+<hr>
+<h2 id="3-se-connecter">3. Se connecter<a class="anchor" href="#3-se-connecter" aria-label="Lien vers cette section">#</a></h2>
+<p>Deux modes cohabitent :</p>
+<ul>
+<li><strong>Compte local</strong> — email et mot de passe créés par un administrateur.</li>
+<li><strong>Microsoft Entra ID (SSO)</strong> — bouton « Se connecter avec Microsoft », visible
+seulement si l&#39;administrateur a configuré le SSO. Le compte est <strong>créé
+automatiquement à la première connexion</strong>, avec le rôle Utilisateur.</li>
+</ul>
+<p>Un compte créé par SSO n&#39;a pas de mot de passe local : le formulaire classique
+le refuse et invite à passer par Microsoft.</p>
+<p>La session dure <strong>7 jours</strong>, puis il faut se reconnecter.</p>
+<figure class="etroite">
+  <img src="img/connexion.png" alt="Écran de connexion de Parqueo : champs email et mot de passe.">
+  <figcaption>L'écran de connexion. Le bouton « Se connecter avec Microsoft » n'apparaît que si le SSO est configuré.</figcaption>
+</figure>
+
+<hr>
+<h2 id="4-le-tableau-de-bord">4. Le tableau de bord<a class="anchor" href="#4-le-tableau-de-bord" aria-label="Lien vers cette section">#</a></h2>
+<p>C&#39;est la page d&#39;accueil. Elle est <strong>modulaire</strong> : une grille de widgets que
+l&#39;administrateur compose <strong>par rôle</strong>. Utilisateurs, techniciens et
+administrateurs peuvent donc avoir trois tableaux de bord différents.</p>
+<figure>
+  <img src="img/tableau-de-bord.png" alt="Tableau de bord : quatre tuiles de stat, répartition par statut, flux hebdomadaire, charge par technicien, tickets par catégorie et liste à traiter.">
+  <figcaption>Le tableau de bord d'un administrateur : tuiles de stat, répartition par statut, flux hebdomadaire, charge par technicien et file « à traiter ».</figcaption>
+</figure>
+
+<h3 id="41-widgets-disponibles">4.1 Widgets disponibles<a class="anchor" href="#41-widgets-disponibles" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Widget</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Tuile de stat</strong></td>
+<td>un chiffre clé, cliquable vers la liste filtrée correspondante</td>
+</tr>
+<tr>
+<td><strong>Donut</strong></td>
+<td>répartition par statut, catégorie, priorité, ou état du parc</td>
+</tr>
+<tr>
+<td><strong>Répartition par statut</strong></td>
+<td>barre segmentée des tickets</td>
+</tr>
+<tr>
+<td><strong>Flux hebdomadaire</strong></td>
+<td>tickets créés vs clôturés, sur 4, 8 ou 12 semaines</td>
+</tr>
+<tr>
+<td><strong>Tickets par catégorie</strong></td>
+<td>volume par catégorie (ouverts, ou tous)</td>
+</tr>
+<tr>
+<td><strong>Tickets par priorité</strong></td>
+<td>volume des tickets ouverts par priorité</td>
+</tr>
+<tr>
+<td><strong>Charge par technicien</strong></td>
+<td>tickets ouverts par assigné <em>(staff)</em></td>
+</tr>
+<tr>
+<td><strong>Charge par équipe</strong></td>
+<td>tickets ouverts par équipe <em>(staff)</em></td>
+</tr>
+<tr>
+<td><strong>Âge des tickets ouverts</strong></td>
+<td>depuis combien de temps ils attendent</td>
+</tr>
+<tr>
+<td><strong>Actifs par type</strong></td>
+<td>répartition de l&#39;inventaire</td>
+</tr>
+<tr>
+<td><strong>État du parc</strong></td>
+<td>barre segmentée des actifs</td>
+</tr>
+<tr>
+<td><strong>Liste de tickets</strong></td>
+<td>liste filtrée : à traiter, assignés à moi, mes demandes, priorité haute, activité récente</td>
+</tr>
+<tr>
+<td><strong>Liste d&#39;actifs</strong></td>
+<td>actifs récents ou en réparation</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="42-métriques-des-tuiles">4.2 Métriques des tuiles<a class="anchor" href="#42-métriques-des-tuiles" aria-label="Lien vers cette section">#</a></h3>
+<p>Tickets ouverts, nouveaux tickets, à traiter (non assignés) <em>(staff)</em>, mes
+tickets en cours <em>(staff)</em>, priorité haute ouverte, en attente, résolus, créés
+sur 7 jours, clôturés sur 7 jours, mes tickets ouverts, actifs, actifs en
+réparation.</p>
+<p>Les métriques marquées <em>(staff)</em> n&#39;apparaissent pas pour les utilisateurs.</p>
+<h3 id="43-personnalisation">4.3 Personnalisation<a class="anchor" href="#43-personnalisation" aria-label="Lien vers cette section">#</a></h3>
+<p>Par défaut, chacun voit le tableau de bord de son rôle, tel que
+l&#39;administration l&#39;a défini. Celle-ci peut <strong>autoriser la personnalisation</strong>
+séparément pour les techniciens et pour les utilisateurs (voir §12). Un tableau
+de bord personnalisé est enregistré sur le compte, pas sur le navigateur : on le
+retrouve à l&#39;identique depuis un autre poste, et un bouton permet de revenir au
+tableau de bord du rôle.</p>
+<hr>
+<h2 id="5-créer-une-demande">5. Créer une demande<a class="anchor" href="#5-créer-une-demande" aria-label="Lien vers cette section">#</a></h2>
+<p>Bouton <strong>Nouvelle demande</strong>. Trois portes d&#39;entrée.</p>
+<h3 id="51-le-catalogue-de-demandes">5.1 Le catalogue de demandes<a class="anchor" href="#51-le-catalogue-de-demandes" aria-label="Lien vers cette section">#</a></h3>
+<p>La page présente les <strong>formulaires</strong> publiés par l&#39;administration : « Demande
+d&#39;accès », « Nouveau matériel », « Départ d&#39;un collaborateur »… Chaque
+formulaire pose ses propres questions, et impose d&#39;avance la catégorie et la
+priorité du ticket. C&#39;est la voie à privilégier pour tout ce qui est récurrent :
+les informations utiles sont collectées du premier coup.</p>
+<p>Types de champs possibles : texte court, texte long, liste de choix, date, case
+à cocher. Un champ peut être obligatoire.</p>
+<figure>
+  <img src="img/catalogue-demandes.png" alt="Catalogue de demandes : la demande libre puis les formulaires publiés.">
+  <figcaption>Le catalogue. La demande libre reste en tête ; les formulaires publiés suivent, avec leur catégorie.</figcaption>
+</figure>
+
+<figure>
+  <img src="img/formulaire-demande.png" alt="Formulaire « Demande d'accès à une application » avec ses champs guidés.">
+  <figcaption>Un formulaire guidé : les champs obligatoires sont signalés, la catégorie et la priorité du ticket sont déjà fixées.</figcaption>
+</figure>
+
+<h3 id="52-la-demande-libre">5.2 La demande libre<a class="anchor" href="#52-la-demande-libre" aria-label="Lien vers cette section">#</a></h3>
+<p>Pour ce qui n&#39;entre dans aucune case : titre, description, catégorie, et
+éventuellement priorité et matériel concerné.</p>
+<p><strong>Suggestions automatiques</strong> : dès que le titre fait quatre caractères, Parqueo
+propose jusqu&#39;à trois articles de la base de connaissances susceptibles de
+répondre. Beaucoup de demandes s&#39;arrêtent là — c&#39;est l&#39;objectif. (Cette
+suggestion est débrayable.)</p>
+<p><strong>Choix de la priorité</strong> : les utilisateurs peuvent ou non fixer la priorité,
+selon un paramètre. Sinon, la priorité par défaut s&#39;applique.</p>
+<p><strong>Matériel concerné</strong> : un utilisateur peut rattacher un de ses actifs à sa
+demande. L&#39;historique du matériel se construit alors tout seul.</p>
+<h3 id="53-par-email">5.3 Par email<a class="anchor" href="#53-par-email" aria-label="Lien vers cette section">#</a></h3>
+<p>Si le collecteur email est activé, il suffit d&#39;écrire à l&#39;adresse du support :
+le message devient un ticket, pièces jointes comprises.</p>
+<p>Deux règles :</p>
+<ul>
+<li><strong>l&#39;expéditeur doit avoir un compte Parqueo</strong> — un email venant d&#39;une adresse
+inconnue est ignoré ;</li>
+<li><strong>répondre à une notification ajoute un message au ticket</strong> plutôt que d&#39;en
+créer un nouveau, tant que le sujet contient <code>Ticket #n</code>. La citation du
+message précédent est retirée automatiquement.</li>
+</ul>
+<hr>
+<h2 id="6-suivre-et-traiter-un-ticket">6. Suivre et traiter un ticket<a class="anchor" href="#6-suivre-et-traiter-un-ticket" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="61-la-liste-des-tickets">6.1 La liste des tickets<a class="anchor" href="#61-la-liste-des-tickets" aria-label="Lien vers cette section">#</a></h3>
+<p>Filtres : statut (pastilles avec compteurs), priorité, assigné (dont « non
+assigné »), catégorie, équipe, et recherche libre dans le titre et la
+description.</p>
+<p>Tri par clic sur l&#39;en-tête de colonne (numéro, statut, priorité, catégorie,
+assigné, dernière activité), ou par présélection : activité récente, plus
+anciens, priorité haute d&#39;abord.</p>
+<p>Pagination réglable : 10, 25, 50, 100, 500, ou tout afficher.</p>
+<p>Les compteurs des pastilles tiennent compte de tous vos autres filtres mais
+<strong>pas</strong> du filtre de statut : ils affichent donc toujours la répartition
+complète.</p>
+<figure>
+  <img src="img/liste-tickets.png" alt="Liste des tickets : pastilles de statut avec compteurs, filtres, tableau trié par activité récente.">
+  <figcaption>La liste des tickets : pastilles de statut avec compteurs, filtres par priorité, assigné, catégorie et équipe, recherche libre.</figcaption>
+</figure>
+
+<h3 id="62-le-détail-dun-ticket">6.2 Le détail d&#39;un ticket<a class="anchor" href="#62-le-détail-dun-ticket" aria-label="Lien vers cette section">#</a></h3>
+<p><strong>Le fil.</strong> Description initiale, messages, pièces jointes et <strong>journal
+d&#39;événements</strong> sur une seule chronologie. Chaque changement de statut, de
+priorité, d&#39;assignation ou d&#39;équipe y laisse une trace horodatée et nominative —
+y compris quand l&#39;auteur du changement est un workflow, qui est nommé
+explicitement (« Affecté à l&#39;équipe Support N1 (workflow « Incident réseau ») »).</p>
+<p><strong>Les pièces jointes.</strong> 10 Mo maximum par fichier ; images, PDF, documents
+bureautiques, archives, journaux, CSV. Les images s&#39;affichent en vignette
+directement dans le fil.</p>
+<p><strong>Le panneau latéral</strong> <em>(techniciens et administrateurs)</em> : statut, priorité,
+assigné, équipe, catégorie, matériel concerné. Chaque modification est
+immédiate et journalisée.</p>
+<p><strong>L&#39;état des workflows.</strong> Si un workflow retient le ticket, le panneau l&#39;indique
+en clair : « en attente de prise en charge », « en attente du statut
+« Résolu » ». On sait donc toujours pourquoi un ticket ne bouge pas.</p>
+<figure>
+  <img src="img/detail-ticket.png" alt="Détail d'un ticket : fil de discussion et journal d'événements à gauche, panneau de gestion à droite.">
+  <figcaption>Le détail d'un ticket. À gauche le fil — description, messages, pièces jointes et journal d'événements horodaté ; à droite le panneau de gestion, réservé aux techniciens et administrateurs.</figcaption>
+</figure>
+
+<h3 id="63-qui-peut-faire-quoi">6.3 Qui peut faire quoi<a class="anchor" href="#63-qui-peut-faire-quoi" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th align="center">Utilisateur</th>
+<th align="center">Technicien</th>
+<th align="center">Admin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Créer une demande</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>Commenter un ticket visible</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>Joindre un fichier</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>Changer statut / priorité / assigné / équipe</td>
+<td align="center">❌</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>Modifier titre et description</td>
+<td align="center">❌</td>
+<td align="center">✅</td>
+<td align="center">✅</td>
+</tr>
+<tr>
+<td>Voir les tickets des autres</td>
+<td align="center">❌</td>
+<td align="center">partiel</td>
+<td align="center">✅</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<h2 id="7-le-cycle-de-vie-dun-ticket">7. Le cycle de vie d&#39;un ticket<a class="anchor" href="#7-le-cycle-de-vie-dun-ticket" aria-label="Lien vers cette section">#</a></h2>
+<pre><code>   Nouveau ──► En cours ──► En attente ──► Résolu ──► Fermé
+                                              │         ▲
+                                              └─────────┘
+                                          clôture automatique
+</code></pre>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Statut</th>
+<th>Sens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Nouveau</strong></td>
+<td>reçu, personne ne l&#39;a encore pris</td>
+</tr>
+<tr>
+<td><strong>En cours</strong></td>
+<td>un technicien travaille dessus</td>
+</tr>
+<tr>
+<td><strong>En attente</strong></td>
+<td>bloqué : réponse du demandeur, pièce à commander, tiers</td>
+</tr>
+<tr>
+<td><strong>Résolu</strong></td>
+<td>traité, en attente de confirmation</td>
+</tr>
+<tr>
+<td><strong>Fermé</strong></td>
+<td>terminé</td>
+</tr>
+</tbody></table>
+</div>
+<p>Les statuts ne sont pas contraints : n&#39;importe quel passage est possible, et
+chacun est journalisé.</p>
+<p><strong>Priorités</strong> : basse, moyenne, haute.</p>
+<p><strong>Clôture automatique.</strong> Un ticket <strong>Résolu</strong> sans nouvelle activité pendant le
+délai configuré (7 jours par défaut) passe automatiquement en <strong>Fermé</strong>, avec
+une ligne de journal explicite. Le délai est réglable, et la fonction peut être
+désactivée. Finie la file encombrée de tickets terminés que personne n&#39;ose
+fermer.</p>
+<p><strong>Enquête de satisfaction.</strong> Au passage en <strong>Résolu</strong>, l&#39;email envoyé au
+demandeur contient deux liens : 👍 et 👎. Un clic suffit, sans se reconnecter.
+Le lien reste valable 30 jours et ne compte qu&#39;<strong>un seul vote par ticket</strong>.</p>
+<hr>
+<h2 id="8-la-base-de-connaissances">8. La base de connaissances<a class="anchor" href="#8-la-base-de-connaissances" aria-label="Lien vers cette section">#</a></h2>
+<p>Menu <strong>Aide</strong>. Des articles courts, rattachés à une catégorie, avec recherche
+plein texte sur le titre et le contenu.</p>
+<p>Deux usages :</p>
+<ol>
+<li><strong>La consultation directe</strong> — l&#39;utilisateur cherche avant de demander.</li>
+<li><strong>La suggestion à la création</strong> — pendant la saisie d&#39;une demande libre,
+Parqueo propose les articles correspondants. C&#39;est le levier principal de
+réduction du volume de tickets.</li>
+</ol>
+<p><strong>Rédaction</strong> : les administrateurs toujours, les techniciens si le paramètre
+correspondant est actif. Un article peut être un <strong>brouillon</strong> (non publié) :
+il reste visible du staff, invisible des utilisateurs.</p>
+<figure>
+  <img src="img/base-connaissances.png" alt="Base de connaissances : recherche, filtre par catégorie et liste d'articles.">
+  <figcaption>La base de connaissances. La même recherche alimente les suggestions proposées pendant la saisie d'une demande.</figcaption>
+</figure>
+
+<hr>
+<h2 id="9-linventaire-du-parc">9. L&#39;inventaire du parc<a class="anchor" href="#9-linventaire-du-parc" aria-label="Lien vers cette section">#</a></h2>
+<p>Menu <strong>Inventaire</strong>. Quatre types d&#39;actifs : <strong>PC</strong>, <strong>imprimante</strong>,
+<strong>serveur</strong>, <strong>logiciel</strong>.</p>
+<p>Chaque actif porte un nom, un type, un emplacement, une date d&#39;achat, un état
+(<strong>en service</strong>, <strong>en réparation</strong>, <strong>retiré</strong>) et un utilisateur assigné.</p>
+<p><strong>Fiche d&#39;un actif</strong> : ses caractéristiques et <strong>l&#39;historique des tickets qui le
+concernent</strong> — c&#39;est ce qui permet de repérer le poste qui tombe en panne tous
+les deux mois.</p>
+<p><strong>Qui voit quoi</strong> : les techniciens et administrateurs voient tout l&#39;inventaire ;
+un utilisateur ne voit que le matériel qui lui est assigné, et l&#39;accès peut lui
+être coupé entièrement par un paramètre.</p>
+<p><strong>Création et modification</strong> : techniciens et administrateurs.
+<strong>Suppression</strong> : administrateurs seulement — et un actif référencé par des
+tickets ne peut pas être supprimé. Passez-le en <strong>retiré</strong> : l&#39;historique reste
+consultable.</p>
+<figure>
+  <img src="img/inventaire.png" alt="Inventaire du parc : filtres par type et par état, tableau des actifs.">
+  <figcaption>L'inventaire. Chaque ligne mène à la fiche de l'actif, qui porte l'historique des tickets le concernant.</figcaption>
+</figure>
+
+<hr>
+<h2 id="10-ladministration">10. L&#39;administration<a class="anchor" href="#10-ladministration" aria-label="Lien vers cette section">#</a></h2>
+<p>Menu <strong>Administration</strong>, réservé aux administrateurs. Cinq onglets.</p>
+<h3 id="101-utilisateurs">10.1 Utilisateurs<a class="anchor" href="#101-utilisateurs" aria-label="Lien vers cette section">#</a></h3>
+<p>Création, modification, suppression, affectation à une équipe et changement de
+rôle. Mot de passe : 8 caractères minimum.</p>
+<p><strong>Import en masse par CSV.</strong> La première ligne donne les en-têtes, avec des
+alias acceptés en français : <code>nom</code>/<code>name</code>, <code>email</code>/<code>e-mail</code>/<code>mail</code>, <code>role</code>/<code>rôle</code>,
+<code>equipe</code>/<code>équipe</code>/<code>team</code>, <code>mot de passe</code>/<code>mdp</code>/<code>password</code>. L&#39;équipe peut être
+désignée par son nom.</p>
+<pre><code class="language-csv">nom,email,rôle,équipe
+Marc Dupont,marc.dupont@exemple.fr,user,
+Sarah Lemoine,sarah.lemoine@exemple.fr,technician,Support IT
+</code></pre>
+<p>1000 lignes maximum. Chaque ligne est traitée indépendamment : le rapport
+indique les comptes créés, ignorés (déjà présents, ou en double dans le fichier)
+et en erreur. <strong>Quand aucun mot de passe n&#39;est fourni, Parqueo en génère un et
+l&#39;affiche dans le rapport — c&#39;est le seul moment où il est lisible. Copiez-le
+avant de quitter la page.</strong></p>
+<figure>
+  <img src="img/admin-utilisateurs.png" alt="Administration, onglet Utilisateurs : tableau des comptes avec rôle et équipe, import CSV.">
+  <figcaption>L'onglet Utilisateurs. Les cinq onglets de l'administration : utilisateurs, équipes, catégories, formulaires et workflows.</figcaption>
+</figure>
+
+<p>Deux garde-fous : on ne peut pas retirer son propre rôle d&#39;administrateur, ni
+supprimer son propre compte. Un compte qui a écrit des tickets ou des
+commentaires ne peut pas être supprimé (l&#39;historique resterait orphelin) —
+changez son rôle ou son mot de passe à la place.</p>
+<h3 id="102-équipes-et-catégories">10.2 Équipes et catégories<a class="anchor" href="#102-équipes-et-catégories" aria-label="Lien vers cette section">#</a></h3>
+<p>Deux listes simples. Les <strong>équipes</strong> regroupent les techniciens et servent à
+l&#39;affectation ; les <strong>catégories</strong> classent les tickets, les formulaires et les
+articles de la base de connaissances.</p>
+<p>Choisissez les catégories avec soin : elles conditionnent les filtres, les
+statistiques et le ciblage des workflows.</p>
+<h3 id="103-formulaires">10.3 Formulaires<a class="anchor" href="#103-formulaires" aria-label="Lien vers cette section">#</a></h3>
+<p>Construction du catalogue de demandes : nom, description, catégorie, priorité
+imposée, activation, et liste de champs ordonnée. Un champ de type liste exige
+au moins deux choix.</p>
+<p>Un formulaire <strong>désactivé</strong> disparaît du catalogue sans casser les tickets déjà
+créés à partir de lui.</p>
+<p>À l&#39;édition, <strong>les champs sont remplacés en bloc</strong>. Les tickets existants ne
+sont pas affectés : leur contenu a été recopié dans la description à la
+soumission.</p>
+<h3 id="104-workflows">10.4 Workflows<a class="anchor" href="#104-workflows" aria-label="Lien vers cette section">#</a></h3>
+<p>Voir §11.</p>
+<hr>
+<h2 id="11-les-workflows">11. Les workflows<a class="anchor" href="#11-les-workflows" aria-label="Lien vers cette section">#</a></h2>
+<p>Un workflow applique une procédure à un ticket, automatiquement. Il se dessine
+sur un canvas : un déclencheur, des blocs, des fils entre les blocs.</p>
+<h3 id="111-déclencheur-et-filtres">11.1 Déclencheur et filtres<a class="anchor" href="#111-déclencheur-et-filtres" aria-label="Lien vers cette section">#</a></h3>
+<p>Deux déclencheurs :</p>
+<ul>
+<li><strong>Un ticket est créé</strong> ;</li>
+<li><strong>Le statut change</strong>.</li>
+</ul>
+<p>On restreint ensuite à ce qui compte : une <strong>catégorie</strong>, un <strong>formulaire
+d&#39;origine</strong>, une <strong>priorité</strong>, ou un <strong>statut atteint</strong>. Toutes les conditions
+renseignées doivent être vraies. Un workflow par procédure, pas un fourre-tout.</p>
+<h3 id="112-les-blocs">11.2 Les blocs<a class="anchor" href="#112-les-blocs" aria-label="Lien vers cette section">#</a></h3>
+<p><strong>Actions</strong> — le workflow agit puis passe au bloc suivant :</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Bloc</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Affecter à une équipe</td>
+<td>pose l&#39;équipe responsable</td>
+</tr>
+<tr>
+<td>Assigner à une personne</td>
+<td>désigne le technicien</td>
+</tr>
+<tr>
+<td>Changer la priorité</td>
+<td></td>
+</tr>
+<tr>
+<td>Changer le statut</td>
+<td></td>
+</tr>
+<tr>
+<td>Ajouter une note</td>
+<td>écrit dans le journal du ticket</td>
+</tr>
+<tr>
+<td>Envoyer un email</td>
+<td>au demandeur, à l&#39;assigné, ou à une adresse fixe</td>
+</tr>
+<tr>
+<td>Webhook</td>
+<td>appelle un outil externe (n8n, Zapier, script maison)</td>
+</tr>
+</tbody></table>
+</div>
+<p><strong>Condition</strong> — teste le ticket et ouvre <strong>deux chemins</strong> : la priorité, le
+statut, la catégorie, le formulaire d&#39;origine, ou le fait que le ticket soit
+déjà pris en charge.</p>
+<p><strong>Attentes</strong> — le ticket <strong>se gare</strong> sur le bloc et ne repart que lorsque la
+condition est remplie :</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Bloc</th>
+<th>Repart quand</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Attendre la prise en charge</td>
+<td>un technicien est assigné</td>
+</tr>
+<tr>
+<td>Attendre un statut</td>
+<td>le ticket atteint le statut choisi</td>
+</tr>
+</tbody></table>
+</div>
+<p>C&#39;est ce qui sépare une simple règle d&#39;automatisation d&#39;une vraie procédure de
+service. Les blocs d&#39;attente ne sont proposés que sur le déclencheur « ticket
+créé ».</p>
+<h3 id="113-variables">11.3 Variables<a class="anchor" href="#113-variables" aria-label="Lien vers cette section">#</a></h3>
+<p>Les notes et les emails acceptent des variables entre doubles accolades :</p>
+<p><code>{{ticket.id}}</code> · <code>{{ticket.title}}</code> · <code>{{ticket.description}}</code> ·
+<code>{{ticket.status}}</code> · <code>{{ticket.priority}}</code> · <code>{{author.name}}</code> ·
+<code>{{author.email}}</code> · <code>{{assignee.name}}</code> · <code>{{assignee.email}}</code> ·
+<code>{{category.name}}</code> · <code>{{team.name}}</code></p>
+<p>Une variable sans valeur est remplacée par du vide.</p>
+<h3 id="114-exemple-complet">11.4 Exemple complet<a class="anchor" href="#114-exemple-complet" aria-label="Lien vers cette section">#</a></h3>
+<p><strong>Procédure : incident réseau.</strong></p>
+<pre><code>[Ticket créé · catégorie = Réseau]
+          │
+          ▼
+[Affecter à l&#39;équipe Infrastructure]
+          │
+          ▼
+[Envoyer un email au demandeur]
+   « Votre demande {{ticket.id}} est prise en compte par le support réseau. »
+          │
+          ▼
+[Attendre la prise en charge]  ◄── le ticket se gare ici
+          │
+          ▼
+[Condition : la priorité est haute ?]
+      oui │                     │ non
+          ▼                     ▼
+[Email à l&#39;astreinte]  [Ajouter une note]
+                     « Traitement standard. »
+</code></pre>
+<figure>
+  <img src="img/editeur-workflow.png" alt="Éditeur de workflow : les six blocs de la procédure « Incident réseau » reliés par des fils, avec les deux sorties oui/non de la condition.">
+  <figcaption>La même procédure dans l'éditeur. Le bloc d'attente porte la mention <code>WAIT</code> ; la condition a deux points de sortie, <span style="color:#15803d">oui</span> et <span style="color:#d9435f">non</span>.</figcaption>
+</figure>
+
+<p>À la création d&#39;un ticket dans la catégorie Réseau : l&#39;équipe est posée, le
+demandeur est prévenu, et le ticket attend. Il peut rester garé des heures. Dès
+qu&#39;un technicien se l&#39;assigne, le workflow <strong>repart tout seul</strong> au bloc suivant
+et évalue la condition.</p>
+<h3 id="115-bon-à-savoir">11.5 Bon à savoir<a class="anchor" href="#115-bon-à-savoir" aria-label="Lien vers cette section">#</a></h3>
+<ul>
+<li><strong>Un ticket n&#39;entre qu&#39;une fois dans un workflow donné</strong>, même si l&#39;événement
+se répète.</li>
+<li><strong>Les actions d&#39;un workflow ne déclenchent jamais un autre workflow.</strong> Pas de
+cascade, pas de boucle.</li>
+<li><strong>Une action en échec est ignorée</strong> (adresse invalide, équipe supprimée) : le
+workflow continue, et l&#39;échec est écrit dans les journaux du serveur.</li>
+<li>Un workflow <strong>inactif</strong> ne s&#39;applique plus ; les tickets déjà garés sur un de
+ses blocs y restent.</li>
+<li>30 blocs maximum par workflow.</li>
+<li><strong>Le webhook</strong> envoie le ticket complet en JSON, avec un jeton secret
+optionnel en en-tête. Il n&#39;attend pas plus de 5 secondes. C&#39;est la porte
+ouverte vers le reste du système d&#39;information : création de compte dans
+l&#39;annuaire, commande de matériel, alerte dans Teams.</li>
+</ul>
+<hr>
+<h2 id="12-les-paramètres">12. Les paramètres<a class="anchor" href="#12-les-paramètres" aria-label="Lien vers cette section">#</a></h2>
+<p>Menu <strong>Paramètres</strong>, administrateurs uniquement. Cinq sections.</p>
+<figure>
+  <img src="img/parametres.png" alt="Page Paramètres : sections tableaux de bord, tickets, notifications email, base de connaissances et inventaire.">
+  <figcaption>Les paramètres globaux. Chaque bascule s'applique immédiatement à tous les comptes.</figcaption>
+</figure>
+
+<h3 id="tableaux-de-bord">Tableaux de bord<a class="anchor" href="#tableaux-de-bord" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Personnalisation par les techniciens</td>
+<td>désactivé</td>
+<td>ils peuvent composer leur propre tableau de bord</td>
+</tr>
+<tr>
+<td>Personnalisation par les utilisateurs</td>
+<td>désactivé</td>
+<td>idem</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="tickets">Tickets<a class="anchor" href="#tickets" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Priorité par défaut</td>
+<td>Moyenne</td>
+<td>appliquée quand aucune priorité n&#39;est choisie</td>
+</tr>
+<tr>
+<td>Choix de la priorité par les utilisateurs</td>
+<td>activé</td>
+<td>sinon, la priorité par défaut s&#39;impose</td>
+</tr>
+<tr>
+<td>Clôture automatique des tickets résolus</td>
+<td>7 jours</td>
+<td>0 = désactivée</td>
+</tr>
+<tr>
+<td>Enquête de satisfaction</td>
+<td>activée</td>
+<td>liens 👍/👎 dans l&#39;email de résolution</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="notifications-email">Notifications email<a class="anchor" href="#notifications-email" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Destinataires</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Création de ticket</td>
+<td>demandeur et assigné</td>
+</tr>
+<tr>
+<td>Changement de statut</td>
+<td>demandeur et assigné</td>
+</tr>
+<tr>
+<td>Assignation</td>
+<td>le technicien qui reçoit le ticket</td>
+</tr>
+<tr>
+<td>Nouveau message</td>
+<td>l&#39;autre partie de la conversation</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="base-de-connaissances">Base de connaissances<a class="anchor" href="#base-de-connaissances" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Suggestions à la création de ticket</td>
+<td>activées</td>
+<td>articles proposés pendant la saisie</td>
+</tr>
+<tr>
+<td>Rédaction par les techniciens</td>
+<td>activée</td>
+<td>sinon, les administrateurs seuls</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="inventaire">Inventaire<a class="anchor" href="#inventaire" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Inventaire visible par les utilisateurs</td>
+<td>activé</td>
+<td>désactivé, le menu disparaît pour eux</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<h2 id="13-les-emails">13. Les emails<a class="anchor" href="#13-les-emails" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="131-ce-que-parqueo-envoie">13.1 Ce que Parqueo envoie<a class="anchor" href="#131-ce-que-parqueo-envoie" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Événement</th>
+<th>Destinataires</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ticket créé</td>
+<td>demandeur + assigné</td>
+<td>numéro, titre, description, priorité</td>
+</tr>
+<tr>
+<td>Statut changé</td>
+<td>demandeur + assigné</td>
+<td>ancien et nouveau statut ; <strong>liens de satisfaction</strong> si passage en Résolu</td>
+</tr>
+<tr>
+<td>Ticket assigné</td>
+<td>le technicien concerné</td>
+<td>titre, priorité, demandeur — jamais quand on s&#39;assigne soi-même</td>
+</tr>
+<tr>
+<td>Nouveau message</td>
+<td>l&#39;autre partie</td>
+<td>auteur et contenu — jamais à l&#39;auteur du message</td>
+</tr>
+</tbody></table>
+</div>
+<p>Chacune de ces notifications est désactivable indépendamment.</p>
+<h3 id="132-ce-que-parqueo-reçoit">13.2 Ce que Parqueo reçoit<a class="anchor" href="#132-ce-que-parqueo-reçoit" aria-label="Lien vers cette section">#</a></h3>
+<p>Si le collecteur est activé, l&#39;adresse du support devient une porte d&#39;entrée à
+part entière : un email crée un ticket, une réponse à une notification ajoute un
+message. Voir §5.3.</p>
+<hr>
+<h2 id="14-questions-fréquentes">14. Questions fréquentes<a class="anchor" href="#14-questions-fréquentes" aria-label="Lien vers cette section">#</a></h2>
+<p><strong>Un technicien me dit qu&#39;il ne voit pas un ticket.</strong>
+Il est probablement assigné à un technicien d&#39;une autre équipe. Un technicien
+voit ses tickets, ceux de son équipe et ceux qui ne sont assignés à personne.
+Réassignez-le, ou passez par un compte administrateur.</p>
+<p><strong>J&#39;ai changé le rôle de quelqu&#39;un, sans effet.</strong>
+Le rôle est figé dans la session. Il faut se déconnecter et se reconnecter.</p>
+<p><strong>Un ticket ne bouge plus, sans raison apparente.</strong>
+Regardez le panneau latéral : un workflow le retient probablement sur un bloc
+d&#39;attente, et l&#39;écran l&#39;indique en clair.</p>
+<p><strong>Je n&#39;arrive pas à supprimer un utilisateur.</strong>
+Il a écrit des tickets ou des commentaires ; les supprimer laisserait
+l&#39;historique orphelin. Changez son rôle ou son mot de passe pour lui couper
+l&#39;accès.</p>
+<p><strong>Je n&#39;arrive pas à supprimer un actif.</strong>
+Des tickets le référencent. Passez-le en <strong>retiré</strong> : il disparaît des listes
+courantes et l&#39;historique reste consultable.</p>
+<p><strong>Personne ne reçoit d&#39;email.</strong>
+Le serveur SMTP n&#39;est probablement pas configuré. Sans lui, Parqueo fonctionne
+normalement mais n&#39;envoie rien — voyez avec la personne qui administre le
+serveur.</p>
+<p><strong>Un email envoyé au support n&#39;a pas créé de ticket.</strong>
+L&#39;expéditeur doit avoir un compte Parqueo. Les adresses inconnues sont ignorées
+pour éviter les tickets indésirables.</p>
+<p><strong>Les tickets résolus se ferment tout seuls.</strong>
+C&#39;est la clôture automatique, après le délai configuré sans activité. Réglable
+et désactivable dans Paramètres.</p>
+<p><strong>Puis-je récupérer un mot de passe généré à l&#39;import ?</strong>
+Non. Il n&#39;est affiché qu&#39;une fois, dans le rapport d&#39;import. Ensuite, il faut en
+définir un nouveau depuis la fiche de l&#39;utilisateur.</p>
+
+    <nav class="suite" aria-label="Autres documents">
+      <span></span>
+      <a class="suite-l suite-r" href="/docs/technique/"><span>Document suivant</span><strong>Documentation technique</strong></a>
+    </nav>
+  </article>
+</main>
+<footer>
+  <div class="wrap foot-in">
+    <span>Parqueo — logiciel de helpdesk et de gestion de parc informatique auto-hébergé.</span>
+    <span class="sep"></span>
+    <a href="/">Accueil</a>
+    <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    const liens = new Map();
+    document.querySelectorAll('.toc a[href^="#"]').forEach((a) => {
+      liens.set(decodeURIComponent(a.getAttribute('href').slice(1)), a);
+    });
+    if (!liens.size) return;
+    const cibles = [...liens.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+    let courant = null;
+    function actualiser() {
+      // Section active : le dernier titre passé au-dessus du tiers haut de l'écran.
+      let vu = null;
+      for (const el of cibles) {
+        if (el.getBoundingClientRect().top < innerHeight * 0.33) vu = el;
+        else break;
+      }
+      const a = vu ? liens.get(vu.id) : null;
+      if (a === courant) return;
+      if (courant) courant.removeAttribute('aria-current');
+      if (a) a.setAttribute('aria-current', 'true');
+      courant = a;
+    }
+    let attente = false;
+    addEventListener('scroll', () => {
+      if (attente) return;
+      attente = true;
+      requestAnimationFrame(() => { actualiser(); attente = false; });
+    }, { passive: true });
+    actualiser();
+  })();
+</script>
+</body>
+</html>

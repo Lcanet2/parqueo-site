@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documentation d'installation | Parqueo</title>
+<meta name="description" content="Prérequis, déploiement, configuration, sauvegarde, mise à jour et dépannage de Parqueo sur vos serveurs.">
+<link rel="canonical" href="https://parqueo.fr/docs/installation/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="theme-color" content="#f6f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0e13" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Parqueo">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Documentation d'installation | Parqueo">
+<meta property="og:description" content="Prérequis, déploiement, configuration, sauvegarde, mise à jour et dépannage de Parqueo sur vos serveurs.">
+<meta property="og:url" content="https://parqueo.fr/docs/installation/">
+<meta property="og:image" content="https://parqueo.fr/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://parqueo.fr/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/docs/docs.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://parqueo.fr/docs/installation/#article",
+      "headline": "Documentation d'installation",
+      "name": "Parqueo — documentation d'installation",
+      "description": "Prérequis, déploiement, configuration, sauvegarde, mise à jour et dépannage de Parqueo sur vos serveurs.",
+      "inLanguage": "fr-FR",
+      "url": "https://parqueo.fr/docs/installation/",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Administrateurs système"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Parqueo",
+        "applicationCategory": "BusinessApplication"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Parqueo",
+        "url": "https://parqueo.fr/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://parqueo.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Documentation",
+          "item": "https://parqueo.fr/docs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Installation",
+          "item": "https://parqueo.fr/docs/installation/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Parqueo"><svg class="mk" viewBox="6 3 12 18" fill="none" aria-hidden="true">
+        <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent)"/>
+        <path d="M7 4v16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>arqueo</a>
+    <nav class="nav-links" aria-label="Documentation">
+      <a href="/docs/fonctionnel/">Fonctionnelle</a>
+      <a href="/docs/technique/">Technique</a>
+      <a href="/docs/installation/" aria-current="page">Installation</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="/#contact">Demander une démo</a>
+  </div>
+</header>
+<main class="wrap doc-layout" id="contenu">
+  <aside class="toc" aria-label="Sommaire du document">
+    <p class="toc-t">Sommaire</p>
+    <nav>
+      <ul>
+        <li class="n2"><a href="#1-prérequis">1. Prérequis</a></li>
+        <li class="n2"><a href="#2-installation-en-développement">2. Installation en développement</a></li>
+        <li class="n3"><a href="#21-base-de-données">2.1 Base de données</a></li>
+        <li class="n3"><a href="#22-api">2.2 API</a></li>
+        <li class="n3"><a href="#23-client">2.3 Client</a></li>
+        <li class="n3"><a href="#24-vérifications">2.4 Vérifications</a></li>
+        <li class="n3"><a href="#25-jeu-de-démonstration">2.5 Jeu de démonstration</a></li>
+        <li class="n2"><a href="#3-installation-en-production">3. Installation en production</a></li>
+        <li class="n3"><a href="#31-utilisateur-système-et-code">3.1 Utilisateur système et code</a></li>
+        <li class="n3"><a href="#32-base-de-données">3.2 Base de données</a></li>
+        <li class="n3"><a href="#33-api">3.3 API</a></li>
+        <li class="n3"><a href="#34-client">3.4 Client</a></li>
+        <li class="n3"><a href="#35-reverse-proxy">3.5 Reverse proxy</a></li>
+        <li class="n3"><a href="#36-service-systemd">3.6 Service systemd</a></li>
+        <li class="n3"><a href="#37-premier-démarrage">3.7 Premier démarrage</a></li>
+        <li class="n2"><a href="#4-référence-des-variables-denvironnement">4. Référence des variables d&amp;#39;environnement</a></li>
+        <li class="n3"><a href="#41-cœur">4.1 Cœur</a></li>
+        <li class="n3"><a href="#42-email-sortant">4.2 Email sortant</a></li>
+        <li class="n3"><a href="#43-clôture-automatique">4.3 Clôture automatique</a></li>
+        <li class="n3"><a href="#44-sso-microsoft-entra-id">4.4 SSO Microsoft Entra ID</a></li>
+        <li class="n3"><a href="#45-collecteur-email">4.5 Collecteur email</a></li>
+        <li class="n2"><a href="#5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID</a></li>
+        <li class="n3"><a href="#51-côté-entra-portail-azure">5.1 Côté Entra (portail Azure)</a></li>
+        <li class="n3"><a href="#52-côté-parqueo">5.2 Côté Parqueo</a></li>
+        <li class="n3"><a href="#53-comportement">5.3 Comportement</a></li>
+        <li class="n2"><a href="#6-configuration-du-collecteur-email">6. Configuration du collecteur email</a></li>
+        <li class="n2"><a href="#7-sauvegarde-et-restauration">7. Sauvegarde et restauration</a></li>
+        <li class="n3"><a href="#71-sauvegarde">7.1 Sauvegarde</a></li>
+        <li class="n3"><a href="#72-restauration">7.2 Restauration</a></li>
+        <li class="n2"><a href="#8-mise-à-jour">8. Mise à jour</a></li>
+        <li class="n2"><a href="#9-exploitation">9. Exploitation</a></li>
+        <li class="n3"><a href="#91-journaux">9.1 Journaux</a></li>
+        <li class="n3"><a href="#92-supervision">9.2 Supervision</a></li>
+        <li class="n3"><a href="#93-tâches-planifiées-internes">9.3 Tâches planifiées internes</a></li>
+        <li class="n2"><a href="#10-dépannage">10. Dépannage</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <article class="doc">
+    <nav class="fil" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a> <span>/</span> <a href="/docs/">Documentation</a> <span>/</span> <span>Installation</span>
+    </nav>
+    <p class="doc-public">Administrateurs système</p>
+<h1 id="parqueo-documentation-dinstallation">Parqueo — documentation d&#39;installation</h1>
+<p>Installation, configuration et exploitation. Public visé : la personne qui
+déploie et maintient l&#39;application.</p>
+<ul class="toc-inline">
+<li><a href="#1-pr%C3%A9requis">1. Prérequis</a></li>
+<li><a href="#2-installation-en-d%C3%A9veloppement">2. Installation en développement</a></li>
+<li><a href="#3-installation-en-production">3. Installation en production</a></li>
+<li><a href="#4-r%C3%A9f%C3%A9rence-des-variables-denvironnement">4. Référence des variables d&#39;environnement</a></li>
+<li><a href="#5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID</a></li>
+<li><a href="#6-configuration-du-collecteur-email">6. Configuration du collecteur email</a></li>
+<li><a href="#7-sauvegarde-et-restauration">7. Sauvegarde et restauration</a></li>
+<li><a href="#8-mise-%C3%A0-jour">8. Mise à jour</a></li>
+<li><a href="#9-exploitation">9. Exploitation</a></li>
+<li><a href="#10-d%C3%A9pannage">10. Dépannage</a></li>
+</ul>
+<hr>
+<h2 id="1-prérequis">1. Prérequis<a class="anchor" href="#1-prérequis" aria-label="Lien vers cette section">#</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Composant</th>
+<th>Version</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Node.js</td>
+<td>20 LTS minimum, <strong>22 recommandé</strong></td>
+<td>l&#39;application est développée et testée sur 22.x</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>fourni avec Node</td>
+<td></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>14 minimum</td>
+<td>testé sur 18</td>
+</tr>
+<tr>
+<td>Reverse proxy</td>
+<td>nginx, Caddy, Traefik…</td>
+<td><strong>requis en production</strong> (voir §3.5)</td>
+</tr>
+</tbody></table>
+</div>
+<p>Optionnels, activés seulement s&#39;ils sont configurés :</p>
+<ul>
+<li>un serveur <strong>SMTP</strong> pour les notifications ;</li>
+<li>une boîte <strong>IMAP</strong> dédiée pour le collecteur email ;</li>
+<li>un <strong>tenant Microsoft Entra ID</strong> pour le SSO.</li>
+</ul>
+<p>Ressources : l&#39;API est un processus Node mono-thread, léger. Pour quelques
+dizaines d&#39;utilisateurs simultanés, 1 vCPU et 1 Go de RAM suffisent, PostgreSQL
+compris. L&#39;espace disque est dicté par les pièces jointes (10 Mo par fichier au
+maximum).</p>
+<hr>
+<h2 id="2-installation-en-développement">2. Installation en développement<a class="anchor" href="#2-installation-en-développement" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="21-base-de-données">2.1 Base de données<a class="anchor" href="#21-base-de-données" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">sudo -u postgres psql -c &quot;CREATE USER parqueo WITH PASSWORD &#39;parqueo_dev&#39;;&quot;
+sudo -u postgres psql -c &quot;CREATE DATABASE parqueo OWNER parqueo;&quot;
+</code></pre>
+<h3 id="22-api">2.2 API<a class="anchor" href="#22-api" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">cd server
+npm install
+cp .env.example .env          # puis éditer JWT_SECRET au minimum
+npx prisma migrate dev        # applique les 11 migrations
+npm run seed                  # 1 équipe, 1 catégorie, 1 compte admin
+npm run dev                   # nodemon, port 4000
+</code></pre>
+<p>Le seed crée le compte <strong><code>admin@parqueo.local</code> / <code>admin1234</code></strong> — à changer
+immédiatement.</p>
+<h3 id="23-client">2.3 Client<a class="anchor" href="#23-client" aria-label="Lien vers cette section">#</a></h3>
+<p>Dans un second terminal :</p>
+<pre><code class="language-sh">cd client
+npm install
+npm run dev                   # Vite, port 5173
+</code></pre>
+<p>Vite proxifie <code>/api</code> vers <code>http://localhost:4000</code> : ouvrez
+<a href="http://localhost:5173">http://localhost:5173</a>, pas le port 4000.</p>
+<h3 id="24-vérifications">2.4 Vérifications<a class="anchor" href="#24-vérifications" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">curl http://localhost:4000/api/health     # {&quot;ok&quot;:true}
+cd server &amp;&amp; npm test                     # 26 tests
+cd client &amp;&amp; npm run lint
+</code></pre>
+<p>Sans <code>SMTP_HOST</code>, aucun email n&#39;est envoyé : les messages sont écrits dans la
+console de l&#39;API, préfixés <code>[mail non envoyé — SMTP non configuré]</code>. C&#39;est le
+comportement attendu en développement.</p>
+<h3 id="25-jeu-de-démonstration">2.5 Jeu de démonstration<a class="anchor" href="#25-jeu-de-démonstration" aria-label="Lien vers cette section">#</a></h3>
+<blockquote>
+<p><strong>Attention</strong> — <code>prisma/seed-demo.js</code> est actuellement <strong>inutilisable</strong> : il
+référence <code>prisma.workflowRule</code>, un modèle supprimé par la migration
+<code>drop_workflow_rules</code>, et s&#39;interrompt sur un <code>TypeError</code>. Utilisez
+<code>npm run seed</code> en attendant sa correction.</p>
+</blockquote>
+<hr>
+<h2 id="3-installation-en-production">3. Installation en production<a class="anchor" href="#3-installation-en-production" aria-label="Lien vers cette section">#</a></h2>
+<p>Exemple pour une machine Debian/Ubuntu, application déployée dans
+<code>/opt/parqueo</code>, servie par nginx sur <code>https://parqueo.exemple.fr</code>.</p>
+<h3 id="31-utilisateur-système-et-code">3.1 Utilisateur système et code<a class="anchor" href="#31-utilisateur-système-et-code" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">sudo adduser --system --group --home /opt/parqueo parqueo
+sudo -u parqueo git clone https://github.com/Lcanet2/parqueo.git /opt/parqueo
+</code></pre>
+<h3 id="32-base-de-données">3.2 Base de données<a class="anchor" href="#32-base-de-données" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">sudo -u postgres psql -c &quot;CREATE USER parqueo WITH PASSWORD &#39;&lt;mot-de-passe-solide&gt;&#39;;&quot;
+sudo -u postgres psql -c &quot;CREATE DATABASE parqueo OWNER parqueo;&quot;
+</code></pre>
+<h3 id="33-api">3.3 API<a class="anchor" href="#33-api" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">cd /opt/parqueo/server
+sudo -u parqueo npm ci
+sudo -u parqueo npx prisma generate
+sudo -u parqueo cp .env.example .env
+sudo -u parqueo nano .env               # voir §4
+sudo chmod 600 .env
+sudo -u parqueo npx prisma migrate deploy
+sudo -u parqueo npm run seed
+</code></pre>
+<blockquote>
+<p><strong>Pas de <code>--omit=dev</code> ici.</strong> La CLI Prisma est une dépendance de
+développement, et c&#39;est elle qui applique les migrations : avec
+<code>--omit=dev</code>, <code>prisma generate</code> et <code>prisma migrate deploy</code> ne trouveraient
+pas le binaire local et <code>npx</code> irait chercher une version arbitraire sur le
+registre. Le serveur n&#39;exécute de toute façon que <code>src/</code>, les dépendances de
+développement ne coûtent que de l&#39;espace disque.</p>
+</blockquote>
+<p><code>migrate deploy</code> applique les migrations existantes sans jamais en générer ni
+réinitialiser la base — c&#39;est la commande à utiliser en production, pas
+<code>migrate dev</code>.</p>
+<p>Un <code>JWT_SECRET</code> solide :</p>
+<pre><code class="language-sh">node -e &quot;console.log(require(&#39;crypto&#39;).randomBytes(48).toString(&#39;base64url&#39;))&quot;
+</code></pre>
+<h3 id="34-client">3.4 Client<a class="anchor" href="#34-client" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">cd /opt/parqueo/client
+sudo -u parqueo npm ci
+sudo -u parqueo npm run build       # produit client/dist
+</code></pre>
+<p><code>dist/</code> est un ensemble de fichiers statiques : aucun processus Node ne tourne
+pour le front.</p>
+<h3 id="35-reverse-proxy">3.5 Reverse proxy<a class="anchor" href="#35-reverse-proxy" aria-label="Lien vers cette section">#</a></h3>
+<p>Le client appelle <code>/api</code> en <strong>relatif</strong>. Le proxy doit donc servir le front et
+l&#39;API <strong>sur la même origine</strong>. C&#39;est la seule contrainte de déploiement
+réellement structurante.</p>
+<pre><code class="language-nginx">server {
+    listen 443 ssl http2;
+    server_name parqueo.exemple.fr;
+
+    ssl_certificate     /etc/letsencrypt/live/parqueo.exemple.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/parqueo.exemple.fr/privkey.pem;
+
+    # Pièces jointes : 10 Mo côté application, la limite nginx par défaut
+    # (1 Mo) rejetterait les fichiers avant même d&#39;atteindre Node.
+    client_max_body_size 12M;
+
+    root /opt/parqueo/client/dist;
+    index index.html;
+
+    # SPA : toute route inconnue retombe sur index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name parqueo.exemple.fr;
+    return 301 https://$host$request_uri;
+}
+</code></pre>
+<p>Deux points d&#39;attention :</p>
+<ul>
+<li><strong><code>client_max_body_size</code></strong> doit dépasser 10 Mo, sinon les pièces jointes
+volumineuses échouent en 413 sans jamais atteindre l&#39;application.</li>
+<li>Le jeton SSO transite en query string (<code>?sso_token=…</code>). Si vous journalisez
+les URL complètes, filtrez ce paramètre.</li>
+</ul>
+<h3 id="36-service-systemd">3.6 Service systemd<a class="anchor" href="#36-service-systemd" aria-label="Lien vers cette section">#</a></h3>
+<p><code>/etc/systemd/system/parqueo.service</code> :</p>
+<pre><code class="language-ini">[Unit]
+Description=Parqueo API
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=parqueo
+Group=parqueo
+# Impératif : uploads/ est résolu relativement au répertoire de travail.
+WorkingDirectory=/opt/parqueo/server
+ExecStart=/usr/bin/node src/index.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/parqueo/server/uploads
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<pre><code class="language-sh">sudo systemctl daemon-reload
+sudo systemctl enable --now parqueo
+sudo systemctl status parqueo
+</code></pre>
+<p>Le fichier <code>.env</code> est lu par <code>dotenv</code> depuis le répertoire de travail : pas
+besoin de <code>EnvironmentFile</code>.</p>
+<blockquote>
+<p><strong><code>WorkingDirectory</code> est critique</strong> : multer écrit dans <code>uploads/</code> en chemin
+relatif. Démarrer le processus ailleurs crée un second dossier d&#39;uploads et
+rend les pièces jointes existantes introuvables.</p>
+</blockquote>
+<h3 id="37-premier-démarrage">3.7 Premier démarrage<a class="anchor" href="#37-premier-démarrage" aria-label="Lien vers cette section">#</a></h3>
+<ol>
+<li>ouvrir <code>https://parqueo.exemple.fr</code> ;</li>
+<li>se connecter avec <code>admin@parqueo.local</code> / <code>admin1234</code> ;</li>
+<li><strong>changer le mot de passe</strong> (Administration → Utilisateurs) ou créer un
+compte admin nominatif puis supprimer celui du seed ;</li>
+<li>créer les équipes et les catégories ;</li>
+<li>parcourir Paramètres.</li>
+</ol>
+<hr>
+<h2 id="4-référence-des-variables-denvironnement">4. Référence des variables d&#39;environnement<a class="anchor" href="#4-référence-des-variables-denvironnement" aria-label="Lien vers cette section">#</a></h2>
+<p>Fichier <code>server/.env</code>. Seules les quatre premières sont nécessaires au
+démarrage.</p>
+<h3 id="41-cœur">4.1 Cœur<a class="anchor" href="#41-cœur" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DATABASE_URL</code></td>
+<td>—</td>
+<td>chaîne de connexion PostgreSQL (<strong>requis</strong>)</td>
+</tr>
+<tr>
+<td><code>JWT_SECRET</code></td>
+<td>—</td>
+<td>clé de signature des jetons (<strong>requis</strong>) — la changer déconnecte tout le monde</td>
+</tr>
+<tr>
+<td><code>PORT</code></td>
+<td><code>4000</code></td>
+<td>port d&#39;écoute de l&#39;API</td>
+</tr>
+<tr>
+<td><code>CLIENT_ORIGIN</code></td>
+<td>—</td>
+<td>origine autorisée par CORS ; en production, l&#39;URL publique du site</td>
+</tr>
+<tr>
+<td><code>APP_URL</code></td>
+<td><code>http://localhost:$PORT</code></td>
+<td>URL publique de l&#39;API, utilisée dans les liens des emails</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="42-email-sortant">4.2 Email sortant<a class="anchor" href="#42-email-sortant" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SMTP_HOST</code></td>
+<td>vide</td>
+<td><strong>si vide, aucun email n&#39;est envoyé</strong> (mode console)</td>
+</tr>
+<tr>
+<td><code>SMTP_PORT</code></td>
+<td><code>587</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SMTP_USER</code> / <code>SMTP_PASS</code></td>
+<td>vide</td>
+<td>authentification, omise si <code>SMTP_USER</code> est vide</td>
+</tr>
+<tr>
+<td><code>SMTP_FROM</code></td>
+<td>—</td>
+<td>expéditeur, ex. <code>Parqueo &lt;no-reply@exemple.fr&gt;</code></td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="43-clôture-automatique">4.3 Clôture automatique<a class="anchor" href="#43-clôture-automatique" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AUTO_CLOSE_DAYS</code></td>
+<td><code>7</code></td>
+<td><strong>valeur initiale seulement</strong> : une fois enregistré dans Paramètres, c&#39;est la base qui fait foi</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="44-sso-microsoft-entra-id">4.4 SSO Microsoft Entra ID<a class="anchor" href="#44-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SSO_TENANT_ID</code></td>
+<td>vide</td>
+<td>identifiant d&#39;annuaire — les trois premières activent le SSO</td>
+</tr>
+<tr>
+<td><code>SSO_CLIENT_ID</code></td>
+<td>vide</td>
+<td>identifiant d&#39;application</td>
+</tr>
+<tr>
+<td><code>SSO_CLIENT_SECRET</code></td>
+<td>vide</td>
+<td>secret client</td>
+</tr>
+<tr>
+<td><code>SSO_REDIRECT_URI</code></td>
+<td><code>APP_URL</code> + <code>/api/auth/sso/callback</code></td>
+<td>doit correspondre exactement à l&#39;app registration</td>
+</tr>
+<tr>
+<td><code>SSO_ALLOWED_DOMAINS</code></td>
+<td>vide</td>
+<td>garde-fou : domaines email acceptés, séparés par des virgules</td>
+</tr>
+<tr>
+<td><code>SSO_POST_LOGIN_URL</code></td>
+<td><code>CLIENT_ORIGIN</code></td>
+<td>où renvoyer le navigateur après connexion</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="45-collecteur-email">4.5 Collecteur email<a class="anchor" href="#45-collecteur-email" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>IMAP_HOST</code></td>
+<td>vide</td>
+<td><strong>si vide, le collecteur est désactivé</strong></td>
+</tr>
+<tr>
+<td><code>IMAP_PORT</code></td>
+<td><code>993</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>IMAP_USER</code> / <code>IMAP_PASS</code></td>
+<td>—</td>
+<td>identifiants de la boîte</td>
+</tr>
+<tr>
+<td><code>IMAP_TLS</code></td>
+<td><code>true</code></td>
+<td><code>false</code> pour désactiver TLS</td>
+</tr>
+<tr>
+<td><code>IMAP_POLL_SECONDS</code></td>
+<td><code>60</code></td>
+<td>intervalle de relève, <strong>plancher à 15 s</strong></td>
+</tr>
+<tr>
+<td><code>IMAP_CATEGORY_ID</code></td>
+<td>première catégorie</td>
+<td>catégorie des tickets créés par email</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<h2 id="5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID<a class="anchor" href="#5-configuration-du-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="51-côté-entra-portail-azure">5.1 Côté Entra (portail Azure)<a class="anchor" href="#51-côté-entra-portail-azure" aria-label="Lien vers cette section">#</a></h3>
+<ol>
+<li><strong>Azure Active Directory → Inscriptions d&#39;applications → Nouvelle
+inscription.</strong></li>
+<li>Nom : <code>Parqueo</code>. Types de comptes : <strong>comptes de cet annuaire uniquement</strong>
+(mono-tenant).</li>
+<li>URI de redirection : type <strong>Web</strong>, valeur
+<code>https://parqueo.exemple.fr/api/auth/sso/callback</code>.</li>
+<li>Relever l&#39;<strong>ID d&#39;application (client)</strong> et l&#39;<strong>ID d&#39;annuaire (locataire)</strong>.</li>
+<li><strong>Certificats et secrets → Nouveau secret client.</strong> Copier la <strong>valeur</strong>
+(elle n&#39;est plus affichée ensuite) et noter la date d&#39;expiration.</li>
+<li><strong>Autorisations d&#39;API</strong> : <code>openid</code>, <code>profile</code>, <code>email</code> (autorisations
+déléguées Microsoft Graph). Elles sont généralement déjà présentes.</li>
+</ol>
+<h3 id="52-côté-parqueo">5.2 Côté Parqueo<a class="anchor" href="#52-côté-parqueo" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-env">SSO_TENANT_ID=&quot;&lt;id-annuaire&gt;&quot;
+SSO_CLIENT_ID=&quot;&lt;id-application&gt;&quot;
+SSO_CLIENT_SECRET=&quot;&lt;valeur-du-secret&gt;&quot;
+SSO_REDIRECT_URI=&quot;https://parqueo.exemple.fr/api/auth/sso/callback&quot;
+SSO_ALLOWED_DOMAINS=&quot;exemple.fr&quot;
+</code></pre>
+<p>Redémarrer l&#39;API. Le bouton « Se connecter avec Microsoft » apparaît
+automatiquement sur la page de connexion — le client interroge
+<code>GET /api/auth/config</code> pour savoir si le SSO est actif.</p>
+<h3 id="53-comportement">5.3 Comportement<a class="anchor" href="#53-comportement" aria-label="Lien vers cette section">#</a></h3>
+<ul>
+<li>Un compte inconnu est <strong>créé au premier login</strong> avec le rôle <code>user</code>. Les
+élévations de rôle restent manuelles.</li>
+<li>Un compte créé par SSO n&#39;a pas de mot de passe local : le formulaire classique
+le refuse avec un message explicite.</li>
+<li>Les comptes locaux continuent de fonctionner en parallèle — utile pour les
+prestataires et pour garder un accès de secours si le SSO tombe.</li>
+<li><strong>Le secret client expire.</strong> Notez la date : à l&#39;expiration, la connexion SSO
+échoue d&#39;un bloc. Gardez au moins un compte admin local.</li>
+</ul>
+<hr>
+<h2 id="6-configuration-du-collecteur-email">6. Configuration du collecteur email<a class="anchor" href="#6-configuration-du-collecteur-email" aria-label="Lien vers cette section">#</a></h2>
+<p>Dédiez une boîte au support (ex. <code>support@exemple.fr</code>) — le collecteur <strong>marque
+les messages comme lus</strong> et relève l&#39;intégralité de la boîte de réception.</p>
+<pre><code class="language-env">IMAP_HOST=&quot;imap.exemple.fr&quot;
+IMAP_PORT=993
+IMAP_USER=&quot;support@exemple.fr&quot;
+IMAP_PASS=&quot;&lt;mot-de-passe&gt;&quot;
+IMAP_POLL_SECONDS=60
+IMAP_CATEGORY_ID=1
+SMTP_FROM=&quot;Support &lt;support@exemple.fr&gt;&quot;
+</code></pre>
+<p>Fonctionnement :</p>
+<ul>
+<li>un email d&#39;un <strong>utilisateur connu</strong> crée un ticket ; un expéditeur inconnu est
+ignoré (et journalisé) ;</li>
+<li>une réponse dont le sujet contient <code>Ticket #n</code> devient un <strong>commentaire</strong> sur
+ce ticket — c&#39;est ce qui rend les notifications répondables directement ;</li>
+<li>les adresses <code>SMTP_FROM</code> et <code>IMAP_USER</code> sont ignorées : anti-boucle ;</li>
+<li>pièces jointes acceptées selon la même liste blanche que l&#39;interface web,
+10 Mo maximum.</li>
+</ul>
+<p>Conseil : utilisez la <strong>même adresse</strong> pour <code>SMTP_FROM</code> et <code>IMAP_USER</code>, afin que
+les réponses aux notifications reviennent naturellement dans le collecteur.</p>
+<p>Vérification au démarrage, dans les journaux :</p>
+<pre><code>[collecteur] boîte support@exemple.fr relevée toutes les 60s
+</code></pre>
+<hr>
+<h2 id="7-sauvegarde-et-restauration">7. Sauvegarde et restauration<a class="anchor" href="#7-sauvegarde-et-restauration" aria-label="Lien vers cette section">#</a></h2>
+<p>Deux choses à sauvegarder : <strong>la base</strong> et <strong><code>server/uploads/</code></strong>. Le reste se
+réinstalle depuis Git.</p>
+<h3 id="71-sauvegarde">7.1 Sauvegarde<a class="anchor" href="#71-sauvegarde" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">#!/bin/sh
+# /opt/parqueo/backup.sh
+set -e
+DEST=/var/backups/parqueo
+STAMP=$(date +%F)
+mkdir -p &quot;$DEST&quot;
+
+sudo -u postgres pg_dump -Fc parqueo &gt; &quot;$DEST/parqueo-$STAMP.dump&quot;
+tar czf &quot;$DEST/uploads-$STAMP.tar.gz&quot; -C /opt/parqueo/server uploads
+
+find &quot;$DEST&quot; -type f -mtime +30 -delete
+</code></pre>
+<p>Dans la crontab root : <code>15 2 * * * /opt/parqueo/backup.sh</code>.</p>
+<p>N&#39;oubliez pas <code>server/.env</code> : il contient <code>JWT_SECRET</code> et les secrets SMTP/SSO.
+Sauvegardez-le séparément, dans un coffre — <strong>pas</strong> dans la même archive que la
+base.</p>
+<h3 id="72-restauration">7.2 Restauration<a class="anchor" href="#72-restauration" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">sudo systemctl stop parqueo
+sudo -u postgres dropdb parqueo
+sudo -u postgres createdb parqueo -O parqueo
+sudo -u postgres pg_restore -d parqueo /var/backups/parqueo/parqueo-2026-07-23.dump
+sudo tar xzf /var/backups/parqueo/uploads-2026-07-23.tar.gz -C /opt/parqueo/server
+sudo chown -R parqueo:parqueo /opt/parqueo/server/uploads
+sudo systemctl start parqueo
+</code></pre>
+<p>Restaurer la base <strong>sans</strong> les uploads laisse des pièces jointes référencées en
+base mais absentes du disque : le téléchargement échoue. Les deux vont ensemble.</p>
+<hr>
+<h2 id="8-mise-à-jour">8. Mise à jour<a class="anchor" href="#8-mise-à-jour" aria-label="Lien vers cette section">#</a></h2>
+<pre><code class="language-sh">sudo systemctl stop parqueo
+
+cd /opt/parqueo
+sudo -u parqueo git pull
+
+cd server
+sudo -u parqueo npm ci
+sudo -u parqueo npx prisma generate
+sudo -u parqueo npx prisma migrate deploy
+
+cd ../client
+sudo -u parqueo npm ci
+sudo -u parqueo npm run build
+
+sudo systemctl start parqueo
+</code></pre>
+<p>Sauvegardez <strong>avant</strong> toute mise à jour qui embarque une migration : Prisma ne
+propose pas de retour arrière automatique.</p>
+<p>Si le déploiement introduit un changement de clé de stockage côté navigateur
+(comme le passage de <code>itdesk_token</code> à <code>parqueo_token</code> lors du changement de
+marque), les sessions ouvertes sautent et chacun doit se reconnecter. Prévenez
+les utilisateurs.</p>
+<hr>
+<h2 id="9-exploitation">9. Exploitation<a class="anchor" href="#9-exploitation" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="91-journaux">9.1 Journaux<a class="anchor" href="#91-journaux" aria-label="Lien vers cette section">#</a></h3>
+<p>Tout part sur la sortie standard, donc dans journald :</p>
+<pre><code class="language-sh">sudo journalctl -u parqueo -f
+sudo journalctl -u parqueo --since &quot;1 hour ago&quot; | grep -E &quot;collecteur|workflow|mail&quot;
+</code></pre>
+<p>Préfixes utiles :</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Préfixe</th>
+<th>Origine</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[collecteur]</code></td>
+<td>collecteur IMAP (tickets créés, emails ignorés, erreurs)</td>
+</tr>
+<tr>
+<td><code>[clôture auto]</code></td>
+<td>clôture automatique horaire</td>
+</tr>
+<tr>
+<td><code>[mail]</code></td>
+<td>échec d&#39;envoi SMTP</td>
+</tr>
+<tr>
+<td><code>[mail non envoyé — SMTP non configuré]</code></td>
+<td>SMTP absent</td>
+</tr>
+<tr>
+<td><code>[workflow « … »]</code></td>
+<td>action de workflow en échec</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="92-supervision">9.2 Supervision<a class="anchor" href="#92-supervision" aria-label="Lien vers cette section">#</a></h3>
+<ul>
+<li>Sonde de vie : <code>GET /api/health</code> → <code>{&quot;ok&quot;:true}</code>.</li>
+<li>Surveillez l&#39;espace disque de <code>server/uploads/</code> : <strong>rien n&#39;est jamais purgé</strong>,
+y compris les fichiers des tickets supprimés.</li>
+<li>Surveillez la taille de la table <code>ticket_comments</code> : elle porte à la fois les
+messages et le journal d&#39;événements, et croît vite.</li>
+</ul>
+<h3 id="93-tâches-planifiées-internes">9.3 Tâches planifiées internes<a class="anchor" href="#93-tâches-planifiées-internes" aria-label="Lien vers cette section">#</a></h3>
+<p>Aucune crontab à créer : la clôture automatique (horaire) et le collecteur
+email (selon <code>IMAP_POLL_SECONDS</code>) tournent dans le processus de l&#39;API. Ils
+s&#39;arrêtent avec lui.</p>
+<hr>
+<h2 id="10-dépannage">10. Dépannage<a class="anchor" href="#10-dépannage" aria-label="Lien vers cette section">#</a></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Symptôme</th>
+<th>Cause probable</th>
+<th>Correction</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>EADDRINUSE :::4000</code></td>
+<td>une autre instance tourne déjà</td>
+<td><code>ss -ltnp | grep 4000</code>, arrêter le processus ou changer <code>PORT</code></td>
+</tr>
+<tr>
+<td>Page blanche, 404 sur les routes internes</td>
+<td>nginx sans repli SPA</td>
+<td>ajouter <code>try_files $uri $uri/ /index.html</code></td>
+</tr>
+<tr>
+<td>Toutes les requêtes API en 401</td>
+<td><code>JWT_SECRET</code> modifié, ou jeton expiré (7 j)</td>
+<td>se reconnecter</td>
+</tr>
+<tr>
+<td>403 « Accès refusé » sur une page admin</td>
+<td>rôle insuffisant, ou rôle changé sans reconnexion</td>
+<td>se déconnecter/reconnecter : le rôle est figé dans le jeton</td>
+</tr>
+<tr>
+<td>Erreurs CORS en développement</td>
+<td>appel direct au port 4000</td>
+<td>passer par 5173, ou aligner <code>CLIENT_ORIGIN</code></td>
+</tr>
+<tr>
+<td>413 à l&#39;envoi d&#39;une pièce jointe</td>
+<td><code>client_max_body_size</code> nginx trop bas</td>
+<td>passer à 12M</td>
+</tr>
+<tr>
+<td>« Fichier manquant ou type non autorisé »</td>
+<td>extension hors liste blanche</td>
+<td>voir la liste dans la doc technique §9</td>
+</tr>
+<tr>
+<td>Aucun email reçu</td>
+<td><code>SMTP_HOST</code> vide</td>
+<td>les journaux affichent <code>[mail non envoyé…]</code></td>
+</tr>
+<tr>
+<td>Emails entrants ignorés</td>
+<td>expéditeur inconnu de Parqueo</td>
+<td>créer le compte, ou l&#39;importer en masse</td>
+</tr>
+<tr>
+<td>Le collecteur ne démarre pas</td>
+<td><code>IMAP_HOST</code> vide</td>
+<td>aucune ligne <code>[collecteur]</code> au démarrage</td>
+</tr>
+<tr>
+<td>Boucle de tickets créés par email</td>
+<td><code>SMTP_FROM</code> ≠ <code>IMAP_USER</code> et boîte auto-répondeuse</td>
+<td>aligner les deux adresses</td>
+</tr>
+<tr>
+<td>Bouton SSO absent</td>
+<td>une des trois variables <code>SSO_*</code> manque</td>
+<td>vérifier <code>GET /api/auth/config</code></td>
+</tr>
+<tr>
+<td><code>AADSTS50011</code> (redirect URI)</td>
+<td>l&#39;URI ne correspond pas à l&#39;app registration</td>
+<td>aligner <code>SSO_REDIRECT_URI</code> au caractère près</td>
+</tr>
+<tr>
+<td>« Session SSO expirée »</td>
+<td>plus de 10 minutes entre le départ et le retour</td>
+<td>recommencer la connexion</td>
+</tr>
+<tr>
+<td>Pièces jointes introuvables après un déplacement</td>
+<td>processus lancé hors de <code>server/</code></td>
+<td>corriger <code>WorkingDirectory</code></td>
+</tr>
+<tr>
+<td><code>prisma.workflowRule is undefined</code></td>
+<td><code>seed-demo.js</code>, script cassé</td>
+<td>utiliser <code>npm run seed</code></td>
+</tr>
+<tr>
+<td>Migration bloquée</td>
+<td>schéma divergent</td>
+<td><code>npx prisma migrate status</code>, ne jamais lancer <code>migrate dev</code> en production</td>
+</tr>
+</tbody></table>
+</div>
+
+    <nav class="suite" aria-label="Autres documents">
+      <a class="suite-l" href="/docs/technique/"><span>Document précédent</span><strong>Documentation technique</strong></a>
+      
+    </nav>
+  </article>
+</main>
+<footer>
+  <div class="wrap foot-in">
+    <span>Parqueo — logiciel de helpdesk et de gestion de parc informatique auto-hébergé.</span>
+    <span class="sep"></span>
+    <a href="/">Accueil</a>
+    <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    const liens = new Map();
+    document.querySelectorAll('.toc a[href^="#"]').forEach((a) => {
+      liens.set(decodeURIComponent(a.getAttribute('href').slice(1)), a);
+    });
+    if (!liens.size) return;
+    const cibles = [...liens.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+    let courant = null;
+    function actualiser() {
+      // Section active : le dernier titre passé au-dessus du tiers haut de l'écran.
+      let vu = null;
+      for (const el of cibles) {
+        if (el.getBoundingClientRect().top < innerHeight * 0.33) vu = el;
+        else break;
+      }
+      const a = vu ? liens.get(vu.id) : null;
+      if (a === courant) return;
+      if (courant) courant.removeAttribute('aria-current');
+      if (a) a.setAttribute('aria-current', 'true');
+      courant = a;
+    }
+    let attente = false;
+    addEventListener('scroll', () => {
+      if (attente) return;
+      attente = true;
+      requestAnimationFrame(() => { actualiser(); attente = false; });
+    }, { passive: true });
+    actualiser();
+  })();
+</script>
+</body>
+</html>

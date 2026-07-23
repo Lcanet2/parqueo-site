@@ -16,7 +16,9 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 | `og-image.svg` | la source de l'image ci-dessus — voir « Regénérer l'image »  |
 | `favicon.svg`  | icône d'onglet                                              |
 | `robots.txt`   | autorise l'indexation, déclare le sitemap                    |
-| `sitemap.xml`  | une seule URL, à mettre à jour à chaque refonte              |
+| `sitemap.xml`  | **généré** — voir « Documentation » ci-dessous               |
+| `docs/`        | **généré** — les trois documents en HTML                     |
+| `docs/docs.css`| la charte des pages de documentation (écrite à la main)      |
 
 Aucune dépendance, aucun script tiers, aucune requête vers un CDN.
 
@@ -32,6 +34,23 @@ Open Graph, JSON-LD, `robots.txt`, `sitemap.xml`, fichier `CNAME` :
 Le second argument est facultatif : sans lui, seule l'adresse du site change.
 Le script est rejouable et affiche ensuite les étapes qui se passent en dehors
 du dépôt (enregistrements DNS, HTTPS côté GitHub, Search Console).
+
+## Documentation (`/docs/`)
+
+Les pages de `docs/` **ne se modifient pas ici** : elles sont produites à partir
+des trois markdown du dépôt du logiciel, qui restent la source unique.
+
+```sh
+cd ../parqueo/docs && npm install && npm run build:web
+```
+
+Le script `build-web.mjs` écrit `docs/index.html`, les trois
+`docs/<slug>/index.html` et régénère `sitemap.xml` avec les cinq URL. Il attend
+le dépôt du site rangé à côté de celui du logiciel ; sinon, donnez le chemin
+dans `SITE_DIR`.
+
+Seul `docs/docs.css` est écrit à la main — c'est la charte des pages générées,
+calquée sur celle de `index.html`.
 
 ## À personnaliser
 
