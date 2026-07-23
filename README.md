@@ -1,10 +1,10 @@
-# it-desk-site
+# parqueo-site
 
-Page de présentation d'**IT Desk**, logiciel de helpdesk et de gestion de parc
+Page de présentation de **Parqueo**, logiciel de helpdesk et de gestion de parc
 informatique auto-hébergé : ticketing, inventaire, catalogue de demandes et
 workflows d'automatisation visuels.
 
-En ligne : <https://lcanet2.github.io/it-desk-site/>
+En ligne : <https://lcanet2.github.io/parqueo-site/>
 
 ## Contenu
 
@@ -13,6 +13,7 @@ En ligne : <https://lcanet2.github.io/it-desk-site/>
 | `index.html`   | la page entière (structure, styles, données structurées)     |
 | `fonts/`       | Archivo, Inter, IBM Plex Mono en woff2 (sous-ensemble latin) |
 | `og-image.png` | image de partage 1200×630 (réseaux sociaux, messageries)     |
+| `og-image.svg` | la source de l'image ci-dessus — voir « Regénérer l'image »  |
 | `favicon.svg`  | icône d'onglet                                              |
 | `robots.txt`   | autorise l'indexation, déclare le sitemap                    |
 | `sitemap.xml`  | une seule URL, à mettre à jour à chaque refonte              |
@@ -25,7 +26,7 @@ Le script `configurer.sh` fait tout le travail dans le dépôt — URL canonique
 Open Graph, JSON-LD, `robots.txt`, `sitemap.xml`, fichier `CNAME` :
 
 ```sh
-./configurer.sh it-desk.fr contact@it-desk.fr
+./configurer.sh parqueo.fr contact@parqueo.fr
 ```
 
 Le second argument est facultatif : sans lui, seule l'adresse du site change.
@@ -34,10 +35,28 @@ du dépôt (enregistrements DNS, HTTPS côté GitHub, Search Console).
 
 ## À personnaliser
 
-- **Adresse de contact** : `contact@it-desk.fr` est un texte d'attente
+- **Adresse de contact** : `contact@parqueo.fr` est un texte d'attente
   (8 occurrences dans `index.html`) — le script ci-dessus le remplace partout.
 - **Date du sitemap** : `<lastmod>` est remis à jour à chaque exécution du
   script ; à ajuster à la main lors d'une refonte du contenu.
+
+## Regénérer l'image de partage
+
+`og-image.svg` est la source ; le PNG en est le rendu. Les polices ne sont pas
+installées sur le système, il faut donc les décompresser depuis `fonts/` et les
+donner à fontconfig :
+
+```sh
+npm install sharp wawoff2
+node -e "const w=require('wawoff2'),f=require('fs');(async()=>{for(const[s,o]of\
+[['archivo','Archivo'],['inter','Inter'],['plexmono','IBM Plex Mono']])\
+f.writeFileSync('/tmp/pf/'+o+'.ttf',Buffer.from(await w.decompress(f.readFileSync('fonts/'+s+'.woff2'))))})()"
+printf '<fontconfig><dir>/tmp/pf</dir><cachedir>/tmp/pf/c</cachedir></fontconfig>' > /tmp/pf/fonts.conf
+FONTCONFIG_FILE=/tmp/pf/fonts.conf node -e "require('sharp')('og-image.svg',{density:144})\
+.resize(1200,630,{fit:'fill'}).png({compressionLevel:9}).toFile('og-image.png')"
+```
+
+Le rendu se fait à 2× puis se réduit à 1200×630 — à 1× le texte bave.
 
 ## Référencement
 

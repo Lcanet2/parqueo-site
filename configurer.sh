@@ -3,8 +3,8 @@
 # contact). Met à jour l'URL canonique, l'Open Graph, le JSON-LD, robots.txt,
 # sitemap.xml, puis écrit le fichier CNAME attendu par GitHub Pages.
 #
-#   ./configurer.sh it-desk.fr
-#   ./configurer.sh www.it-desk.fr contact@it-desk.fr
+#   ./configurer.sh parqueo.fr
+#   ./configurer.sh www.parqueo.fr contact@parqueo.fr
 #
 # Le script est rejouable : il repart toujours de l'URL déclarée dans la balise
 # canonical, quelle qu'elle soit.
@@ -16,7 +16,7 @@ email="${2:-}"
 
 if [ -z "$domaine" ]; then
   echo "usage : $0 <domaine> [adresse-email]" >&2
-  echo "exemple : $0 it-desk.fr contact@it-desk.fr" >&2
+  echo "exemple : $0 parqueo.fr contact@parqueo.fr" >&2
   exit 1
 fi
 
@@ -69,12 +69,12 @@ cat <<INFO
 Il reste à faire, en dehors du dépôt :
 
   1. DNS — chez votre registrar
-     · domaine racine (it-desk.fr) : quatre enregistrements A
+     · domaine racine (parqueo.fr) : quatre enregistrements A
          185.199.108.153   185.199.109.153   185.199.110.153   185.199.111.153
        et, si vous gérez l'IPv6, quatre AAAA
          2606:50c0:8000::153   2606:50c0:8001::153
          2606:50c0:8002::153   2606:50c0:8003::153
-     · sous-domaine (www.it-desk.fr) : un CNAME vers lcanet2.github.io
+     · sous-domaine (www.parqueo.fr) : un CNAME vers lcanet2.github.io
 
   2. GitHub — Settings › Pages, saisir le domaine, attendre la vérification,
      puis cocher « Enforce HTTPS » une fois le certificat émis (quelques minutes).
