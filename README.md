@@ -36,7 +36,8 @@ du dépôt (enregistrements DNS, HTTPS côté GitHub, Search Console).
 ## À personnaliser
 
 - **Adresse de contact** : `contact@parqueo.fr` est un texte d'attente
-  (8 occurrences dans `index.html`) — le script ci-dessus le remplace partout.
+  (9 occurrences dans `index.html`, dont l'attribut `data-copy` du bouton
+  « Copier ») — le script ci-dessus le remplace partout.
 - **Date du sitemap** : `<lastmod>` est remis à jour à chaque exécution du
   script ; à ajuster à la main lors d'une refonte du contenu.
 

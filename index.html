@@ -774,6 +774,27 @@
     word-break: break-all;
   }
   a.mail:hover { text-decoration: underline; }
+  /* Un mailto: reste muet quand aucun client mail n'est déclaré sur le poste :
+     l'adresse doit rester récupérable à la main. */
+  .mail-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-family: inherit;
+    font-size: .74rem;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .btn-copy:hover { border-color: var(--ink-faint); color: var(--ink); }
+  .btn-copy[data-done] { color: var(--n-green); border-color: var(--n-green); }
+  .mail-hint { font-size: .78rem; color: var(--ink-faint); margin: -4px 0 0; }
   .mail-box ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
   .mail-box li { display: flex; gap: 9px; align-items: flex-start; font-size: .86rem; color: var(--ink-soft); }
   .mail-box li svg { flex: none; color: var(--n-green); margin-top: 3px; }
@@ -821,6 +842,7 @@
     <symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9.5h18M9 9.5V19"/></symbol>
     <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13.5a3.6 3.6 0 0 0 5.3.4l2.9-2.9a3.7 3.7 0 0 0-5.3-5.2l-1.7 1.7"/><path d="M14 10.5a3.6 3.6 0 0 0-5.3-.4l-2.9 2.9a3.7 3.7 0 0 0 5.3 5.2l1.7-1.7"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="9" y="9" width="11" height="12" rx="2.2"/><path d="M15.5 5.8A2.2 2.2 0 0 0 13.3 3.5H6.2A2.2 2.2 0 0 0 4 5.8v9.4a2.2 2.2 0 0 0 2.2 2.2"/></symbol>
   </defs>
 </svg>
 
@@ -1381,14 +1403,21 @@
           vous fait perdre du temps aujourd'hui. Vous recevrez une réponse avec une proposition de
           date pour la démonstration.
         </p>
-        <a class="btn btn-primary" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20IT%20Desk">
+        <a class="btn btn-primary" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20Parqueo">
           <svg width="16" height="16" aria-hidden="true"><use href="#i-mail"/></svg>
           Demander une démonstration
         </a>
       </div>
       <div class="mail-box">
         <span class="mail-lbl">Écrire directement</span>
-        <a class="mail" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20IT%20Desk">contact@parqueo.fr</a>
+        <div class="mail-row">
+          <a class="mail" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20Parqueo">contact@parqueo.fr</a>
+          <button type="button" class="btn-copy" data-copy="contact@parqueo.fr">
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-copy"/></svg>
+            <span class="btn-copy-txt" aria-live="polite">Copier</span>
+          </button>
+        </div>
+        <p class="mail-hint">Le bouton n'ouvre rien ? Copiez l'adresse et écrivez-nous depuis votre messagerie habituelle.</p>
         <ul>
           <li><svg width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg> Démonstration adaptée à votre contexte</li>
           <li><svg width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg> Étude de la reprise de votre inventaire</li>
@@ -1413,6 +1442,31 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('svg').forEach((svg) => svg.pauseAnimations && svg.pauseAnimations());
   }
+
+  // Recours pour les postes sans client mail : le mailto: n'y produit aucun effet.
+  document.querySelectorAll('.btn-copy[data-copy]').forEach((btn) => {
+    const lbl = btn.querySelector('.btn-copy-txt');
+    btn.addEventListener('click', async () => {
+      const texte = btn.dataset.copy;
+      try {
+        await navigator.clipboard.writeText(texte);
+      } catch {
+        // navigator.clipboard manque hors contexte sécurisé et sur les navigateurs anciens.
+        const zone = document.createElement('textarea');
+        zone.value = texte;
+        zone.setAttribute('readonly', '');
+        zone.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(zone);
+        zone.select();
+        try { document.execCommand('copy'); } catch { /* rien de plus à tenter */ }
+        zone.remove();
+      }
+      lbl.textContent = 'Copié';
+      btn.dataset.done = '';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => { lbl.textContent = 'Copier'; delete btn.dataset.done; }, 2000);
+    });
+  });
 </script>
 </body>
 </html>
