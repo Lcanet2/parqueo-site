@@ -707,6 +707,25 @@
   }
   .flow-list p { font-size: .91rem; color: var(--ink-soft); margin-top: 3px; }
 
+  /* ---------- offres ---------- */
+  .offers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; align-items: stretch; }
+  @media (max-width: 900px) { .offers { grid-template-columns: 1fr; } }
+  .offer { display: flex; flex-direction: column; gap: 16px; position: relative; }
+  .offer.featured { border-color: var(--accent); box-shadow: var(--lift); }
+  .offer-badge {
+    position: absolute; top: -11px; left: 24px;
+    background: var(--accent); color: var(--on-accent);
+    font-size: .72rem; font-weight: 600; letter-spacing: .02em;
+    padding: 3px 11px; border-radius: 999px;
+  }
+  .offer h3 { font-size: 1.15rem; }
+  .offer .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+  .offer .price em { color: var(--ink-faint); font-size: .82rem; font-style: normal; width: 100%; }
+  .offer .price b { font-size: 1.9rem; font-weight: 700; letter-spacing: -.01em; }
+  .offer .price span { color: var(--ink-soft); font-size: .9rem; }
+  .offer .offer-desc { color: var(--ink-soft); font-size: .95rem; }
+  .offer .offer-cta { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; padding-top: 8px; }
+
   /* ---------- questions ---------- */
   .faq { margin-top: 42px; border-top: 1px solid var(--line-soft); }
   .faq details { border-bottom: 1px solid var(--line-soft); }
@@ -858,6 +877,7 @@
       <a href="#workflows">Workflows</a>
       <a href="#fonctions">Fonctionnalités</a>
       <a href="#hebergement">Hébergement</a>
+      <a href="#offres">Offres</a>
       <a href="#faq">Questions</a>
       <a href="/docs/">Documentation</a>
     </nav>
@@ -1332,6 +1352,66 @@
     </div>
   </section>
 
+  <section class="wrap sec" id="offres" aria-labelledby="titre-offres">
+    <div class="sec-head">
+      <p class="eyebrow">Offres</p>
+      <h2 id="titre-offres">Deux façons d'adopter Parqueo.</h2>
+      <p class="body-soft">
+        Installez Parqueo sur votre propre serveur et gardez la main sur tout, ou laissez-nous
+        l'héberger et l'infogérer pour n'avoir qu'à l'utiliser. Le logiciel est le même dans les
+        deux cas — c'est la gestion de l'infrastructure qui change.
+      </p>
+    </div>
+
+    <div class="offers">
+      <div class="card offer">
+        <p class="eyebrow">Auto-hébergé</p>
+        <h3>Sur votre infrastructure</h3>
+        <div class="price">
+          <em>à partir de</em><b>149 €</b><span>/ technicien / an</span>
+        </div>
+        <p class="offer-desc">
+          Vous installez Parqueo sur votre serveur ou celui de votre hébergeur. Vos données ne
+          quittent jamais votre infrastructure.
+        </p>
+        <div class="checks">
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Demandeurs illimités et gratuits</strong> — vous ne payez que vos techniciens.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Données 100 % chez vous</strong> — conformité RGPD et audits internes simplifiés.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Contrôle total</strong> — version, sauvegardes et intégrations à votre main.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Documentation fournie</strong> — installation, configuration et exploitation.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Accompagnement en option</strong> — installation, reprise du parc et support.</span></div>
+        </div>
+        <div class="offer-cta">
+          <a class="btn btn-ghost" href="/docs/installation/">Documentation</a>
+          <a class="btn btn-primary" href="#contact">Demander un devis</a>
+        </div>
+      </div>
+
+      <div class="card offer featured">
+        <span class="offer-badge">Sans rien gérer</span>
+        <p class="eyebrow">SaaS infogéré</p>
+        <h3>Hébergé et maintenu par nous</h3>
+        <div class="price">
+          <em>à partir de</em><b>19 €</b><span>/ technicien / mois</span>
+        </div>
+        <p class="offer-desc">
+          On héberge Parqueo, on l'installe, on le met à jour et on le sauvegarde. Vous vous
+          concentrez sur vos tickets, pas sur les serveurs.
+        </p>
+        <div class="checks">
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Demandeurs illimités et gratuits</strong> — vous ne payez que vos techniciens.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Hébergement et sauvegardes inclus</strong> — rien à préparer côté infrastructure.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Mises à jour et supervision</strong> — la dernière version, sans intervention de votre part.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Mise en service rapide</strong> — opérationnel en quelques jours.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support et accompagnement</strong> — y compris sur vos premiers workflows.</span></div>
+        </div>
+        <div class="offer-cta">
+          <a class="btn btn-primary" href="#contact">Demander une démo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="wrap sec" id="faq" aria-labelledby="titre-faq">
     <div class="sec-head">
       <p class="eyebrow">Questions fréquentes</p>
@@ -1361,10 +1441,10 @@
       <details>
         <summary>Où sont hébergées les données de Parqueo ?</summary>
         <div class="answer">
-          Sur votre infrastructure. Parqueo est une application Node.js avec une base PostgreSQL,
-          installée sur votre serveur ou celui de votre hébergeur. Aucune donnée de ticket, aucun
-          inventaire et aucune pièce jointe ne transite par un service tiers, ce qui simplifie la
-          conformité RGPD.
+          Vous choisissez. En auto-hébergé, tout est installé sur votre serveur ou celui de votre
+          hébergeur : aucune donnée de ticket, d'inventaire ou de pièce jointe ne transite par un
+          service tiers, ce qui simplifie la conformité RGPD. En SaaS, Parqueo est hébergé et
+          infogéré par nos soins — vous n'avez aucune infrastructure à gérer.
         </div>
       </details>
       <details>
