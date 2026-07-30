@@ -725,6 +725,15 @@
   .offer .price span { color: var(--ink-soft); font-size: .9rem; }
   .offer .offer-desc { color: var(--ink-soft); font-size: .95rem; }
   .offer .offer-cta { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; padding-top: 8px; }
+  .tarifs { margin-top: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .tarifs-title { padding: 15px 22px; font-size: .9rem; color: var(--ink-soft); border-bottom: 1px solid var(--line-soft); }
+  .tarifs .t-scroll { overflow-x: auto; }
+  .tarifs table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .tarifs th, .tarifs td { padding: 13px 22px; text-align: left; white-space: nowrap; }
+  .tarifs thead th { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-faint); font-weight: 600; border-bottom: 1px solid var(--line-soft); }
+  .tarifs tbody tr + tr td { border-top: 1px solid var(--line-soft); }
+  .tarifs td:first-child { font-weight: 600; }
+  .tarifs td:not(:first-child) { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 
   /* ---------- questions ---------- */
   .faq { margin-top: 42px; border-top: 1px solid var(--line-soft); }
@@ -1289,17 +1298,18 @@
       <div>
         <div class="sec-head">
           <p class="eyebrow">Hébergement &amp; données</p>
-          <h2 id="titre-hebergement">Installé sur vos serveurs, vos données restent chez vous.</h2>
+          <h2 id="titre-hebergement">Vos données là où vous les voulez.</h2>
           <p class="body-soft">
-            Une API Node.js, une base PostgreSQL, une interface React. Rien n'est envoyé chez un
-            éditeur, rien n'a besoin d'être ouvert sur l'extérieur si vous ne le souhaitez pas — un
-            point qui simplifie autant la conformité RGPD que les audits internes.
+            Une API Node.js, une base PostgreSQL, une interface React. En auto-hébergé, tout tourne
+            sur votre infrastructure : rien n'est envoyé chez un éditeur, rien n'a besoin d'être
+            ouvert sur l'extérieur — de quoi simplifier autant la conformité RGPD que les audits
+            internes. En SaaS, nous hébergeons et infogérons l'ensemble pour vous.
           </p>
         </div>
         <div class="checks">
           <div class="check">
             <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Votre serveur ou votre hébergeur</strong> — machine interne, VPS français, cluster existant : l'application s'installe là où vivent déjà vos données.</span>
+            <span><strong>Chez vous ou chez nous</strong> — auto-hébergé sur votre serveur (machine interne, VPS, cluster existant), ou hébergé et infogéré par nos soins : vous choisissez où vivent vos données.</span>
           </div>
           <div class="check">
             <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
@@ -1337,7 +1347,7 @@
             <span class="pip">3</span>
             <div>
               <h3>Mise en service</h3>
-              <p>Installation sur votre infrastructure, reprise de l'inventaire, création des catégories et des équipes.</p>
+              <p>Installation sur votre infrastructure ou sur notre hébergement, reprise de l'inventaire, création des catégories et des équipes.</p>
             </div>
           </li>
           <li>
@@ -1368,7 +1378,7 @@
         <p class="eyebrow">Auto-hébergé</p>
         <h3>Sur votre infrastructure</h3>
         <div class="price">
-          <em>à partir de</em><b>149 €</b><span>/ technicien / an</span>
+          <b>149 €</b><span>/ technicien / an</span><em>dégressif au volume — voir la grille</em>
         </div>
         <p class="offer-desc">
           Vous installez Parqueo sur votre serveur ou celui de votre hébergeur. Vos données ne
@@ -1392,7 +1402,7 @@
         <p class="eyebrow">SaaS infogéré</p>
         <h3>Hébergé et maintenu par nous</h3>
         <div class="price">
-          <em>à partir de</em><b>19 €</b><span>/ technicien / mois</span>
+          <b>19 €</b><span>/ technicien / mois</span><em>dégressif au volume — voir la grille</em>
         </div>
         <p class="offer-desc">
           On héberge Parqueo, on l'installe, on le met à jour et on le sauvegarde. Vous vous
@@ -1408,6 +1418,26 @@
         <div class="offer-cta">
           <a class="btn btn-primary" href="#contact">Demander une démo</a>
         </div>
+      </div>
+    </div>
+
+    <div class="tarifs">
+      <p class="tarifs-title">Tarif dégressif selon la taille de l'équipe — les demandeurs (vos utilisateurs) restent illimités et gratuits dans tous les cas.</p>
+      <div class="t-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Techniciens</th>
+              <th scope="col">SaaS / technicien / mois</th>
+              <th scope="col">Auto-hébergé / technicien / an</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1 à 3</td><td>19 €</td><td>149 €</td></tr>
+            <tr><td>4 à 10</td><td>16 €</td><td>129 €</td></tr>
+            <tr><td>11 et plus</td><td>sur devis</td><td>sur devis</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
