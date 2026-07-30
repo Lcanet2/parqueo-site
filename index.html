@@ -110,18 +110,10 @@
         },
         {
           "@type": "Question",
-          "name": "Parqueo est-il une alternative à GLPI ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Parqueo couvre les usages quotidiens d'un service informatique — tickets, parc, catalogue de demandes, base de connaissances — avec une interface pensée pour être prise en main sans formation. Les workflows visuels remplacent les règles métier et le plugin de formulaires que l'on ajoute habituellement à GLPI."
-          }
-        },
-        {
-          "@type": "Question",
           "name": "Où sont hébergées les données de Parqueo ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sur votre infrastructure. Parqueo est une application Node.js avec une base PostgreSQL, installée sur votre serveur ou celui de votre hébergeur. Aucune donnée de ticket, aucun inventaire et aucune pièce jointe ne transite par un service tiers, ce qui simplifie la conformité RGPD."
+            "text": "Vous choisissez. En auto-hébergé, tout est installé sur votre serveur ou celui de votre hébergeur : aucune donnée de ticket, d'inventaire ou de pièce jointe ne transite par un service tiers, ce qui simplifie la conformité RGPD. En SaaS, Parqueo est hébergé et infogéré par nos soins — vous n'avez aucune infrastructure à gérer."
           }
         },
         {
@@ -129,7 +121,7 @@
           "name": "Faut-il installer un agent sur les postes ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Non. Parqueo s'utilise depuis un navigateur, sur poste comme sur mobile. L'inventaire du parc se remplit par saisie ou par import CSV, et se met à jour au fil des tickets rattachés aux équipements."
+            "text": "Non, ce n'est pas obligatoire. Parqueo s'utilise depuis un navigateur, sur poste comme sur mobile."
           }
         },
         {
@@ -1313,7 +1305,7 @@
           </div>
           <div class="check">
             <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Aucun agent à déployer</strong> — un navigateur suffit, sur poste comme sur mobile. Rien à pousser par GPO, rien à maintenir sur les machines.</span>
+            <span><strong>Aucun agent obligatoire</strong> — un navigateur suffit pour utiliser Parqueo, sur poste comme sur mobile.</span>
           </div>
           <div class="check">
             <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
@@ -1459,16 +1451,6 @@
         </div>
       </details>
       <details>
-        <summary>Parqueo est-il une alternative à GLPI ?</summary>
-        <div class="answer">
-          Parqueo couvre les usages quotidiens d'un service informatique — tickets, parc, catalogue
-          de demandes, base de connaissances — avec une interface pensée pour être prise en main sans
-          formation. Les workflows visuels remplacent les règles métier et le plugin de formulaires
-          que l'on ajoute habituellement à GLPI. <a href="#contact">Écrivez-nous</a> pour comparer
-          sur votre contexte réel.
-        </div>
-      </details>
-      <details>
         <summary>Où sont hébergées les données de Parqueo ?</summary>
         <div class="answer">
           Vous choisissez. En auto-hébergé, tout est installé sur votre serveur ou celui de votre
@@ -1480,9 +1462,8 @@
       <details>
         <summary>Faut-il installer un agent sur les postes ?</summary>
         <div class="answer">
-          Non. Parqueo s'utilise depuis un navigateur, sur poste comme sur mobile. L'inventaire du
-          parc se remplit par saisie ou par import CSV, et se met à jour au fil des tickets rattachés
-          aux équipements.
+          Non, ce n'est pas obligatoire. Parqueo s'utilise depuis un navigateur, sur poste comme sur
+          mobile.
         </div>
       </details>
       <details>
