@@ -115,6 +115,8 @@
         <li class="n2"><a href="#7-le-cycle-de-vie-dun-ticket">7. Le cycle de vie d&amp;#39;un ticket</a></li>
         <li class="n2"><a href="#8-la-base-de-connaissances">8. La base de connaissances</a></li>
         <li class="n2"><a href="#9-linventaire-du-parc">9. L&amp;#39;inventaire du parc</a></li>
+        <li class="n3"><a href="#linventaire-automatique">L&amp;#39;inventaire automatique</a></li>
+        <li class="n3"><a href="#la-page-logiciels">La page Logiciels</a></li>
         <li class="n2"><a href="#10-ladministration">10. L&amp;#39;administration</a></li>
         <li class="n3"><a href="#101-utilisateurs">10.1 Utilisateurs</a></li>
         <li class="n3"><a href="#102-équipes-et-catégories">10.2 Équipes et catégories</a></li>
@@ -534,6 +536,34 @@ consultable.</p>
   <figcaption>L'inventaire. Chaque ligne mène à la fiche de l'actif, qui porte l'historique des tickets le concernant.</figcaption>
 </figure>
 
+<h3 id="linventaire-automatique">L&#39;inventaire automatique<a class="anchor" href="#linventaire-automatique" aria-label="Lien vers cette section">#</a></h3>
+<p>Plutôt que tout saisir, le parc peut <strong>remonter tout seul</strong>. Trois moyens,
+combinables, mis en place par l&#39;administrateur (voir la documentation
+d&#39;installation §6) :</p>
+<ul>
+<li><strong>Script ou agent GLPI</strong> sur les postes : ils envoient leur configuration
+(matériel, système, logiciels installés) à Parqueo.</li>
+<li><strong>Connecteur Microsoft Intune</strong> : les appareils déjà gérés dans Intune sont
+récupérés sans rien installer, avec leur utilisateur.</li>
+<li><strong>Scan réseau SNMP</strong> : les équipements sans agent (imprimantes, switches,
+NAS…) sont découverts en interrogeant le réseau.</li>
+</ul>
+<p>Un actif remonté automatiquement porte alors, en plus, une <strong>source</strong> (Agent,
+Intune, Scan) et une date de <strong>dernière remontée</strong>. Sa fiche affiche un bloc
+<strong>Matériel</strong> (système, processeur, mémoire, stockage) et la liste des
+<strong>logiciels installés</strong>. Les champs que vous renseignez à la main (nom,
+emplacement, état, utilisateur assigné) sont <strong>respectés</strong> : une remontée
+suivante ne les écrase jamais.</p>
+<p><strong>Actifs périmés.</strong> Un équipement automatique qui cesse de remonter est
+<strong>signalé en rouge</strong> (« Vu il y a 45 j ⚠ ») au-delà d&#39;un délai réglable
+(<em>Paramètres → Inventaire</em>). C&#39;est un simple repère : le statut n&#39;est <strong>pas</strong>
+modifié. Un actif longtemps silencieux (éteint, retiré, agent en panne) est un
+bon candidat à passer manuellement en « retiré ».</p>
+<h3 id="la-page-logiciels">La page Logiciels<a class="anchor" href="#la-page-logiciels" aria-label="Lien vers cette section">#</a></h3>
+<p>Menu <strong>Logiciels</strong> (techniciens et administrateurs) : le catalogue de tous les
+logiciels du parc, avec le <strong>nombre de postes</strong> où chacun est installé.
+Sélectionner un logiciel liste les machines concernées et leur version — la base
+d&#39;un suivi de licences ou de la chasse aux versions obsolètes.</p>
 <hr>
 <h2 id="10-ladministration">10. L&#39;administration<a class="anchor" href="#10-ladministration" aria-label="Lien vers cette section">#</a></h2>
 <p>Menu <strong>Administration</strong>, réservé aux administrateurs. Cinq onglets.</p>
@@ -829,6 +859,11 @@ l&#39;annuaire, commande de matériel, alerte dans Teams.</li>
 <td>Inventaire visible par les utilisateurs</td>
 <td>activé</td>
 <td>désactivé, le menu disparaît pour eux</td>
+</tr>
+<tr>
+<td>Signaler les actifs périmés</td>
+<td>après 30 j</td>
+<td>délai sans remontée au-delà duquel un actif automatique est marqué en rouge (statut inchangé)</td>
 </tr>
 </tbody></table>
 </div>

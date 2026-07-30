@@ -98,31 +98,30 @@
     <nav>
       <ul>
         <li class="n2"><a href="#1-prérequis">1. Prérequis</a></li>
-        <li class="n2"><a href="#2-installation-en-développement">2. Installation en développement</a></li>
-        <li class="n3"><a href="#21-base-de-données">2.1 Base de données</a></li>
-        <li class="n3"><a href="#22-api">2.2 API</a></li>
-        <li class="n3"><a href="#23-client">2.3 Client</a></li>
-        <li class="n3"><a href="#24-vérifications">2.4 Vérifications</a></li>
-        <li class="n3"><a href="#25-jeu-de-démonstration">2.5 Jeu de démonstration</a></li>
-        <li class="n2"><a href="#3-installation-en-production">3. Installation en production</a></li>
-        <li class="n3"><a href="#31-utilisateur-système-et-code">3.1 Utilisateur système et code</a></li>
-        <li class="n3"><a href="#32-base-de-données">3.2 Base de données</a></li>
-        <li class="n3"><a href="#33-api">3.3 API</a></li>
-        <li class="n3"><a href="#34-client">3.4 Client</a></li>
-        <li class="n3"><a href="#35-reverse-proxy">3.5 Reverse proxy</a></li>
-        <li class="n3"><a href="#36-service-systemd">3.6 Service systemd</a></li>
-        <li class="n3"><a href="#37-premier-démarrage">3.7 Premier démarrage</a></li>
-        <li class="n2"><a href="#4-référence-des-variables-denvironnement">4. Référence des variables d&amp;#39;environnement</a></li>
-        <li class="n3"><a href="#41-cœur">4.1 Cœur</a></li>
-        <li class="n3"><a href="#42-email-sortant">4.2 Email sortant</a></li>
-        <li class="n3"><a href="#43-clôture-automatique">4.3 Clôture automatique</a></li>
-        <li class="n3"><a href="#44-sso-microsoft-entra-id">4.4 SSO Microsoft Entra ID</a></li>
-        <li class="n3"><a href="#45-collecteur-email">4.5 Collecteur email</a></li>
-        <li class="n2"><a href="#5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID</a></li>
-        <li class="n3"><a href="#51-côté-entra-portail-azure">5.1 Côté Entra (portail Azure)</a></li>
-        <li class="n3"><a href="#52-côté-parqueo">5.2 Côté Parqueo</a></li>
-        <li class="n3"><a href="#53-comportement">5.3 Comportement</a></li>
-        <li class="n2"><a href="#6-configuration-du-collecteur-email">6. Configuration du collecteur email</a></li>
+        <li class="n2"><a href="#2-installation-en-production">2. Installation en production</a></li>
+        <li class="n3"><a href="#21-utilisateur-système-et-code">2.1 Utilisateur système et code</a></li>
+        <li class="n3"><a href="#22-base-de-données">2.2 Base de données</a></li>
+        <li class="n3"><a href="#23-api">2.3 API</a></li>
+        <li class="n3"><a href="#24-client">2.4 Client</a></li>
+        <li class="n3"><a href="#25-reverse-proxy">2.5 Reverse proxy</a></li>
+        <li class="n3"><a href="#26-service-systemd">2.6 Service systemd</a></li>
+        <li class="n3"><a href="#27-premier-démarrage">2.7 Premier démarrage</a></li>
+        <li class="n2"><a href="#3-référence-des-variables-denvironnement">3. Référence des variables d&amp;#39;environnement</a></li>
+        <li class="n3"><a href="#31-cœur">3.1 Cœur</a></li>
+        <li class="n3"><a href="#32-email-sortant">3.2 Email sortant</a></li>
+        <li class="n3"><a href="#33-clôture-automatique">3.3 Clôture automatique</a></li>
+        <li class="n3"><a href="#34-sso-microsoft-entra-id">3.4 SSO Microsoft Entra ID</a></li>
+        <li class="n3"><a href="#35-collecteur-email">3.5 Collecteur email</a></li>
+        <li class="n3"><a href="#36-inventaire-automatique">3.6 Inventaire automatique</a></li>
+        <li class="n2"><a href="#4-configuration-du-sso-microsoft-entra-id">4. Configuration du SSO Microsoft Entra ID</a></li>
+        <li class="n3"><a href="#41-côté-entra-portail-azure">4.1 Côté Entra (portail Azure)</a></li>
+        <li class="n3"><a href="#42-côté-parqueo">4.2 Côté Parqueo</a></li>
+        <li class="n3"><a href="#43-comportement">4.3 Comportement</a></li>
+        <li class="n2"><a href="#5-configuration-du-collecteur-email">5. Configuration du collecteur email</a></li>
+        <li class="n2"><a href="#6-configuration-de-linventaire-automatique">6. Configuration de l&amp;#39;inventaire automatique</a></li>
+        <li class="n3"><a href="#61-push-par-agent-ou-script-token-partagé">6.1 Push par agent ou script (token partagé)</a></li>
+        <li class="n3"><a href="#62-connecteur-microsoft-intune-sans-agent">6.2 Connecteur Microsoft Intune (sans agent)</a></li>
+        <li class="n3"><a href="#63-scan-réseau-snmp-sans-agent">6.3 Scan réseau SNMP (sans agent)</a></li>
         <li class="n2"><a href="#7-sauvegarde-et-restauration">7. Sauvegarde et restauration</a></li>
         <li class="n3"><a href="#71-sauvegarde">7.1 Sauvegarde</a></li>
         <li class="n3"><a href="#72-restauration">7.2 Restauration</a></li>
@@ -145,11 +144,11 @@
 déploie et maintient l&#39;application.</p>
 <ul class="toc-inline">
 <li><a href="#1-pr%C3%A9requis">1. Prérequis</a></li>
-<li><a href="#2-installation-en-d%C3%A9veloppement">2. Installation en développement</a></li>
-<li><a href="#3-installation-en-production">3. Installation en production</a></li>
-<li><a href="#4-r%C3%A9f%C3%A9rence-des-variables-denvironnement">4. Référence des variables d&#39;environnement</a></li>
-<li><a href="#5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID</a></li>
-<li><a href="#6-configuration-du-collecteur-email">6. Configuration du collecteur email</a></li>
+<li><a href="#2-installation-en-production">2. Installation en production</a></li>
+<li><a href="#3-r%C3%A9f%C3%A9rence-des-variables-denvironnement">3. Référence des variables d&#39;environnement</a></li>
+<li><a href="#4-configuration-du-sso-microsoft-entra-id">4. Configuration du SSO Microsoft Entra ID</a></li>
+<li><a href="#5-configuration-du-collecteur-email">5. Configuration du collecteur email</a></li>
+<li><a href="#6-configuration-de-linventaire-automatique">6. Configuration de l&#39;inventaire automatique</a></li>
 <li><a href="#7-sauvegarde-et-restauration">7. Sauvegarde et restauration</a></li>
 <li><a href="#8-mise-%C3%A0-jour">8. Mise à jour</a></li>
 <li><a href="#9-exploitation">9. Exploitation</a></li>
@@ -168,121 +167,65 @@ déploie et maintient l&#39;application.</p>
 <tbody><tr>
 <td>Node.js</td>
 <td>20 LTS minimum, <strong>22 recommandé</strong></td>
-<td>l&#39;application est développée et testée sur 22.x</td>
-</tr>
-<tr>
-<td>npm</td>
-<td>fourni avec Node</td>
 <td></td>
 </tr>
 <tr>
 <td>PostgreSQL</td>
 <td>14 minimum</td>
-<td>testé sur 18</td>
+<td></td>
 </tr>
 <tr>
 <td>Reverse proxy</td>
 <td>nginx, Caddy, Traefik…</td>
-<td><strong>requis en production</strong> (voir §3.5)</td>
+<td><strong>requis</strong> (voir §2.5)</td>
 </tr>
 </tbody></table>
 </div>
-<p>Optionnels, activés seulement s&#39;ils sont configurés :</p>
-<ul>
-<li>un serveur <strong>SMTP</strong> pour les notifications ;</li>
-<li>une boîte <strong>IMAP</strong> dédiée pour le collecteur email ;</li>
-<li>un <strong>tenant Microsoft Entra ID</strong> pour le SSO.</li>
-</ul>
-<p>Ressources : l&#39;API est un processus Node mono-thread, léger. Pour quelques
+<p>Optionnels, activés seulement s&#39;ils sont configurés : un serveur <strong>SMTP</strong> (notifications), une boîte <strong>IMAP</strong> (collecteur email), un <strong>tenant Microsoft Entra ID</strong> (SSO).</p>
+<p><strong>Ressources</strong> : l&#39;API est un processus Node mono-thread léger. Pour quelques
 dizaines d&#39;utilisateurs simultanés, 1 vCPU et 1 Go de RAM suffisent, PostgreSQL
 compris. L&#39;espace disque est dicté par les pièces jointes (10 Mo par fichier au
 maximum).</p>
 <hr>
-<h2 id="2-installation-en-développement">2. Installation en développement<a class="anchor" href="#2-installation-en-développement" aria-label="Lien vers cette section">#</a></h2>
-<h3 id="21-base-de-données">2.1 Base de données<a class="anchor" href="#21-base-de-données" aria-label="Lien vers cette section">#</a></h3>
-<pre><code class="language-sh">sudo -u postgres psql -c &quot;CREATE USER parqueo WITH PASSWORD &#39;parqueo_dev&#39;;&quot;
-sudo -u postgres psql -c &quot;CREATE DATABASE parqueo OWNER parqueo;&quot;
-</code></pre>
-<h3 id="22-api">2.2 API<a class="anchor" href="#22-api" aria-label="Lien vers cette section">#</a></h3>
-<pre><code class="language-sh">cd server
-npm install
-cp .env.example .env          # puis éditer JWT_SECRET au minimum
-npx prisma migrate dev        # applique les 11 migrations
-npm run seed                  # 1 équipe, 1 catégorie, 1 compte admin
-npm run dev                   # nodemon, port 4000
-</code></pre>
-<p>Le seed crée le compte <strong><code>admin@parqueo.local</code> / <code>admin1234</code></strong> — à changer
-immédiatement.</p>
-<h3 id="23-client">2.3 Client<a class="anchor" href="#23-client" aria-label="Lien vers cette section">#</a></h3>
-<p>Dans un second terminal :</p>
-<pre><code class="language-sh">cd client
-npm install
-npm run dev                   # Vite, port 5173
-</code></pre>
-<p>Vite proxifie <code>/api</code> vers <code>http://localhost:4000</code> : ouvrez
-<a href="http://localhost:5173">http://localhost:5173</a>, pas le port 4000.</p>
-<h3 id="24-vérifications">2.4 Vérifications<a class="anchor" href="#24-vérifications" aria-label="Lien vers cette section">#</a></h3>
-<pre><code class="language-sh">curl http://localhost:4000/api/health     # {&quot;ok&quot;:true}
-cd server &amp;&amp; npm test                     # 26 tests
-cd client &amp;&amp; npm run lint
-</code></pre>
-<p>Sans <code>SMTP_HOST</code>, aucun email n&#39;est envoyé : les messages sont écrits dans la
-console de l&#39;API, préfixés <code>[mail non envoyé — SMTP non configuré]</code>. C&#39;est le
-comportement attendu en développement.</p>
-<h3 id="25-jeu-de-démonstration">2.5 Jeu de démonstration<a class="anchor" href="#25-jeu-de-démonstration" aria-label="Lien vers cette section">#</a></h3>
-<blockquote>
-<p><strong>Attention</strong> — <code>prisma/seed-demo.js</code> est actuellement <strong>inutilisable</strong> : il
-référence <code>prisma.workflowRule</code>, un modèle supprimé par la migration
-<code>drop_workflow_rules</code>, et s&#39;interrompt sur un <code>TypeError</code>. Utilisez
-<code>npm run seed</code> en attendant sa correction.</p>
-</blockquote>
-<hr>
-<h2 id="3-installation-en-production">3. Installation en production<a class="anchor" href="#3-installation-en-production" aria-label="Lien vers cette section">#</a></h2>
+<h2 id="2-installation-en-production">2. Installation en production<a class="anchor" href="#2-installation-en-production" aria-label="Lien vers cette section">#</a></h2>
 <p>Exemple pour une machine Debian/Ubuntu, application déployée dans
 <code>/opt/parqueo</code>, servie par nginx sur <code>https://parqueo.exemple.fr</code>.</p>
-<h3 id="31-utilisateur-système-et-code">3.1 Utilisateur système et code<a class="anchor" href="#31-utilisateur-système-et-code" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="21-utilisateur-système-et-code">2.1 Utilisateur système et code<a class="anchor" href="#21-utilisateur-système-et-code" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">sudo adduser --system --group --home /opt/parqueo parqueo
 sudo -u parqueo git clone https://github.com/Lcanet2/parqueo.git /opt/parqueo
 </code></pre>
-<h3 id="32-base-de-données">3.2 Base de données<a class="anchor" href="#32-base-de-données" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="22-base-de-données">2.2 Base de données<a class="anchor" href="#22-base-de-données" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">sudo -u postgres psql -c &quot;CREATE USER parqueo WITH PASSWORD &#39;&lt;mot-de-passe-solide&gt;&#39;;&quot;
 sudo -u postgres psql -c &quot;CREATE DATABASE parqueo OWNER parqueo;&quot;
 </code></pre>
-<h3 id="33-api">3.3 API<a class="anchor" href="#33-api" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="23-api">2.3 API<a class="anchor" href="#23-api" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">cd /opt/parqueo/server
 sudo -u parqueo npm ci
 sudo -u parqueo npx prisma generate
 sudo -u parqueo cp .env.example .env
-sudo -u parqueo nano .env               # voir §4
+sudo -u parqueo nano .env               # voir §3
 sudo chmod 600 .env
 sudo -u parqueo npx prisma migrate deploy
 sudo -u parqueo npm run seed
 </code></pre>
-<blockquote>
-<p><strong>Pas de <code>--omit=dev</code> ici.</strong> La CLI Prisma est une dépendance de
-développement, et c&#39;est elle qui applique les migrations : avec
-<code>--omit=dev</code>, <code>prisma generate</code> et <code>prisma migrate deploy</code> ne trouveraient
-pas le binaire local et <code>npx</code> irait chercher une version arbitraire sur le
-registre. Le serveur n&#39;exécute de toute façon que <code>src/</code>, les dépendances de
-développement ne coûtent que de l&#39;espace disque.</p>
-</blockquote>
-<p><code>migrate deploy</code> applique les migrations existantes sans jamais en générer ni
-réinitialiser la base — c&#39;est la commande à utiliser en production, pas
-<code>migrate dev</code>.</p>
-<p>Un <code>JWT_SECRET</code> solide :</p>
+<p>Installez <strong>toutes</strong> les dépendances (<code>npm ci</code>, sans <code>--omit=dev</code>) : la CLI
+Prisma qui applique les migrations est une dépendance de développement.
+<code>migrate deploy</code> applique les migrations existantes sans jamais réinitialiser la
+base — c&#39;est la commande de production. Le seed crée un compte
+<code>admin@parqueo.local</code> / <code>admin1234</code>, <strong>à changer au premier démarrage</strong>.</p>
+<p>Générer un <code>JWT_SECRET</code> solide :</p>
 <pre><code class="language-sh">node -e &quot;console.log(require(&#39;crypto&#39;).randomBytes(48).toString(&#39;base64url&#39;))&quot;
 </code></pre>
-<h3 id="34-client">3.4 Client<a class="anchor" href="#34-client" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="24-client">2.4 Client<a class="anchor" href="#24-client" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">cd /opt/parqueo/client
 sudo -u parqueo npm ci
 sudo -u parqueo npm run build       # produit client/dist
 </code></pre>
 <p><code>dist/</code> est un ensemble de fichiers statiques : aucun processus Node ne tourne
 pour le front.</p>
-<h3 id="35-reverse-proxy">3.5 Reverse proxy<a class="anchor" href="#35-reverse-proxy" aria-label="Lien vers cette section">#</a></h3>
-<p>Le client appelle <code>/api</code> en <strong>relatif</strong>. Le proxy doit donc servir le front et
-l&#39;API <strong>sur la même origine</strong>. C&#39;est la seule contrainte de déploiement
-réellement structurante.</p>
+<h3 id="25-reverse-proxy">2.5 Reverse proxy<a class="anchor" href="#25-reverse-proxy" aria-label="Lien vers cette section">#</a></h3>
+<p>Le client appelle <code>/api</code> en <strong>relatif</strong> : le proxy doit servir le front et l&#39;API
+<strong>sur la même origine</strong>. C&#39;est la seule contrainte de déploiement structurante.</p>
 <pre><code class="language-nginx">server {
     listen 443 ssl http2;
     server_name parqueo.exemple.fr;
@@ -290,16 +233,15 @@ réellement structurante.</p>
     ssl_certificate     /etc/letsencrypt/live/parqueo.exemple.fr/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/parqueo.exemple.fr/privkey.pem;
 
-    # Pièces jointes : 10 Mo côté application, la limite nginx par défaut
-    # (1 Mo) rejetterait les fichiers avant même d&#39;atteindre Node.
+    # Pièces jointes : 10 Mo côté application ; la limite nginx par défaut (1 Mo)
+    # les rejetterait avant d&#39;atteindre Node.
     client_max_body_size 12M;
 
     root /opt/parqueo/client/dist;
     index index.html;
 
-    # SPA : toute route inconnue retombe sur index.html
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ /index.html;   # SPA : repli sur index.html
     }
 
     location /api {
@@ -318,14 +260,9 @@ server {
     return 301 https://$host$request_uri;
 }
 </code></pre>
-<p>Deux points d&#39;attention :</p>
-<ul>
-<li><strong><code>client_max_body_size</code></strong> doit dépasser 10 Mo, sinon les pièces jointes
-volumineuses échouent en 413 sans jamais atteindre l&#39;application.</li>
-<li>Le jeton SSO transite en query string (<code>?sso_token=…</code>). Si vous journalisez
-les URL complètes, filtrez ce paramètre.</li>
-</ul>
-<h3 id="36-service-systemd">3.6 Service systemd<a class="anchor" href="#36-service-systemd" aria-label="Lien vers cette section">#</a></h3>
+<p>Le jeton SSO transite en query string (<code>?sso_token=…</code>) : si vous journalisez les
+URL complètes, filtrez ce paramètre.</p>
+<h3 id="26-service-systemd">2.6 Service systemd<a class="anchor" href="#26-service-systemd" aria-label="Lien vers cette section">#</a></h3>
 <p><code>/etc/systemd/system/parqueo.service</code> :</p>
 <pre><code class="language-ini">[Unit]
 Description=Parqueo API
@@ -353,27 +290,24 @@ WantedBy=multi-user.target
 sudo systemctl enable --now parqueo
 sudo systemctl status parqueo
 </code></pre>
-<p>Le fichier <code>.env</code> est lu par <code>dotenv</code> depuis le répertoire de travail : pas
-besoin de <code>EnvironmentFile</code>.</p>
-<blockquote>
-<p><strong><code>WorkingDirectory</code> est critique</strong> : multer écrit dans <code>uploads/</code> en chemin
-relatif. Démarrer le processus ailleurs crée un second dossier d&#39;uploads et
-rend les pièces jointes existantes introuvables.</p>
-</blockquote>
-<h3 id="37-premier-démarrage">3.7 Premier démarrage<a class="anchor" href="#37-premier-démarrage" aria-label="Lien vers cette section">#</a></h3>
+<p>Le <code>.env</code> est lu par <code>dotenv</code> depuis le répertoire de travail (pas besoin de
+<code>EnvironmentFile</code>). <strong><code>WorkingDirectory</code> est critique</strong> : les pièces jointes sont
+écrites dans <code>uploads/</code> en chemin relatif ; démarrer ailleurs rend les fichiers
+existants introuvables.</p>
+<h3 id="27-premier-démarrage">2.7 Premier démarrage<a class="anchor" href="#27-premier-démarrage" aria-label="Lien vers cette section">#</a></h3>
 <ol>
 <li>ouvrir <code>https://parqueo.exemple.fr</code> ;</li>
 <li>se connecter avec <code>admin@parqueo.local</code> / <code>admin1234</code> ;</li>
-<li><strong>changer le mot de passe</strong> (Administration → Utilisateurs) ou créer un
-compte admin nominatif puis supprimer celui du seed ;</li>
+<li><strong>changer le mot de passe</strong>, ou créer un admin nominatif puis supprimer le
+compte de seed ;</li>
 <li>créer les équipes et les catégories ;</li>
 <li>parcourir Paramètres.</li>
 </ol>
 <hr>
-<h2 id="4-référence-des-variables-denvironnement">4. Référence des variables d&#39;environnement<a class="anchor" href="#4-référence-des-variables-denvironnement" aria-label="Lien vers cette section">#</a></h2>
+<h2 id="3-référence-des-variables-denvironnement">3. Référence des variables d&#39;environnement<a class="anchor" href="#3-référence-des-variables-denvironnement" aria-label="Lien vers cette section">#</a></h2>
 <p>Fichier <code>server/.env</code>. Seules les quatre premières sont nécessaires au
 démarrage.</p>
-<h3 id="41-cœur">4.1 Cœur<a class="anchor" href="#41-cœur" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="31-cœur">3.1 Cœur<a class="anchor" href="#31-cœur" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -409,7 +343,7 @@ démarrage.</p>
 </tr>
 </tbody></table>
 </div>
-<h3 id="42-email-sortant">4.2 Email sortant<a class="anchor" href="#42-email-sortant" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="32-email-sortant">3.2 Email sortant<a class="anchor" href="#32-email-sortant" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -421,7 +355,7 @@ démarrage.</p>
 <tbody><tr>
 <td><code>SMTP_HOST</code></td>
 <td>vide</td>
-<td><strong>si vide, aucun email n&#39;est envoyé</strong> (mode console)</td>
+<td><strong>si vide, aucun email n&#39;est envoyé</strong></td>
 </tr>
 <tr>
 <td><code>SMTP_PORT</code></td>
@@ -440,7 +374,7 @@ démarrage.</p>
 </tr>
 </tbody></table>
 </div>
-<h3 id="43-clôture-automatique">4.3 Clôture automatique<a class="anchor" href="#43-clôture-automatique" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="33-clôture-automatique">3.3 Clôture automatique<a class="anchor" href="#33-clôture-automatique" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -452,11 +386,11 @@ démarrage.</p>
 <tbody><tr>
 <td><code>AUTO_CLOSE_DAYS</code></td>
 <td><code>7</code></td>
-<td><strong>valeur initiale seulement</strong> : une fois enregistré dans Paramètres, c&#39;est la base qui fait foi</td>
+<td>valeur initiale seulement ; une fois enregistré dans Paramètres, c&#39;est la base qui fait foi</td>
 </tr>
 </tbody></table>
 </div>
-<h3 id="44-sso-microsoft-entra-id">4.4 SSO Microsoft Entra ID<a class="anchor" href="#44-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="34-sso-microsoft-entra-id">3.4 SSO Microsoft Entra ID<a class="anchor" href="#34-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -497,7 +431,7 @@ démarrage.</p>
 </tr>
 </tbody></table>
 </div>
-<h3 id="45-collecteur-email">4.5 Collecteur email<a class="anchor" href="#45-collecteur-email" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="35-collecteur-email">3.5 Collecteur email<a class="anchor" href="#35-collecteur-email" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -538,47 +472,88 @@ démarrage.</p>
 </tr>
 </tbody></table>
 </div>
+<h3 id="36-inventaire-automatique">3.6 Inventaire automatique<a class="anchor" href="#36-inventaire-automatique" aria-label="Lien vers cette section">#</a></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INVENTORY_TOKEN</code></td>
+<td>vide</td>
+<td><strong>si vide, les endpoints <code>/api/inventory</code> sont désactivés</strong> ; sinon, secret présenté par les agents/scripts</td>
+</tr>
+<tr>
+<td><code>INTUNE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>connecteur Intune (permission Graph requise, voir §6)</td>
+</tr>
+<tr>
+<td><code>INTUNE_SYNC_HOURS</code></td>
+<td><code>6</code></td>
+<td>cadence de la synchro Intune (0 = seulement à la demande)</td>
+</tr>
+<tr>
+<td><code>SNMP_ENABLED</code></td>
+<td><code>false</code></td>
+<td>scan réseau SNMP</td>
+</tr>
+<tr>
+<td><code>SNMP_RANGES</code></td>
+<td>vide</td>
+<td>plages CIDR à scanner, séparées par des virgules</td>
+</tr>
+<tr>
+<td><code>SNMP_COMMUNITY</code></td>
+<td><code>public</code></td>
+<td>communauté SNMP v2c (lecture seule)</td>
+</tr>
+<tr>
+<td><code>SNMP_SCAN_HOURS</code></td>
+<td><code>0</code></td>
+<td>cadence du scan (0 = seulement à la demande)</td>
+</tr>
+</tbody></table>
+</div>
 <hr>
-<h2 id="5-configuration-du-sso-microsoft-entra-id">5. Configuration du SSO Microsoft Entra ID<a class="anchor" href="#5-configuration-du-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h2>
-<h3 id="51-côté-entra-portail-azure">5.1 Côté Entra (portail Azure)<a class="anchor" href="#51-côté-entra-portail-azure" aria-label="Lien vers cette section">#</a></h3>
+<h2 id="4-configuration-du-sso-microsoft-entra-id">4. Configuration du SSO Microsoft Entra ID<a class="anchor" href="#4-configuration-du-sso-microsoft-entra-id" aria-label="Lien vers cette section">#</a></h2>
+<h3 id="41-côté-entra-portail-azure">4.1 Côté Entra (portail Azure)<a class="anchor" href="#41-côté-entra-portail-azure" aria-label="Lien vers cette section">#</a></h3>
 <ol>
-<li><strong>Azure Active Directory → Inscriptions d&#39;applications → Nouvelle
-inscription.</strong></li>
-<li>Nom : <code>Parqueo</code>. Types de comptes : <strong>comptes de cet annuaire uniquement</strong>
-(mono-tenant).</li>
-<li>URI de redirection : type <strong>Web</strong>, valeur
+<li><strong>Inscriptions d&#39;applications → Nouvelle inscription.</strong></li>
+<li>Nom : <code>Parqueo</code>. Types de comptes : <strong>comptes de cet annuaire uniquement</strong>.</li>
+<li>URI de redirection, type <strong>Web</strong> :
 <code>https://parqueo.exemple.fr/api/auth/sso/callback</code>.</li>
 <li>Relever l&#39;<strong>ID d&#39;application (client)</strong> et l&#39;<strong>ID d&#39;annuaire (locataire)</strong>.</li>
-<li><strong>Certificats et secrets → Nouveau secret client.</strong> Copier la <strong>valeur</strong>
-(elle n&#39;est plus affichée ensuite) et noter la date d&#39;expiration.</li>
-<li><strong>Autorisations d&#39;API</strong> : <code>openid</code>, <code>profile</code>, <code>email</code> (autorisations
-déléguées Microsoft Graph). Elles sont généralement déjà présentes.</li>
+<li><strong>Certificats et secrets → Nouveau secret client.</strong> Copier la <strong>valeur</strong> (elle
+n&#39;est plus affichée ensuite) et noter la date d&#39;expiration.</li>
+<li><strong>Autorisations d&#39;API</strong> : <code>openid</code>, <code>profile</code>, <code>email</code> (déléguées Microsoft
+Graph, généralement déjà présentes).</li>
 </ol>
-<h3 id="52-côté-parqueo">5.2 Côté Parqueo<a class="anchor" href="#52-côté-parqueo" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="42-côté-parqueo">4.2 Côté Parqueo<a class="anchor" href="#42-côté-parqueo" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-env">SSO_TENANT_ID=&quot;&lt;id-annuaire&gt;&quot;
 SSO_CLIENT_ID=&quot;&lt;id-application&gt;&quot;
 SSO_CLIENT_SECRET=&quot;&lt;valeur-du-secret&gt;&quot;
 SSO_REDIRECT_URI=&quot;https://parqueo.exemple.fr/api/auth/sso/callback&quot;
 SSO_ALLOWED_DOMAINS=&quot;exemple.fr&quot;
 </code></pre>
-<p>Redémarrer l&#39;API. Le bouton « Se connecter avec Microsoft » apparaît
-automatiquement sur la page de connexion — le client interroge
-<code>GET /api/auth/config</code> pour savoir si le SSO est actif.</p>
-<h3 id="53-comportement">5.3 Comportement<a class="anchor" href="#53-comportement" aria-label="Lien vers cette section">#</a></h3>
+<p>Redémarrer l&#39;API : le bouton « Se connecter avec Microsoft » apparaît
+automatiquement sur la page de connexion.</p>
+<h3 id="43-comportement">4.3 Comportement<a class="anchor" href="#43-comportement" aria-label="Lien vers cette section">#</a></h3>
 <ul>
-<li>Un compte inconnu est <strong>créé au premier login</strong> avec le rôle <code>user</code>. Les
-élévations de rôle restent manuelles.</li>
-<li>Un compte créé par SSO n&#39;a pas de mot de passe local : le formulaire classique
-le refuse avec un message explicite.</li>
-<li>Les comptes locaux continuent de fonctionner en parallèle — utile pour les
-prestataires et pour garder un accès de secours si le SSO tombe.</li>
-<li><strong>Le secret client expire.</strong> Notez la date : à l&#39;expiration, la connexion SSO
-échoue d&#39;un bloc. Gardez au moins un compte admin local.</li>
+<li>Un compte inconnu est <strong>créé au premier login</strong> en rôle <code>user</code> ; les élévations
+de rôle restent manuelles.</li>
+<li>Un compte SSO n&#39;a pas de mot de passe local : le formulaire classique le refuse.</li>
+<li>Les comptes locaux fonctionnent en parallèle — accès de secours si le SSO tombe.</li>
+<li><strong>Le secret client expire.</strong> Notez la date : à l&#39;expiration, le SSO échoue d&#39;un
+bloc. Gardez au moins un compte admin local.</li>
 </ul>
 <hr>
-<h2 id="6-configuration-du-collecteur-email">6. Configuration du collecteur email<a class="anchor" href="#6-configuration-du-collecteur-email" aria-label="Lien vers cette section">#</a></h2>
+<h2 id="5-configuration-du-collecteur-email">5. Configuration du collecteur email<a class="anchor" href="#5-configuration-du-collecteur-email" aria-label="Lien vers cette section">#</a></h2>
 <p>Dédiez une boîte au support (ex. <code>support@exemple.fr</code>) — le collecteur <strong>marque
-les messages comme lus</strong> et relève l&#39;intégralité de la boîte de réception.</p>
+les messages comme lus</strong> et relève toute la boîte de réception.</p>
 <pre><code class="language-env">IMAP_HOST=&quot;imap.exemple.fr&quot;
 IMAP_PORT=993
 IMAP_USER=&quot;support@exemple.fr&quot;
@@ -591,17 +566,68 @@ SMTP_FROM=&quot;Support &lt;support@exemple.fr&gt;&quot;
 <ul>
 <li>un email d&#39;un <strong>utilisateur connu</strong> crée un ticket ; un expéditeur inconnu est
 ignoré (et journalisé) ;</li>
-<li>une réponse dont le sujet contient <code>Ticket #n</code> devient un <strong>commentaire</strong> sur
-ce ticket — c&#39;est ce qui rend les notifications répondables directement ;</li>
-<li>les adresses <code>SMTP_FROM</code> et <code>IMAP_USER</code> sont ignorées : anti-boucle ;</li>
-<li>pièces jointes acceptées selon la même liste blanche que l&#39;interface web,
-10 Mo maximum.</li>
+<li>une réponse dont le sujet contient <code>Ticket #n</code> devient un <strong>commentaire</strong> — ce
+qui rend les notifications répondables directement ;</li>
+<li>les adresses <code>SMTP_FROM</code> et <code>IMAP_USER</code> sont ignorées (anti-boucle).</li>
 </ul>
-<p>Conseil : utilisez la <strong>même adresse</strong> pour <code>SMTP_FROM</code> et <code>IMAP_USER</code>, afin que
-les réponses aux notifications reviennent naturellement dans le collecteur.</p>
-<p>Vérification au démarrage, dans les journaux :</p>
-<pre><code>[collecteur] boîte support@exemple.fr relevée toutes les 60s
+<p>Conseil : utilisez la <strong>même adresse</strong> pour <code>SMTP_FROM</code> et <code>IMAP_USER</code>, pour que
+les réponses aux notifications reviennent dans le collecteur. Au démarrage, les
+journaux affichent <code>[collecteur] boîte support@exemple.fr relevée toutes les 60s</code>.</p>
+<hr>
+<h2 id="6-configuration-de-linventaire-automatique">6. Configuration de l&#39;inventaire automatique<a class="anchor" href="#6-configuration-de-linventaire-automatique" aria-label="Lien vers cette section">#</a></h2>
+<p>L&#39;inventaire peut se remplir seul via trois moyens, combinables. Tous convergent
+vers le même traitement (déduplication par <code>uuid</code> puis numéro de série ; les
+champs saisis à la main ne sont jamais écrasés). Guide d&#39;usage côté interface :
+documentation fonctionnelle §9.</p>
+<h3 id="61-push-par-agent-ou-script-token-partagé">6.1 Push par agent ou script (token partagé)<a class="anchor" href="#61-push-par-agent-ou-script-token-partagé" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-env">INVENTORY_TOKEN=&quot;&lt;long-secret-aléatoire&gt;&quot;
 </code></pre>
+<p>Sans lui, <code>POST /api/inventory</code> et <code>/api/inventory/glpi</code> répondent <strong>404</strong>. Les
+appelants le présentent en en-tête <code>X-Parqueo-Token</code> (ou <code>Authorization: Bearer</code>).</p>
+<ul>
+<li><p><strong>Script maison</strong> → <code>POST /api/inventory</code>, corps JSON <code>{ uuid?, serial?, name?, type?, manufacturer?, model?, os?, cpu?, ramMb?, diskGb?, software? }</code> (au moins
+<code>uuid</code> ou <code>serial</code>). Idéal en tâche planifiée (cron, GPO). Le tableau <code>software</code>
+remplace la liste connue ; absent, elle est conservée.</p>
+</li>
+<li><p><strong>Agent GLPI</strong> → installez l&#39;agent (MSI/GPO, paquet Linux, pkg macOS) et pointez
+sa cible sur l&#39;endpoint GLPI de Parqueo, avec le token en en-tête :</p>
+<pre><code class="language-ini"># agent.cfg
+server = https://parqueo.exemple.fr/api/inventory/glpi
+httpd-headers = X-Parqueo-Token: &lt;long-secret-aléatoire&gt;
+</code></pre>
+<p>Parqueo accepte le format d&#39;inventaire natif (JSON, compressé zlib/gzip ou non).
+Testez sur un poste pilote avant de généraliser.</p>
+</li>
+</ul>
+<h3 id="62-connecteur-microsoft-intune-sans-agent">6.2 Connecteur Microsoft Intune (sans agent)<a class="anchor" href="#62-connecteur-microsoft-intune-sans-agent" aria-label="Lien vers cette section">#</a></h3>
+<p>Pour un parc enrôlé dans Intune, Parqueo interroge Microsoft Graph — rien à
+déployer sur les postes.</p>
+<ol>
+<li><p>Sur l&#39;app registration Entra du SSO (§4), ajoutez la permission <strong>applicative</strong>
+Graph <code>DeviceManagementManagedDevices.Read.All</code>, puis <strong>accordez le
+consentement administrateur</strong>.</p>
+</li>
+<li><p>Dans le <code>.env</code> (les <code>SSO_*</code> doivent déjà être renseignés) :</p>
+<pre><code class="language-env">INTUNE_ENABLED=true
+INTUNE_SYNC_HOURS=6
+</code></pre>
+</li>
+<li><p>Redémarrez l&#39;API : une synchro part au démarrage, puis toutes les
+<code>INTUNE_SYNC_HOURS</code>. Un admin peut aussi la lancer depuis <em>Inventaire →
+Synchroniser Intune</em>.</p>
+</li>
+</ol>
+<h3 id="63-scan-réseau-snmp-sans-agent">6.3 Scan réseau SNMP (sans agent)<a class="anchor" href="#63-scan-réseau-snmp-sans-agent" aria-label="Lien vers cette section">#</a></h3>
+<p>Pour les équipements sans agent (imprimantes, switches, NAS, onduleurs) :</p>
+<pre><code class="language-env">SNMP_ENABLED=true
+SNMP_RANGES=&quot;192.168.1.0/24,10.0.0.0/28&quot;
+SNMP_COMMUNITY=&quot;public&quot;
+SNMP_SCAN_HOURS=0
+</code></pre>
+<p>Le serveur doit joindre les équipements en <strong>UDP 161</strong> (pare-feux). Le scan se
+lance depuis <em>Inventaire → Scanner le réseau</em>, et en tâche de fond si
+<code>SNMP_SCAN_HOURS</code> &gt; 0. Préférez un adressage <strong>fixe</strong> : l&#39;identité de
+déduplication d&#39;un équipement réseau dérive de son nom système.</p>
 <hr>
 <h2 id="7-sauvegarde-et-restauration">7. Sauvegarde et restauration<a class="anchor" href="#7-sauvegarde-et-restauration" aria-label="Lien vers cette section">#</a></h2>
 <p>Deux choses à sauvegarder : <strong>la base</strong> et <strong><code>server/uploads/</code></strong>. Le reste se
@@ -620,8 +646,8 @@ tar czf &quot;$DEST/uploads-$STAMP.tar.gz&quot; -C /opt/parqueo/server uploads
 find &quot;$DEST&quot; -type f -mtime +30 -delete
 </code></pre>
 <p>Dans la crontab root : <code>15 2 * * * /opt/parqueo/backup.sh</code>.</p>
-<p>N&#39;oubliez pas <code>server/.env</code> : il contient <code>JWT_SECRET</code> et les secrets SMTP/SSO.
-Sauvegardez-le séparément, dans un coffre — <strong>pas</strong> dans la même archive que la
+<p>N&#39;oubliez pas <code>server/.env</code> (il contient <code>JWT_SECRET</code> et les secrets SMTP/SSO) :
+sauvegardez-le séparément, dans un coffre — <strong>pas</strong> dans la même archive que la
 base.</p>
 <h3 id="72-restauration">7.2 Restauration<a class="anchor" href="#72-restauration" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">sudo systemctl stop parqueo
@@ -632,8 +658,8 @@ sudo tar xzf /var/backups/parqueo/uploads-2026-07-23.tar.gz -C /opt/parqueo/serv
 sudo chown -R parqueo:parqueo /opt/parqueo/server/uploads
 sudo systemctl start parqueo
 </code></pre>
-<p>Restaurer la base <strong>sans</strong> les uploads laisse des pièces jointes référencées en
-base mais absentes du disque : le téléchargement échoue. Les deux vont ensemble.</p>
+<p>Restaurer la base <strong>sans</strong> les uploads laisse des pièces jointes référencées mais
+absentes du disque : les deux vont ensemble.</p>
 <hr>
 <h2 id="8-mise-à-jour">8. Mise à jour<a class="anchor" href="#8-mise-à-jour" aria-label="Lien vers cette section">#</a></h2>
 <pre><code class="language-sh">sudo systemctl stop parqueo
@@ -652,18 +678,13 @@ sudo -u parqueo npm run build
 
 sudo systemctl start parqueo
 </code></pre>
-<p>Sauvegardez <strong>avant</strong> toute mise à jour qui embarque une migration : Prisma ne
+<p>Sauvegardez <strong>avant</strong> toute mise à jour embarquant une migration : Prisma ne
 propose pas de retour arrière automatique.</p>
-<p>Si le déploiement introduit un changement de clé de stockage côté navigateur
-(comme le passage de <code>itdesk_token</code> à <code>parqueo_token</code> lors du changement de
-marque), les sessions ouvertes sautent et chacun doit se reconnecter. Prévenez
-les utilisateurs.</p>
 <hr>
 <h2 id="9-exploitation">9. Exploitation<a class="anchor" href="#9-exploitation" aria-label="Lien vers cette section">#</a></h2>
 <h3 id="91-journaux">9.1 Journaux<a class="anchor" href="#91-journaux" aria-label="Lien vers cette section">#</a></h3>
 <p>Tout part sur la sortie standard, donc dans journald :</p>
 <pre><code class="language-sh">sudo journalctl -u parqueo -f
-sudo journalctl -u parqueo --since &quot;1 hour ago&quot; | grep -E &quot;collecteur|workflow|mail&quot;
 </code></pre>
 <p>Préfixes utiles :</p>
 <div class="table-scroll"><table>
@@ -675,19 +696,19 @@ sudo journalctl -u parqueo --since &quot;1 hour ago&quot; | grep -E &quot;collec
 </thead>
 <tbody><tr>
 <td><code>[collecteur]</code></td>
-<td>collecteur IMAP (tickets créés, emails ignorés, erreurs)</td>
+<td>collecteur IMAP</td>
 </tr>
 <tr>
 <td><code>[clôture auto]</code></td>
 <td>clôture automatique horaire</td>
 </tr>
 <tr>
-<td><code>[mail]</code></td>
-<td>échec d&#39;envoi SMTP</td>
+<td><code>[intune]</code> / <code>[snmp]</code></td>
+<td>synchro Intune / scan réseau</td>
 </tr>
 <tr>
-<td><code>[mail non envoyé — SMTP non configuré]</code></td>
-<td>SMTP absent</td>
+<td><code>[mail]</code></td>
+<td>échec d&#39;envoi SMTP</td>
 </tr>
 <tr>
 <td><code>[workflow « … »]</code></td>
@@ -698,15 +719,16 @@ sudo journalctl -u parqueo --since &quot;1 hour ago&quot; | grep -E &quot;collec
 <h3 id="92-supervision">9.2 Supervision<a class="anchor" href="#92-supervision" aria-label="Lien vers cette section">#</a></h3>
 <ul>
 <li>Sonde de vie : <code>GET /api/health</code> → <code>{&quot;ok&quot;:true}</code>.</li>
-<li>Surveillez l&#39;espace disque de <code>server/uploads/</code> : <strong>rien n&#39;est jamais purgé</strong>,
-y compris les fichiers des tickets supprimés.</li>
-<li>Surveillez la taille de la table <code>ticket_comments</code> : elle porte à la fois les
-messages et le journal d&#39;événements, et croît vite.</li>
+<li>Surveillez l&#39;espace disque de <code>server/uploads/</code> : <strong>rien n&#39;est jamais purgé</strong>, y
+compris les fichiers des tickets supprimés.</li>
+<li>La table <code>ticket_comments</code> porte messages <strong>et</strong> journal d&#39;événements : elle
+croît vite.</li>
 </ul>
 <h3 id="93-tâches-planifiées-internes">9.3 Tâches planifiées internes<a class="anchor" href="#93-tâches-planifiées-internes" aria-label="Lien vers cette section">#</a></h3>
-<p>Aucune crontab à créer : la clôture automatique (horaire) et le collecteur
-email (selon <code>IMAP_POLL_SECONDS</code>) tournent dans le processus de l&#39;API. Ils
-s&#39;arrêtent avec lui.</p>
+<p>Aucune crontab à créer : la clôture automatique (horaire), le collecteur email
+(selon <code>IMAP_POLL_SECONDS</code>), et — si activées — la synchro Intune
+(<code>INTUNE_SYNC_HOURS</code>) et le scan SNMP (<code>SNMP_SCAN_HOURS</code>) tournent dans le
+processus de l&#39;API et s&#39;arrêtent avec lui.</p>
 <hr>
 <h2 id="10-dépannage">10. Dépannage<a class="anchor" href="#10-dépannage" aria-label="Lien vers cette section">#</a></h2>
 <div class="table-scroll"><table>
@@ -720,7 +742,7 @@ s&#39;arrêtent avec lui.</p>
 <tbody><tr>
 <td><code>EADDRINUSE :::4000</code></td>
 <td>une autre instance tourne déjà</td>
-<td><code>ss -ltnp | grep 4000</code>, arrêter le processus ou changer <code>PORT</code></td>
+<td>arrêter le processus ou changer <code>PORT</code></td>
 </tr>
 <tr>
 <td>Page blanche, 404 sur les routes internes</td>
@@ -738,19 +760,14 @@ s&#39;arrêtent avec lui.</p>
 <td>se déconnecter/reconnecter : le rôle est figé dans le jeton</td>
 </tr>
 <tr>
-<td>Erreurs CORS en développement</td>
-<td>appel direct au port 4000</td>
-<td>passer par 5173, ou aligner <code>CLIENT_ORIGIN</code></td>
-</tr>
-<tr>
 <td>413 à l&#39;envoi d&#39;une pièce jointe</td>
 <td><code>client_max_body_size</code> nginx trop bas</td>
 <td>passer à 12M</td>
 </tr>
 <tr>
 <td>« Fichier manquant ou type non autorisé »</td>
-<td>extension hors liste blanche</td>
-<td>voir la liste dans la doc technique §9</td>
+<td>extension hors liste blanche (images, PDF, docs bureautiques, archives, logs)</td>
+<td>convertir ou compresser le fichier</td>
 </tr>
 <tr>
 <td>Aucun email reçu</td>
@@ -761,11 +778,6 @@ s&#39;arrêtent avec lui.</p>
 <td>Emails entrants ignorés</td>
 <td>expéditeur inconnu de Parqueo</td>
 <td>créer le compte, ou l&#39;importer en masse</td>
-</tr>
-<tr>
-<td>Le collecteur ne démarre pas</td>
-<td><code>IMAP_HOST</code> vide</td>
-<td>aucune ligne <code>[collecteur]</code> au démarrage</td>
 </tr>
 <tr>
 <td>Boucle de tickets créés par email</td>
@@ -783,24 +795,14 @@ s&#39;arrêtent avec lui.</p>
 <td>aligner <code>SSO_REDIRECT_URI</code> au caractère près</td>
 </tr>
 <tr>
-<td>« Session SSO expirée »</td>
-<td>plus de 10 minutes entre le départ et le retour</td>
-<td>recommencer la connexion</td>
-</tr>
-<tr>
 <td>Pièces jointes introuvables après un déplacement</td>
 <td>processus lancé hors de <code>server/</code></td>
 <td>corriger <code>WorkingDirectory</code></td>
 </tr>
 <tr>
-<td><code>prisma.workflowRule is undefined</code></td>
-<td><code>seed-demo.js</code>, script cassé</td>
-<td>utiliser <code>npm run seed</code></td>
-</tr>
-<tr>
 <td>Migration bloquée</td>
 <td>schéma divergent</td>
-<td><code>npx prisma migrate status</code>, ne jamais lancer <code>migrate dev</code> en production</td>
+<td><code>npx prisma migrate status</code> ; ne jamais lancer <code>migrate dev</code> en production</td>
 </tr>
 </tbody></table>
 </div>
