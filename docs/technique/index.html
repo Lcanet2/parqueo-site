@@ -524,6 +524,11 @@ tableau de bord : répartitions par statut, priorité, catégorie, assigné et
 équipe, ventilation par âge, flux hebdomadaire sur douze semaines, compteurs, et
 les listes courtes des widgets. Tout est calculé en SQL (<code>GROUP BY</code>) dans les
 limites de visibilité du demandeur.</p>
+<p>Le filtre <code>?status=</code> accepte les cinq statuts et le regroupement <strong><code>open</code></strong>
+(nouveau + en cours + en attente). <code>counts</code> renvoie un total <code>open</code> en plus du
+détail par statut. <code>?authorId=</code> filtre sur le demandeur ; comme tous les
+filtres, il est cumulé en <code>AND</code> avec la visibilité et ne peut donc que la
+restreindre.</p>
 <p><strong>Longueurs maximales</strong> (<code>src/lib/input.js</code>) : titre 200, description et
 commentaire 20 000, noms de référentiels 120, article 100 000 caractères. Un
 dépassement donne un 400 explicite.</p>
