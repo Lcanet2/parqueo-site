@@ -516,6 +516,17 @@ est sans état, voir §9.</p>
 <code>teamId</code>, <code>q</code> (titre/description), <code>sort</code>. <strong>Pagination</strong> : avec <code>page</code>, la
 réponse est <code>{ items, total, counts }</code> (<code>counts</code> = nombre de tickets par statut,
 calculé hors filtre de statut) ; <code>pageSize</code> accepte un entier (≤ 500) ou <code>all</code>.</p>
+<p>| GET | <code>/api/tickets/stats</code> | tous (filtré) — agrégats du tableau de bord |
+| DELETE | <code>/api/tickets/:id</code> | admin — suppression définitive (cascade + fichiers) |
+| DELETE | <code>/api/tickets/:id/attachments/:pjId</code> | support, ou l&#39;auteur de l&#39;envoi |</p>
+<p><code>GET /api/tickets/stats</code> renvoie en quelques kilo-octets tout ce qu&#39;affiche le
+tableau de bord : répartitions par statut, priorité, catégorie, assigné et
+équipe, ventilation par âge, flux hebdomadaire sur douze semaines, compteurs, et
+les listes courtes des widgets. Tout est calculé en SQL (<code>GROUP BY</code>) dans les
+limites de visibilité du demandeur.</p>
+<p><strong>Longueurs maximales</strong> (<code>src/lib/input.js</code>) : titre 200, description et
+commentaire 20 000, noms de référentiels 120, article 100 000 caractères. Un
+dépassement donne un 400 explicite.</p>
 <h3 id="53-inventaire">5.3 Inventaire<a class="anchor" href="#53-inventaire" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
@@ -676,6 +687,9 @@ supprimer, ni supprimer un compte porteur de tickets (409).</p>
 </tr>
 </tbody></table>
 </div>
+<p>Catégories et équipes se suppriment (<code>DELETE /api/categories/:id</code>,
+<code>/api/teams/:id</code>, admin) tant qu&#39;elles ne sont référencées par rien : sinon 409
+avec le détail des usages. Leurs noms sont <strong>uniques</strong>.</p>
 <h3 id="56-paramètres">5.6 Paramètres<a class="anchor" href="#56-paramètres" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
@@ -918,8 +932,11 @@ tout le monde).</li>
 d&#39;adresse, mais susceptible d&#39;apparaître dans les journaux du reverse proxy —
 filtrez les query strings.</li>
 <li><strong>Collecteur email</strong> : l&#39;expéditeur est vérifié par simple correspondance
-d&#39;adresse (ni SPF/DKIM/DMARC) ; une adresse usurpée peut créer un ticket. À
-filtrer en amont sur le serveur de messagerie.</li>
+d&#39;adresse (ni SPF/DKIM/DMARC) ; une adresse usurpée peut créer un ticket au
+nom de la personne usurpée. À filtrer en amont sur le serveur de messagerie.
+En revanche, une réponse par email <strong>applique la visibilité de l&#39;expéditeur</strong> :
+répondre en citant « Ticket #n » n&#39;écrit dans ce ticket que s&#39;il serait
+visible dans l&#39;interface ; sinon le message devient une demande à part.</li>
 <li><strong>Pièces jointes</strong> : liste blanche d&#39;extensions, sans analyse du contenu.</li>
 <li><strong>Débit</strong> : seul le login est limité ; ajoutez un quota au reverse proxy si
 l&#39;API est exposée publiquement.</li>
@@ -933,12 +950,14 @@ changer impérativement au premier démarrage.</li>
 <ul>
 <li>L&#39;API est un processus Node mono-thread léger : quelques dizaines
 d&#39;utilisateurs simultanés tiennent sur 1 vCPU / 1 Go, PostgreSQL compris.</li>
-<li><strong>Pagination serveur</strong> uniquement sur les tickets ; l&#39;inventaire, les
-utilisateurs et la base de connaissances sont paginés côté client. Le tableau
-de bord calcule ses métriques à partir de tous les tickets visibles — à
-plusieurs dizaines de milliers de tickets, prévoir des agrégats SQL.</li>
-<li><strong>Pièces jointes</strong> : stockées sur disque, <strong>jamais purgées</strong> (y compris à la
-suppression d&#39;un ticket). Surveiller l&#39;espace de <code>server/uploads/</code>.</li>
+<li><strong>Pagination serveur</strong> sur les tickets ; l&#39;inventaire, les utilisateurs et la
+base de connaissances sont paginés côté client — acceptable à leur volume.</li>
+<li>Le <strong>tableau de bord</strong> interroge <code>GET /api/tickets/stats</code>, agrégé en SQL :
+mesuré à 10 000 tickets, 11 ko en 67 ms, contre 5,2 Mo en 320 ms lorsqu&#39;il
+téléchargeait tous les tickets pour les compter dans le navigateur.</li>
+<li><strong>Pièces jointes</strong> : stockées sur disque. Elles sont retirées du disque à la
+suppression d&#39;un ticket ou de la pièce jointe elle-même ; rien ne purge en
+revanche les fichiers d&#39;avant cette version. Surveiller <code>server/uploads/</code>.</li>
 <li><strong>Journal d&#39;audit</strong> : la traçabilité repose sur les événements de ticket ; il
 n&#39;existe pas de journal distinct des créations de comptes, changements de rôle
 ou de paramètres.</li>
