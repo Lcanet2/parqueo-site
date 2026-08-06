@@ -814,6 +814,11 @@ d&#39;envoi ne fait jamais échouer la requête en cours.</p>
 <p><strong>Collecteur email.</strong> Si <code>IMAP_HOST</code> est configuré : un email d&#39;un utilisateur
 connu crée un ticket, une réponse dont le sujet contient <code>Ticket #n</code> devient un
 commentaire. Les expéditeurs inconnus et les adresses système sont ignorés.</p>
+<p><strong>Prise en charge.</strong> Assigner un ticket au statut <code>new</code> le passe
+automatiquement en <code>in_progress</code> (<code>src/lib/statut.js</code>), depuis l&#39;API comme
+depuis le bloc « assigner » d&#39;un workflow — le statut ne doit pas dépendre de
+qui a assigné. La transition est tracée et suit le pipeline normal :
+notification et workflows <code>status_changed</code>.</p>
 <p><strong>Clôture automatique.</strong> Chaque heure, les tickets <code>resolved</code> sans activité depuis
 <code>autoCloseDays</code> jours passent en <code>closed</code> (0 = désactivé). La clôture emprunte le
 <strong>même chemin qu&#39;une clôture manuelle</strong> : événement tracé, notification de

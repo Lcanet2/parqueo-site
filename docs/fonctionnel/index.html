@@ -462,6 +462,15 @@ en clair : « en attente de prise en charge », « en attente du statut
 </div>
 <hr>
 <h2 id="7-le-cycle-de-vie-dun-ticket">7. Le cycle de vie d&#39;un ticket<a class="anchor" href="#7-le-cycle-de-vie-dun-ticket" aria-label="Lien vers cette section">#</a></h2>
+<p><strong>Un ticket assigné n&#39;est jamais « Nouveau ».</strong> Dès qu&#39;un technicien est
+attribué à un ticket « Nouveau », celui-ci passe automatiquement « En cours » —
+comme dans GLPI. Le changement est tracé dans le journal du ticket, et le
+demandeur en est informé : c&#39;est le signal « on s&#39;occupe de vous ».</p>
+<p>Ce qui <em>ne</em> déclenche pas de bascule : assigner un ticket résolu ou fermé ne le
+rouvre pas, un ticket « En attente » reste en attente (l&#39;information porte sur
+le blocage, pas sur la prise en charge), et retirer l&#39;assignation ne renvoie pas
+le ticket en « Nouveau ». Un statut choisi explicitement l&#39;emporte toujours sur
+la règle automatique.</p>
 <pre><code>   Nouveau ──► En cours ──► En attente ──► Résolu ──► Fermé
                                               │         ▲
                                               └─────────┘
