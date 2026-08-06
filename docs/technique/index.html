@@ -99,6 +99,7 @@
       <ul>
         <li class="n2"><a href="#1-vue-densemble">1. Vue d&amp;#39;ensemble</a></li>
         <li class="n2"><a href="#2-pile-technique">2. Pile technique</a></li>
+        <li class="n3"><a href="#21-tests">2.1 Tests</a></li>
         <li class="n2"><a href="#3-modèle-de-données">3. Modèle de données</a></li>
         <li class="n3"><a href="#31-énumérations">3.1 Énumérations</a></li>
         <li class="n3"><a href="#32-entités">3.2 Entités</a></li>
@@ -221,6 +222,46 @@ client appelle <code>/api</code> en relatif, ce qui impose de servir front et AP
 </div>
 <p>Le SSO Microsoft Entra ID est implémenté nativement (<code>fetch</code> + <code>crypto</code>), sans
 client OIDC tiers.</p>
+<h3 id="21-tests">2.1 Tests<a class="anchor" href="#21-tests" aria-label="Lien vers cette section">#</a></h3>
+<p>Aucun framework : le lanceur intégré <code>node --test</code> suffit.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Commande</th>
+<th>Portée</th>
+<th>Base requise</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm test</code> (dans <code>server/</code>)</td>
+<td>logique pure (<code>src/**/*.test.js</code>) : visibilité, workflows, inventaire, SNMP, emails entrants</td>
+<td>non</td>
+</tr>
+<tr>
+<td><code>npm run test:api</code> (dans <code>server/</code>)</td>
+<td>API de bout en bout (<code>test/**/*.test.js</code>) : requêtes HTTP réelles sur un serveur éphémère</td>
+<td><strong>oui</strong></td>
+</tr>
+<tr>
+<td><code>npm run test:all</code> (dans <code>server/</code>)</td>
+<td>les deux</td>
+<td>oui</td>
+</tr>
+<tr>
+<td><code>npm test</code> (dans <code>client/</code>)</td>
+<td>client d&#39;API : jeton, interception du 401, erreurs réseau</td>
+<td>non</td>
+</tr>
+</tbody></table>
+</div>
+<p>Les tests d&#39;API utilisent une base séparée, par défaut <code>parqueo_test</code> sur le même
+serveur que <code>DATABASE_URL</code> (surchargeable par <code>TEST_DATABASE_URL</code>). Ils la
+vident entre les fichiers, d&#39;où le garde-fou de <code>test/setup.js</code> qui refuse toute
+base dont le nom ne contient pas « test ». Préparation :</p>
+<pre><code class="language-sh">createdb parqueo_test
+DATABASE_URL=&quot;postgresql://…/parqueo_test&quot; npx prisma migrate deploy
+npm run test:all
+</code></pre>
 <hr>
 <h2 id="3-modèle-de-données">3. Modèle de données<a class="anchor" href="#3-modèle-de-données" aria-label="Lien vers cette section">#</a></h2>
 <p>PostgreSQL, nommage <code>snake_case</code> en base et <code>camelCase</code> via Prisma.</p>
@@ -321,7 +362,7 @@ ne prend effet <strong>qu&#39;à l&#39;expiration du jeton</strong> (voir §9).<
 </tr>
 <tr>
 <td><code>technician</code></td>
-<td>ceux qui lui sont assignés, <strong>ou</strong> non assignés, <strong>ou</strong> portés par son équipe</td>
+<td>ceux dont il est l&#39;auteur, <strong>ou</strong> qui lui sont assignés, <strong>ou</strong> non assignés, <strong>ou</strong> portés par son équipe</td>
 </tr>
 <tr>
 <td><code>user</code></td>
@@ -367,8 +408,17 @@ réussies ne comptent pas, pour ne pas bloquer une équipe derrière un même NA
 <code>GET /api/health</code>, <code>GET /api/auth/config</code>, <code>POST /api/auth/login</code>, les routes SSO
 et <code>GET /api/tickets/satisfaction</code>.</p>
 <p>Erreurs : <code>{ &quot;error&quot;: &quot;message&quot; }</code> avec un statut cohérent (400 validation, 401
-auth, 403 rôle, 404 introuvable <strong>ou invisible</strong>, 409 conflit). Le 404 sert aussi
-l&#39;invisible : on ne distingue pas un ticket inexistant d&#39;un ticket non autorisé.</p>
+auth, 403 rôle, 404 introuvable <strong>ou invisible</strong>, 409 conflit, 413 corps trop
+volumineux, 500 bug). Le 404 sert aussi l&#39;invisible : on ne distingue pas un
+ticket inexistant d&#39;un ticket non autorisé.</p>
+<p>Toutes les erreurs passent par un <strong>middleware d&#39;erreur unique</strong>
+(<code>src/app.js</code>), alimenté par le routeur de <code>src/lib/router.js</code> qui enveloppe
+chaque handler <code>async</code>. Sans lui, Express 4 laisserait fuir les rejets de
+promesse : sous Node 20+ un rejet non géré <strong>tue le processus</strong>, et une simple
+requête malformée suffisait à couper l&#39;API. Le middleware traduit aussi les
+erreurs Prisma en statuts métier (<code>P2002</code> → 409, <code>P2003</code> → 400, <code>P2025</code> → 404)
+et les 5xx sont journalisés avec leur pile. Un identifiant d&#39;URL non numérique
+est rejeté en 404 avant d&#39;atteindre la base.</p>
 <h3 id="51-authentification">5.1 Authentification<a class="anchor" href="#51-authentification" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
@@ -403,8 +453,19 @@ l&#39;invisible : on ne distingue pas un ticket inexistant d&#39;un ticket non a
 <td><code>/api/auth/me</code></td>
 <td>authentifié — profil courant</td>
 </tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/auth/password</code></td>
+<td>authentifié — <code>{ currentPassword, newPassword }</code>, change <strong>son propre</strong> mot de passe</td>
+</tr>
 </tbody></table>
 </div>
+<p><code>POST /api/auth/login</code> normalise l&#39;email (minuscules, espaces retirés) : les
+comptes sont stockés en minuscules à la création, à l&#39;import et via le SSO.</p>
+<p><code>PATCH /api/auth/password</code> exige l&#39;ancien mot de passe, impose 8 caractères
+minimum et refuse les comptes SSO (pas de mot de passe local). Les autres
+sessions du même compte <strong>restent valables</strong> jusqu&#39;à leur expiration : le jeton
+est sans état, voir §9.</p>
 <h3 id="52-tickets">5.2 Tickets<a class="anchor" href="#52-tickets" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
@@ -523,6 +584,15 @@ le token <code>INVENTORY_TOKEN</code> — <code>404</code> tant qu&#39;il n&#39;
 </tr>
 </tbody></table>
 </div>
+<p><strong>Taille des rapports.</strong> Un inventaire réel (matériel, volumes, plusieurs
+centaines de logiciels) dépasse couramment les 100 ko. Les routes d&#39;ingestion
+sont donc montées <strong>avant</strong> le parseur JSON global de l&#39;application, avec leurs
+propres limites : <strong>5 Mo</strong> pour <code>/api/inventory</code>, <strong>15 Mo</strong> pour
+<code>/api/inventory/glpi</code>. Au-delà, la réponse est un <code>413</code>. Les autres routes de
+l&#39;API restent à la limite par défaut d&#39;Express (100 ko), largement suffisante.</p>
+<p>Ne pas remonter <code>express.json()</code> au-dessus de ce montage : le corps serait parsé
+en amont et toutes les ingestions replafonneraient à 100 ko, avec des agents
+recevant un <code>413</code> sans explication.</p>
 <p>Mise en œuvre côté exploitant : documentation d&#39;installation §6 ; côté usage :
 documentation fonctionnelle §9.</p>
 <h3 id="54-utilisateurs">5.4 Utilisateurs<a class="anchor" href="#54-utilisateurs" aria-label="Lien vers cette section">#</a></h3>
@@ -726,7 +796,12 @@ d&#39;envoi ne fait jamais échouer la requête en cours.</p>
 connu crée un ticket, une réponse dont le sujet contient <code>Ticket #n</code> devient un
 commentaire. Les expéditeurs inconnus et les adresses système sont ignorés.</p>
 <p><strong>Clôture automatique.</strong> Chaque heure, les tickets <code>resolved</code> sans activité depuis
-<code>autoCloseDays</code> jours passent en <code>closed</code> (0 = désactivé).</p>
+<code>autoCloseDays</code> jours passent en <code>closed</code> (0 = désactivé). La clôture emprunte le
+<strong>même chemin qu&#39;une clôture manuelle</strong> : événement tracé, notification de
+changement de statut, et déclenchement des workflows <code>status_changed</code>. Un
+automatisme bâti sur le statut « Fermé » se comporte donc pareil, que la
+fermeture vienne d&#39;un technicien ou de la tâche de fond. Un ticket en échec est
+journalisé et n&#39;interrompt pas la passe.</p>
 <p><strong>Inventaire automatique.</strong> Toutes les sources (script/agent, Intune, SNMP)
 convergent vers un traitement unique : déduplication par <code>uuid</code> puis numéro de
 série, création ou rafraîchissement de l&#39;actif. Les champs <strong>remontés</strong> (matériel,
@@ -734,6 +809,19 @@ logiciels, dernière remontée) sont rafraîchis à chaque rapport ; les champs
 <strong>gérés par l&#39;humain</strong> (nom, type, emplacement, état, utilisateur assigné) ne
 sont jamais écrasés. Le signalement des actifs « périmés » est purement visuel :
 aucun statut n&#39;est modifié automatiquement.</p>
+<p>Les logiciels d&#39;un rapport sont écrits <strong>en lot</strong> (quelques requêtes, quel que
+soit le nombre d&#39;applications) : le catalogue manquant est créé d&#39;un bloc, puis
+les installations de l&#39;actif sont remplacées dans une transaction. Mesure sur
+1 000 logiciels : 92 ms, contre 1 916 ms avec une boucle d&#39;<code>upsert</code> — l&#39;écart se
+voit surtout sur une synchronisation Intune, qui enchaîne les machines.</p>
+<p><strong>Identité des équipements SNMP.</strong> Un switch ou une imprimante n&#39;a pas d&#39;UUID
+matériel : le scan fabrique une identité de substitution, du plus solide au plus
+fragile — numéro de série (<code>snmp:sn:…</code>, insensible au renommage et au changement
+d&#39;IP), sinon <code>sysObjectID</code> + nom système (<code>snmp:oid:…</code>, deux matériels de
+familles différentes ne fusionnent pas), sinon adresse IP (<code>snmp:ip:…</code>, fragile
+en DHCP). Limite assumée : sans numéro de série, deux équipements laissés au nom
+d&#39;usine par défaut restent indistinguables — leur donner un nom système unique
+est la parade.</p>
 <hr>
 <h2 id="8-paramètres">8. Paramètres<a class="anchor" href="#8-paramètres" aria-label="Lien vers cette section">#</a></h2>
 <p>Configuration globale (table <code>settings</code>, clé <code>app.config</code>), éditée dans la page
@@ -812,15 +900,20 @@ SQL</strong> ;</li>
 <li>pas de cookie de session → <strong>pas de surface CSRF</strong> ;</li>
 <li>SSO vérifiant signature, audience, issuer et nonce ;</li>
 <li>pièces jointes jamais servies en statique (téléchargement authentifié, avec
-revérification de la visibilité du ticket).</li>
+revérification de la visibilité du ticket) ;</li>
+<li><strong>robustesse</strong> : middleware d&#39;erreur unique, handlers <code>async</code> enveloppés,
+identifiants d&#39;URL validés et champs texte lus défensivement — une requête
+malformée obtient un 4xx, elle ne peut plus faire tomber le processus ;</li>
+<li>mot de passe changeable par son titulaire (ancien mot de passe exigé).</li>
 </ul>
 <p><strong>À connaître avant mise en production :</strong></p>
 <ol>
 <li><strong>Jeton en <code>localStorage</code></strong> : une faille XSS dans le front exposerait le
 jeton. Le choix évite CSRF et simplifie le déploiement.</li>
-<li><strong>Jeton non révocable (7 j)</strong> : un changement de rôle ou une suppression de
-compte ne coupe pas les sessions en cours ; pour une révocation immédiate, il
-faut faire tourner <code>JWT_SECRET</code> (déconnecte tout le monde).</li>
+<li><strong>Jeton non révocable (7 j)</strong> : un changement de rôle, une suppression de
+compte ou un changement de mot de passe ne coupent pas les sessions en cours ;
+pour une révocation immédiate, il faut faire tourner <code>JWT_SECRET</code> (déconnecte
+tout le monde).</li>
 <li><strong><code>sso_token</code> dans l&#39;URL de retour</strong> : retiré immédiatement de la barre
 d&#39;adresse, mais susceptible d&#39;apparaître dans les journaux du reverse proxy —
 filtrez les query strings.</li>

@@ -198,7 +198,7 @@ tiers.</p>
 <tr>
 <td><strong>Technicien</strong></td>
 <td>l&#39;équipe informatique</td>
-<td>voit les tickets <strong>qui lui sont assignés, non assignés, ou portés par son équipe</strong> ; les traite, les assigne, gère l&#39;inventaire</td>
+<td>voit les tickets <strong>qu&#39;il a ouverts, qui lui sont assignés, non assignés, ou portés par son équipe</strong> ; les traite, les assigne, gère l&#39;inventaire</td>
 </tr>
 <tr>
 <td><strong>Administrateur</strong></td>
@@ -209,9 +209,10 @@ tiers.</p>
 </div>
 <p>Trois précisions qui reviennent souvent :</p>
 <ul>
-<li><strong>Un technicien ne voit pas tous les tickets.</strong> Il voit les siens, ceux de son
-équipe, et ceux que personne n&#39;a encore pris. Un ticket assigné à un
-technicien d&#39;une autre équipe lui est invisible.</li>
+<li><strong>Un technicien ne voit pas tous les tickets.</strong> Il voit ceux qu&#39;il a ouverts,
+ceux qui lui sont assignés, ceux de son équipe, et ceux que personne n&#39;a encore
+pris. Un ticket assigné à un technicien d&#39;une autre équipe lui est invisible —
+sauf s&#39;il en est l&#39;auteur : on ne perd jamais de vue sa propre demande.</li>
 <li><strong>Un utilisateur ne voit que ses propres demandes</strong>, jamais celles de ses
 collègues, même dans la même catégorie.</li>
 <li><strong>Un changement de rôle ne prend effet qu&#39;à la reconnexion.</strong> Si vous
@@ -229,9 +230,15 @@ automatiquement à la première connexion</strong>, avec le rôle Utilisateur.</
 </ul>
 <p>Un compte créé par SSO n&#39;a pas de mot de passe local : le formulaire classique
 le refuse et invite à passer par Microsoft.</p>
-<p>La session dure <strong>7 jours</strong>, puis il faut se reconnecter.</p>
+<p>La session dure <strong>7 jours</strong>, puis il faut se reconnecter. Quand elle expire,
+Parqueo vous ramène à l&#39;écran de connexion en l&#39;expliquant, au lieu d&#39;afficher
+des pages vides.</p>
+<p><strong>Changer son mot de passe</strong> : cliquez sur votre nom en bas de la barre latérale
+(« Mon compte »), section <em>Mot de passe</em>. Il faut saisir l&#39;ancien mot de passe,
+et le nouveau fait 8 caractères minimum. Les comptes Microsoft n&#39;ont pas de mot
+de passe local : ils le changent côté Microsoft.</p>
 <figure class="etroite">
-  <img src="img/connexion.png" alt="Écran de connexion de Parqueo : champs email et mot de passe.">
+  <img src="../img/connexion.png" alt="Écran de connexion de Parqueo : champs email et mot de passe.">
   <figcaption>L'écran de connexion. Le bouton « Se connecter avec Microsoft » n'apparaît que si le SSO est configuré.</figcaption>
 </figure>
 
@@ -241,7 +248,7 @@ le refuse et invite à passer par Microsoft.</p>
 l&#39;administrateur compose <strong>par rôle</strong>. Utilisateurs, techniciens et
 administrateurs peuvent donc avoir trois tableaux de bord différents.</p>
 <figure>
-  <img src="img/tableau-de-bord.png" alt="Tableau de bord : quatre tuiles de stat, répartition par statut, flux hebdomadaire, charge par technicien, tickets par catégorie et liste à traiter.">
+  <img src="../img/tableau-de-bord.png" alt="Tableau de bord : quatre tuiles de stat, répartition par statut, flux hebdomadaire, charge par technicien, tickets par catégorie et liste à traiter.">
   <figcaption>Le tableau de bord d'un administrateur : tuiles de stat, répartition par statut, flux hebdomadaire, charge par technicien et file « à traiter ».</figcaption>
 </figure>
 
@@ -332,12 +339,12 @@ les informations utiles sont collectées du premier coup.</p>
 <p>Types de champs possibles : texte court, texte long, liste de choix, date, case
 à cocher. Un champ peut être obligatoire.</p>
 <figure>
-  <img src="img/catalogue-demandes.png" alt="Catalogue de demandes : la demande libre puis les formulaires publiés.">
+  <img src="../img/catalogue-demandes.png" alt="Catalogue de demandes : la demande libre puis les formulaires publiés.">
   <figcaption>Le catalogue. La demande libre reste en tête ; les formulaires publiés suivent, avec leur catégorie.</figcaption>
 </figure>
 
 <figure>
-  <img src="img/formulaire-demande.png" alt="Formulaire « Demande d'accès à une application » avec ses champs guidés.">
+  <img src="../img/formulaire-demande.png" alt="Formulaire « Demande d'accès à une application » avec ses champs guidés.">
   <figcaption>Un formulaire guidé : les champs obligatoires sont signalés, la catégorie et la priorité du ticket sont déjà fixées.</figcaption>
 </figure>
 
@@ -377,7 +384,7 @@ anciens, priorité haute d&#39;abord.</p>
 <strong>pas</strong> du filtre de statut : ils affichent donc toujours la répartition
 complète.</p>
 <figure>
-  <img src="img/liste-tickets.png" alt="Liste des tickets : pastilles de statut avec compteurs, filtres, tableau trié par activité récente.">
+  <img src="../img/liste-tickets.png" alt="Liste des tickets : pastilles de statut avec compteurs, filtres, tableau trié par activité récente.">
   <figcaption>La liste des tickets : pastilles de statut avec compteurs, filtres par priorité, assigné, catégorie et équipe, recherche libre.</figcaption>
 </figure>
 
@@ -397,7 +404,7 @@ immédiate et journalisée.</p>
 en clair : « en attente de prise en charge », « en attente du statut
 « Résolu » ». On sait donc toujours pourquoi un ticket ne bouge pas.</p>
 <figure>
-  <img src="img/detail-ticket.png" alt="Détail d'un ticket : fil de discussion et journal d'événements à gauche, panneau de gestion à droite.">
+  <img src="../img/detail-ticket.png" alt="Détail d'un ticket : fil de discussion et journal d'événements à gauche, panneau de gestion à droite.">
   <figcaption>Le détail d'un ticket. À gauche le fil — description, messages, pièces jointes et journal d'événements horodaté ; à droite le panneau de gestion, réservé aux techniciens et administrateurs.</figcaption>
 </figure>
 
@@ -511,7 +518,7 @@ réduction du volume de tickets.</li>
 correspondant est actif. Un article peut être un <strong>brouillon</strong> (non publié) :
 il reste visible du staff, invisible des utilisateurs.</p>
 <figure>
-  <img src="img/base-connaissances.png" alt="Base de connaissances : recherche, filtre par catégorie et liste d'articles.">
+  <img src="../img/base-connaissances.png" alt="Base de connaissances : recherche, filtre par catégorie et liste d'articles.">
   <figcaption>La base de connaissances. La même recherche alimente les suggestions proposées pendant la saisie d'une demande.</figcaption>
 </figure>
 
@@ -532,7 +539,7 @@ un utilisateur ne voit que le matériel qui lui est assigné, et l&#39;accès pe
 tickets ne peut pas être supprimé. Passez-le en <strong>retiré</strong> : l&#39;historique reste
 consultable.</p>
 <figure>
-  <img src="img/inventaire.png" alt="Inventaire du parc : filtres par type et par état, tableau des actifs.">
+  <img src="../img/inventaire.png" alt="Inventaire du parc : filtres par type et par état, tableau des actifs.">
   <figcaption>L'inventaire. Chaque ligne mène à la fiche de l'actif, qui porte l'historique des tickets le concernant.</figcaption>
 </figure>
 
@@ -584,7 +591,7 @@ et en erreur. <strong>Quand aucun mot de passe n&#39;est fourni, Parqueo en gén
 l&#39;affiche dans le rapport — c&#39;est le seul moment où il est lisible. Copiez-le
 avant de quitter la page.</strong></p>
 <figure>
-  <img src="img/admin-utilisateurs.png" alt="Administration, onglet Utilisateurs : tableau des comptes avec rôle et équipe, import CSV.">
+  <img src="../img/admin-utilisateurs.png" alt="Administration, onglet Utilisateurs : tableau des comptes avec rôle et équipe, import CSV.">
   <figcaption>L'onglet Utilisateurs. Les cinq onglets de l'administration : utilisateurs, équipes, catégories, formulaires et workflows.</figcaption>
 </figure>
 
@@ -715,7 +722,7 @@ créé ».</p>
                      « Traitement standard. »
 </code></pre>
 <figure>
-  <img src="img/editeur-workflow.png" alt="Éditeur de workflow : les six blocs de la procédure « Incident réseau » reliés par des fils, avec les deux sorties oui/non de la condition.">
+  <img src="../img/editeur-workflow.png" alt="Éditeur de workflow : les six blocs de la procédure « Incident réseau » reliés par des fils, avec les deux sorties oui/non de la condition.">
   <figcaption>La même procédure dans l'éditeur. Le bloc d'attente porte la mention <code>WAIT</code> ; la condition a deux points de sortie, <span style="color:#15803d">oui</span> et <span style="color:#d9435f">non</span>.</figcaption>
 </figure>
 
@@ -743,7 +750,7 @@ l&#39;annuaire, commande de matériel, alerte dans Teams.</li>
 <h2 id="12-les-paramètres">12. Les paramètres<a class="anchor" href="#12-les-paramètres" aria-label="Lien vers cette section">#</a></h2>
 <p>Menu <strong>Paramètres</strong>, administrateurs uniquement. Cinq sections.</p>
 <figure>
-  <img src="img/parametres.png" alt="Page Paramètres : sections tableaux de bord, tickets, notifications email, base de connaissances et inventaire.">
+  <img src="../img/parametres.png" alt="Page Paramètres : sections tableaux de bord, tickets, notifications email, base de connaissances et inventaire.">
   <figcaption>Les paramètres globaux. Chaque bascule s'applique immédiatement à tous les comptes.</figcaption>
 </figure>
 
@@ -934,8 +941,14 @@ pour éviter les tickets indésirables.</p>
 C&#39;est la clôture automatique, après le délai configuré sans activité. Réglable
 et désactivable dans Paramètres.</p>
 <p><strong>Puis-je récupérer un mot de passe généré à l&#39;import ?</strong>
-Non. Il n&#39;est affiché qu&#39;une fois, dans le rapport d&#39;import. Ensuite, il faut en
-définir un nouveau depuis la fiche de l&#39;utilisateur.</p>
+Non. Il n&#39;est affiché qu&#39;une fois, dans le rapport d&#39;import. Ensuite, l&#39;intéressé
+le change lui-même depuis « Mon compte », ou un administrateur en définit un
+nouveau depuis la fiche de l&#39;utilisateur.</p>
+<p><strong>Un utilisateur a oublié son mot de passe.</strong>
+Il n&#39;y a pas encore de procédure « mot de passe oublié » par email : un
+administrateur lui en définit un nouveau depuis la fiche de l&#39;utilisateur, et
+l&#39;intéressé le remplace ensuite depuis « Mon compte ». Avec le SSO Microsoft, la
+question ne se pose pas — c&#39;est Microsoft qui gère.</p>
 
     <nav class="suite" aria-label="Autres documents">
       <span></span>
