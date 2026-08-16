@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<title>Services et licence commerciale | Parqueo</title>
+<meta name="description" content="Parqueo est un logiciel libre : l'auto-hébergement est gratuit et illimité. Mise en service, migration depuis GLPI, infogérance, hébergement et licence intégrateur pour les prestataires.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://parqueo.fr/services/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Parqueo">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://parqueo.fr/services/">
+<meta property="og:title" content="Services et licence commerciale — Parqueo">
+<meta property="og:description" content="Le logiciel est gratuit. Ce que nous vendons : la mise en service, la reprise de votre parc, le support, l'hébergement infogéré et la licence intégrateur.">
+<meta property="og:image" content="https://parqueo.fr/og-image.png">
+
+<meta name="theme-color" content="#f6f6f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0e13" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+
+<script>
+  // Même amorçage que la page d'accueil : le thème est posé avant le premier
+  // rendu, sinon la page clignote du clair au sombre sous les yeux.
+  (function () {
+    var r = document.documentElement;
+    r.classList.remove('no-js');
+    try {
+      var t = localStorage.getItem('parqueo-theme');
+      if (t === 'dark' || t === 'light') r.setAttribute('data-theme', t);
+    } catch (e) { /* stockage refusé : on s'en tient à la préférence du système */ }
+  })();
+</script>
+
+<style>
+  /* Réglages propres à cette page ; tout le reste vient de styles.css. */
+  .services-intro { max-width: 62ch; }
+  .price-note { color: var(--ink-faint); font-size: .85rem; margin-top: 6px; }
+
+  /* Certains symboles du sprite (i-clock, i-mail-plain) ne portent pas leurs
+     attributs de tracé : ils comptent sur la classe posée à l'usage. Sans elle,
+     ils se remplissent de noir. On les habille donc ici, une fois pour toutes. */
+  .svc-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .svc-ico svg,
+  .btn svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.3l3.4 2"/></symbol>
+    <symbol id="i-mail-plain" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 8 7.1 4.9a1.6 1.6 0 0 0 1.8 0L20 8"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v4H6.5A2.5 2.5 0 0 1 4 19.5z"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.8 21 7v10l-9 4.2L3 17V7z"/><path d="M3 7l9 4.2L21 7M12 11.2V21"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4.5 5.5V12c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V5.5z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13.5a3.6 3.6 0 0 0 5.3.4l2.9-2.9a3.7 3.7 0 0 0-5.3-5.2l-1.7 1.7"/><path d="M14 10.5a3.6 3.6 0 0 0-5.3-.4l-2.9 2.9a3.7 3.7 0 0 0 5.3 5.2l1.7-1.7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.4A8.5 8.5 0 0 1 9.6 4a8.5 8.5 0 1 0 10.4 10.4z"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Parqueo — accueil">
+      <svg class="mk" viewBox="6 3 12 18" fill="none" aria-hidden="true">
+        <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent)"/>
+        <path d="M7 4v16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>arqueo</a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="/#offres">Offres</a>
+      <a href="/docs/">Documentation</a>
+      <a href="https://github.com/Lcanet2/parqueo">Code source</a>
+    </nav>
+
+    <button type="button" class="icon-btn" id="theme-btn" aria-label="Activer le thème sombre">
+      <svg class="ico-light" width="18" height="18" aria-hidden="true"><use href="#i-moon"/></svg>
+      <svg class="ico-dark" width="18" height="18" aria-hidden="true"><use href="#i-sun"/></svg>
+    </button>
+
+    <a class="btn btn-primary btn-sm nav-cta" href="mailto:contact@parqueo.fr">
+      <span class="cta-long">Nous écrire</span><span class="cta-short">Écrire</span>
+    </a>
+  </div>
+</header>
+
+<main id="contenu">
+  <section class="wrap sec" aria-labelledby="titre-services">
+    <div class="sec-head">
+      <p class="eyebrow">Services &amp; licence</p>
+      <h1 id="titre-services">Le logiciel est gratuit. Le temps, non.</h1>
+      <p class="body-soft services-intro">
+        Parqueo est un logiciel libre sous licence AGPL-3.0 : vous l'installez sur votre
+        serveur, avec autant de techniciens et de demandeurs que vous voulez, sans rien payer
+        et sans limite de durée. Beaucoup d'équipes s'en sortent très bien seules — et c'est
+        très bien ainsi. Cette page est pour les autres.
+      </p>
+    </div>
+
+    <div class="offers">
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-box"/></svg></span>
+        <h3>Mise en service</h3>
+        <p class="offer-desc">
+          Installation sur votre infrastructure, HTTPS, sauvegardes, comptes et équipes,
+          premières catégories. Vous récupérez un outil prêt à recevoir des tickets.
+        </p>
+      </div>
+
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-link"/></svg></span>
+        <h3>Migration depuis GLPI</h3>
+        <p class="offer-desc">
+          Reprise de l'inventaire, des comptes et de l'historique des tickets. C'est le travail
+          qui décourage le plus de changer d'outil, et celui qu'on fait le plus vite.
+        </p>
+      </div>
+
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-shield"/></svg></span>
+        <h3>Infogérance &amp; support</h3>
+        <p class="offer-desc">
+          Sur votre serveur : mises à jour, supervision, sauvegardes vérifiées, et quelqu'un à
+          appeler quand ça coince. Contrat annuel, engagement de délai de réponse.
+        </p>
+      </div>
+
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-clock"/></svg></span>
+        <h3>Hébergement infogéré</h3>
+        <p class="offer-desc">
+          Vous n'avez aucun serveur à gérer : nous hébergeons, mettons à jour et sauvegardons.
+        </p>
+        <p class="price-note">À partir de 19 € / technicien / mois — <a href="/#offres">voir la grille</a>.</p>
+      </div>
+
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-users"/></svg></span>
+        <h3>Vos workflows</h3>
+        <p class="offer-desc">
+          On dessine ensemble les procédures que votre service répète chaque semaine :
+          routage, escalade, relances, attente de prise en charge.
+        </p>
+      </div>
+
+      <div class="card offer">
+        <span class="svc-ico" aria-hidden="true"><svg width="20" height="20"><use href="#i-book"/></svg></span>
+        <h3>Formation</h3>
+        <p class="offer-desc">
+          Une demi-journée pour vos techniciens, une pour vos administrateurs. En visio ou
+          sur site.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sec" aria-labelledby="titre-licence">
+    <div class="sec-head">
+      <p class="eyebrow">Prestataires informatiques</p>
+      <h2 id="titre-licence">Licence commerciale pour les intégrateurs</h2>
+      <p class="body-soft services-intro">
+        Si vous exploitez Parqueo <strong>pour le compte de vos clients</strong>, l'AGPL vous
+        oblige à mettre vos modifications à leur disposition. Beaucoup de prestataires ne le
+        souhaitent pas : la licence commerciale les en dispense.
+      </p>
+    </div>
+
+    <div class="card" style="padding:26px">
+      <div class="checks">
+        <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Exploitation pour des tiers</strong> — sans obligation de publier vos adaptations.</span></div>
+        <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Marque blanche</strong> — intégration à votre propre offre de services, sur devis.</span></div>
+        <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support éditeur</strong> — un interlocuteur direct, pas un formulaire.</span></div>
+        <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Formation de vos équipes</strong> — pour que vos techniciens déploient sans nous.</span></div>
+      </div>
+      <p class="price-note" style="margin-top:18px">
+        Tarif sur devis, selon le nombre de clients gérés.
+        <a href="mailto:contact@parqueo.fr">Écrivez-nous</a> en décrivant votre activité.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap sec" style="padding-top:0" aria-labelledby="titre-contact">
+    <div class="card" style="padding:30px;text-align:center">
+      <h2 id="titre-contact" style="font-size:1.35rem">Dites-nous ce que vous cherchez à faire</h2>
+      <p class="body-soft" style="margin:10px auto 20px;max-width:52ch">
+        Quelques lignes sur votre parc, vos effectifs et ce qui vous coûte le plus de temps
+        suffisent pour qu'on vous réponde utilement.
+      </p>
+      <a class="btn btn-primary" href="mailto:contact@parqueo.fr">
+        <svg width="17" height="17" aria-hidden="true"><use href="#i-mail-plain"/></svg>
+        contact@parqueo.fr
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>Parqueo — logiciel de helpdesk et de gestion de parc informatique auto-hébergé.</span>
+    <span class="sep"></span>
+    <a href="/docs/">Documentation</a>
+    <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
+    <span>Node.js · PostgreSQL · Prisma · React</span>
+  </div>
+</footer>
+
+<script>
+  // Bascule de thème, identique à celle de la page d'accueil.
+  (function () {
+    var b = document.getElementById('theme-btn');
+    if (!b) return;
+    b.addEventListener('click', function () {
+      var r = document.documentElement;
+      var sombre = r.getAttribute('data-theme') === 'dark'
+        || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+      var suivant = sombre ? 'light' : 'dark';
+      r.setAttribute('data-theme', suivant);
+      try { localStorage.setItem('parqueo-theme', suivant); } catch (e) { /* stockage refusé */ }
+      b.setAttribute('aria-label', suivant === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
+    });
+  })();
+</script>
+</body>
+</html>

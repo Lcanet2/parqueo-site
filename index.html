@@ -81,6 +81,14 @@
       "image": "https://parqueo.fr/og-image.png",
       "inLanguage": "fr-FR",
       "softwareRequirements": "Node.js, PostgreSQL",
+      "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Auto-hébergé : logiciel libre sous AGPL-3.0, techniciens et demandeurs illimités. Hébergement infogéré et licence intégrateur proposés séparément.",
+        "availability": "https://schema.org/InStock"
+      },
       "description": "Logiciel de helpdesk et de gestion de parc informatique auto-hébergé : ticketing, inventaire des équipements, catalogue de demandes, base de connaissances et workflows d'automatisation visuels.",
       "featureList": [
         "Ticketing avec statuts, priorités, équipes et assignation",
@@ -100,6 +108,14 @@
       "@type": "FAQPage",
       "@id": "https://parqueo.fr/#faq",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Parqueo est gratuit ? Où est le piège ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il n'y en a pas. Parqueo est un logiciel libre sous licence AGPL-3.0 : vous l'installez sur votre serveur, avec autant de techniciens et de demandeurs que vous voulez, sans rien payer et sans limite de durée. Le code est public sur GitHub. Ce que nous vendons, c'est de ne pas avoir à s'en occuper : l'hébergement infogéré, la mise en service, la reprise de votre parc existant et le support. Et pour les prestataires qui exploitent Parqueo chez leurs clients, une licence commerciale qui les dispense des obligations de l'AGPL."
+          }
+        },
         {
           "@type": "Question",
           "name": "Qu'est-ce qu'un logiciel ITSM et à quoi sert Parqueo ?",
@@ -146,950 +162,7 @@
 }
 </script>
 
-<style>
-  *, *::before, *::after { box-sizing: border-box; }
-  body { margin: 0; }
-  img { max-width: 100%; height: auto; }
-
-  html { scroll-behavior: smooth; }
-  /* Les liens de la navigation visent des titres qui, sans cette marge, se
-     glisseraient sous la barre fixe une fois le défilement terminé. */
-  main[id], section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
-
-  @font-face {
-    font-family: 'Archivo';
-    src: url(fonts/archivo.woff2) format('woff2');
-    font-weight: 400 700;
-    font-stretch: 100% 125%;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'InterVar';
-    src: url(fonts/inter.woff2) format('woff2');
-    font-weight: 100 900;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'PlexMono';
-    src: url(fonts/plexmono.woff2) format('woff2');
-    font-weight: 500;
-    font-display: swap;
-  }
-
-  :root {
-    --canvas: #f6f6f8;
-    --surface: #ffffff;
-    --surface-2: #fbfbfc;
-    --line: #e3e3e9;
-    --line-soft: #ededf1;
-    --ink: #15151b;
-    --ink-soft: #5d5d69;
-    --ink-faint: #6f6f7b;
-    --accent: #c6364f;
-    --accent-strong: #a92742;
-    --accent-soft: #fdf0f2;
-    --n-blue: #3467d6;
-    --n-amber: #b25e09;
-    --n-violet: #6d28d9;
-    --n-green: #15803d;
-    --n-grey: #52525b;
-    --dot: #dadae1;
-    --on-accent: #ffffff;
-    --lift: 0 1px 2px rgba(21, 21, 27, .04), 0 18px 40px -20px rgba(21, 21, 27, .22);
-
-    /* Échelle partagée — rayons, durée et courbe des transitions, hauteur de la
-       barre fixe. Ces valeurs ne dépendent pas du thème : elles restent dans le
-       :root de base et ne sont pas répétées dans les blocs clair/sombre. */
-    --r-xs: 7px;
-    --r-sm: 9px;
-    --r-md: 12px;
-    --r-lg: 14px;
-    --r-xl: 18px;
-    --dur: .18s;
-    --ease: cubic-bezier(.22, .61, .36, 1);
-    --nav-h: 62px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --canvas: #0e0e13;
-      --surface: #16161d;
-      --surface-2: #1b1b24;
-      --line: #2b2b36;
-      --line-soft: #232430;
-      --ink: #edeef2;
-      --ink-soft: #9fa0ad;
-      --ink-faint: #8d8e9c;
-      --accent: #ff6b83;
-      --accent-strong: #ff8b9d;
-      --accent-soft: #2c1720;
-      --n-blue: #7ba3f5;
-      --n-amber: #dca35c;
-      --n-violet: #a98cfb;
-      --n-green: #4ec98a;
-      --n-grey: #a3a3ae;
-      --dot: #262631;
-      --on-accent: #1a0d11;
-      --lift: 0 1px 2px rgba(0, 0, 0, .4), 0 18px 40px -20px rgba(0, 0, 0, .7);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --canvas: #0e0e13;
-    --surface: #16161d;
-    --surface-2: #1b1b24;
-    --line: #2b2b36;
-    --line-soft: #232430;
-    --ink: #edeef2;
-    --ink-soft: #9fa0ad;
-    --ink-faint: #8d8e9c;
-    --accent: #ff6b83;
-    --accent-strong: #ff8b9d;
-    --accent-soft: #2c1720;
-    --n-blue: #7ba3f5;
-    --n-amber: #dca35c;
-    --n-violet: #a98cfb;
-    --n-green: #4ec98a;
-    --n-grey: #a3a3ae;
-    --dot: #262631;
-    --on-accent: #1a0d11;
-    --lift: 0 1px 2px rgba(0, 0, 0, .4), 0 18px 40px -20px rgba(0, 0, 0, .7);
-  }
-
-  :root[data-theme="light"] {
-    --canvas: #f6f6f8;
-    --surface: #ffffff;
-    --surface-2: #fbfbfc;
-    --line: #e3e3e9;
-    --line-soft: #ededf1;
-    --ink: #15151b;
-    --ink-soft: #5d5d69;
-    --ink-faint: #6f6f7b;
-    --accent: #c6364f;
-    --accent-strong: #a92742;
-    --accent-soft: #fdf0f2;
-    --n-blue: #3467d6;
-    --n-amber: #b25e09;
-    --n-violet: #6d28d9;
-    --n-green: #15803d;
-    --n-grey: #52525b;
-    --dot: #dadae1;
-    --on-accent: #ffffff;
-    --lift: 0 1px 2px rgba(21, 21, 27, .04), 0 18px 40px -20px rgba(21, 21, 27, .22);
-  }
-
-  body {
-    background-color: var(--canvas);
-    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
-    background-size: 26px 26px;
-    background-position: -1px -1px;
-    color: var(--ink);
-    font-family: 'InterVar', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  ::selection { background: var(--accent); color: var(--on-accent); }
-
-  a { color: inherit; }
-
-  :is(a, button, summary):focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-
-  .wrap { width: min(100% - 40px, 1180px); margin-inline: auto; }
-
-  .skip {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    background: var(--surface);
-    padding: 10px 16px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    z-index: 100;
-  }
-  .skip:focus { left: 12px; top: 12px; }
-
-  /* ---------- type ---------- */
-  .eyebrow {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .7rem;
-    font-weight: 500;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-
-  h1, h2, h3, .num {
-    font-family: 'Archivo', system-ui, sans-serif;
-    font-stretch: 118%;
-    text-wrap: balance;
-    margin: 0;
-  }
-
-  h1 {
-    font-size: clamp(2.4rem, 5.6vw, 4rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -.025em;
-  }
-
-  h2 {
-    font-size: clamp(1.85rem, 3.4vw, 2.6rem);
-    font-weight: 700;
-    line-height: 1.07;
-    letter-spacing: -.02em;
-  }
-
-  h3 {
-    font-family: 'InterVar', system-ui, sans-serif;
-    font-stretch: normal;
-    font-size: 1.03rem;
-    font-weight: 620;
-    letter-spacing: -.005em;
-    line-height: 1.35;
-  }
-
-  p { margin: 0; }
-  .lede { font-size: 1.13rem; color: var(--ink-soft); max-width: 62ch; }
-  .body-soft { color: var(--ink-soft); max-width: 64ch; }
-  strong { font-weight: 600; color: var(--ink); }
-
-  /* ---------- nav ---------- */
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: color-mix(in srgb, var(--canvas) 82%, transparent);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .nav-in { display: flex; align-items: center; gap: 12px; height: var(--nav-h); }
-  .brand {
-    font-size: 1.16rem;
-    font-weight: 620;
-    letter-spacing: -.01em;
-    text-decoration: none;
-    margin-right: auto;
-    white-space: nowrap;
-  }
-  /* Le symbole tient lieu de P dans « Parqueo » : cadré au ras de la lettre,
-     posé sur la ligne de base, dimensionné en em pour suivre le texte parent.
-     .72em = hauteur de capitale ; .48em = ratio exact du tracé (12/18). */
-  .brand .mk {
-    display: inline-block;
-    vertical-align: baseline;
-    height: .72em;
-    width: .48em;
-    margin-right: .045em;
-  }
-  .nav-links { display: flex; gap: 24px; font-size: .89rem; color: var(--ink-soft); margin-right: 4px; }
-  .nav-links a {
-    text-decoration: none;
-    position: relative;
-    padding-block: 4px;
-    white-space: nowrap;
-    transition: color var(--dur) var(--ease);
-  }
-  .nav-links a:hover { color: var(--ink); }
-
-  /* Repère de section courante : la page fait huit écrans de haut, savoir où
-     l'on se trouve évite de remonter pour se situer. */
-  .nav-links a[aria-current="true"] { color: var(--ink); }
-  .nav-links a[aria-current="true"]::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--accent);
-  }
-
-  /* Boutons carrés de la barre : 40px de côté, portés à 44 sur écran tactile
-     où le doigt n'a pas la précision du curseur. */
-  .icon-btn {
-    display: inline-grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    flex: none;
-    padding: 0;
-    border: 1px solid var(--line);
-    border-radius: var(--r-sm);
-    background: var(--surface);
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
-  }
-  .icon-btn:hover { border-color: var(--ink-faint); color: var(--ink); }
-  @media (pointer: coarse) { .icon-btn { width: 44px; height: 44px; } }
-
-  /* Chaque bascule montre l'icône de la destination, pas celle de l'état
-     courant : en thème clair, la lune annonce le passage au sombre. */
-  .ico-dark, :root[data-theme="dark"] .ico-light { display: none; }
-  :root[data-theme="dark"] .ico-dark { display: block; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .ico-light { display: none; }
-    :root:not([data-theme="light"]) .ico-dark { display: block; }
-    :root[data-theme="light"] .ico-light { display: block; }
-  }
-
-  .nav-burger { display: none; }
-  .nav-burger .ico-shut { display: none; }
-  .nav[data-menu="open"] .nav-burger .ico-open { display: none; }
-  .nav[data-menu="open"] .nav-burger .ico-shut { display: block; }
-
-  .cta-short { display: none; }
-
-  @media (max-width: 1120px) {
-    .nav-burger { display: inline-grid; }
-    /* Sous 900px les liens quittent la barre pour un panneau déroulant : les
-       masquer sans rien mettre à la place laissait le mobile sans navigation. */
-    .nav-links {
-      display: none;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      flex-direction: column;
-      gap: 0;
-      margin: 0;
-      padding: 6px 0 10px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--line);
-      box-shadow: var(--lift);
-      font-size: .95rem;
-    }
-    .nav[data-menu="open"] .nav-links { display: flex; }
-    .nav-links a {
-      display: flex;
-      align-items: center;
-      min-height: 44px;
-      padding: 8px max(20px, calc((100% - 1180px) / 2));
-    }
-    .nav-links a[aria-current="true"]::after {
-      left: 0;
-      right: auto;
-      top: 8px;
-      bottom: 8px;
-      width: 3px;
-      height: auto;
-    }
-  }
-  @media (max-width: 560px) {
-    .cta-long { display: none; }
-    .cta-short { display: inline; }
-    .nav-in { gap: 10px; }
-  }
-
-  /* Sans JavaScript le panneau ne peut pas s'ouvrir : le bouton disparaît et
-     les liens reprennent leur place, en rangée sous la barre. */
-  .no-js .nav-burger { display: none; }
-  /* La bascule de thème n'agit que par script : sans lui, elle n'aurait rien à
-     commander. */
-  .no-js #theme-btn { display: none; }
-  @media (max-width: 1120px) {
-    .no-js .nav-in { height: auto; flex-wrap: wrap; padding-block: 11px; }
-    .no-js .nav-links {
-      display: flex;
-      position: static;
-      order: 9;
-      width: 100%;
-      flex-flow: row wrap;
-      gap: 2px 18px;
-      padding: 4px 0 0;
-      background: none;
-      border: 0;
-      box-shadow: none;
-      font-size: .88rem;
-    }
-    .no-js .nav-links a { min-height: 32px; padding: 0; }
-  }
-
-  /* ---------- boutons ---------- */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 18px;
-    border-radius: 9px;
-    font-size: .92rem;
-    font-weight: 550;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: background-color .15s ease, border-color .15s ease;
-  }
-  .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-  .btn-primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
-  .btn-ghost { border-color: var(--line); background: var(--surface); color: var(--ink); }
-  .btn-ghost:hover { border-color: var(--ink-faint); }
-  .btn-sm { padding: 8px 14px; font-size: .85rem; }
-  .nav-cta { white-space: nowrap; flex: none; }
-
-  /* ---------- hero ---------- */
-  .hero { padding-block: clamp(52px, 7vw, 96px) 0; }
-  .hero-copy { display: flex; flex-direction: column; gap: 22px; }
-  .hero h1 { max-width: 17ch; }
-  .hero-accent { color: var(--accent); }
-  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .hero-note {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .74rem;
-    color: var(--ink-faint);
-    letter-spacing: .04em;
-  }
-
-  /* ---------- canvas workflow ---------- */
-  .canvas-panel {
-    margin-top: clamp(44px, 6vw, 72px);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    box-shadow: var(--lift);
-    overflow: hidden;
-  }
-  .canvas-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 16px;
-    border-bottom: 1px solid var(--line-soft);
-    background: var(--surface-2);
-  }
-  .canvas-bar .dotrow { display: flex; gap: 6px; }
-  .canvas-bar .dotrow i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); display: block; }
-  .canvas-name {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .74rem;
-    color: var(--ink-soft);
-    letter-spacing: .04em;
-  }
-  .canvas-pill {
-    margin-left: auto;
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .66rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--n-green);
-    border: 1px solid color-mix(in srgb, var(--n-green) 32%, transparent);
-    background: color-mix(in srgb, var(--n-green) 10%, transparent);
-    padding: 3px 9px;
-    border-radius: 999px;
-  }
-  .canvas-scroll { overflow-x: auto; }
-  .canvas-scroll svg { display: block; width: 100%; min-width: 900px; height: auto; }
-
-  .wf-dots { fill: var(--dot); }
-  .wf-wire {
-    fill: none;
-    stroke: var(--line);
-    stroke-width: 1.6;
-    stroke-dasharray: 5 5;
-    animation: flow 1.4s linear infinite;
-  }
-  @keyframes flow { to { stroke-dashoffset: -10; } }
-  .wf-card { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
-  .wf-node:hover .wf-card { stroke: var(--nc); }
-  .wf-gate .wf-card { stroke-dasharray: 6 4; }
-  .wf-chip { fill: color-mix(in srgb, var(--nc) 13%, transparent); }
-  .wf-glyph { fill: none; stroke: var(--nc); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .wf-cap {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: 9.5px;
-    letter-spacing: .13em;
-    fill: var(--ink-faint);
-  }
-  .wf-title { font-family: 'InterVar', sans-serif; font-size: 14.5px; font-weight: 600; fill: var(--ink); }
-  .wf-sub { font-family: 'InterVar', sans-serif; font-size: 12px; fill: var(--ink-soft); }
-  .wf-branch-bg { fill: var(--surface); stroke: var(--line); stroke-width: 1; }
-  .wf-branch-tx {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: 9.5px;
-    letter-spacing: .08em;
-    fill: var(--ink-soft);
-    text-anchor: middle;
-  }
-  .wf-token { fill: var(--accent); }
-  .wf-token-halo { fill: var(--accent); opacity: .18; }
-  /* Le schéma déborde sous 1000px : sans un mot, le défilement horizontal à
-     l'intérieur du cadre passe inaperçu et la moitié droite reste ignorée. */
-  .canvas-hint { display: none; }
-  @media (max-width: 1000px) {
-    .canvas-hint { display: inline-flex; gap: 6px; align-items: center; color: var(--ink-faint); }
-  }
-
-  .canvas-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    padding: 12px 16px;
-    border-top: 1px solid var(--line-soft);
-    background: var(--surface-2);
-    font-size: .8rem;
-    color: var(--ink-soft);
-  }
-  .canvas-legend b { font-weight: 600; color: var(--ink); }
-
-  /* ---------- chiffres ---------- */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--line-soft);
-    border: 1px solid var(--line-soft);
-    border-radius: 14px;
-    overflow: hidden;
-    margin-top: clamp(48px, 6vw, 76px);
-  }
-  .stat { background: var(--surface); padding: 22px 20px; }
-  .stat .num {
-    display: block;
-    font-size: 2.1rem;
-    font-weight: 700;
-    letter-spacing: -.03em;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-  }
-  .stat .lbl { display: block; margin-top: 8px; font-size: .84rem; color: var(--ink-soft); }
-  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-
-  /* ---------- sections ---------- */
-  .sec { padding-block: clamp(72px, 8.5vw, 124px); }
-  .sec-head { display: flex; flex-direction: column; gap: 16px; max-width: 66ch; }
-
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
-
-  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
-  .trio .card { display: flex; flex-direction: column; gap: 10px; }
-  .trio .kicker {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .68rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--nc, var(--accent));
-  }
-  .trio p { font-size: .93rem; color: var(--ink-soft); }
-  @media (max-width: 860px) { .trio { grid-template-columns: 1fr; } }
-
-  .blocks { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 36px; }
-  .block {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 14px 8px 11px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface);
-    font-size: .88rem;
-    white-space: nowrap;
-  }
-  .block i { width: 8px; height: 8px; border-radius: 2px; background: var(--nc); display: block; flex: none; }
-  .block.is-gate i { border-radius: 50%; background: transparent; border: 2px solid var(--nc); }
-
-  .callout {
-    margin-top: 36px;
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 20px 22px;
-  }
-  .callout svg { flex: none; margin-top: 2px; color: var(--accent); }
-  .callout p { font-size: .95rem; color: var(--ink-soft); }
-
-  /* ---------- parcours ---------- */
-  .steps { margin-top: 48px; display: flex; flex-direction: column; }
-  .step {
-    display: grid;
-    grid-template-columns: 88px 1fr;
-    gap: 28px;
-    padding-block: 26px;
-    border-top: 1px solid var(--line-soft);
-    align-items: start;
-  }
-  .step:last-child { border-bottom: 1px solid var(--line-soft); }
-  .step .num {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -.02em;
-    line-height: 1.2;
-  }
-  .step-body { display: flex; flex-direction: column; gap: 7px; }
-  .step-body p { color: var(--ink-soft); max-width: 68ch; font-size: .96rem; }
-  @media (max-width: 660px) { .step { grid-template-columns: 1fr; gap: 8px; } }
-
-  /* ---------- fonctionnalités ---------- */
-  .grid-feat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
-  .feat { display: flex; flex-direction: column; gap: 11px; }
-  .feat-ico {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    display: grid;
-    place-items: center;
-    background: var(--accent-soft);
-    color: var(--accent);
-    flex: none;
-  }
-  .feat p { font-size: .92rem; color: var(--ink-soft); }
-  .feat-wide { grid-column: span 3; }
-  @media (max-width: 900px) {
-    .grid-feat { grid-template-columns: repeat(2, 1fr); }
-    .feat-wide { grid-column: span 2; }
-  }
-  @media (max-width: 600px) {
-    .grid-feat { grid-template-columns: 1fr; }
-    .feat-wide { grid-column: span 1; }
-  }
-
-  .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; margin-top: 6px; }
-  @media (max-width: 900px) { .dash { grid-template-columns: 1fr; } }
-  .dash-mock {
-    background: var(--surface-2);
-    border: 1px solid var(--line-soft);
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .tile { background: var(--surface); border: 1px solid var(--line-soft); border-radius: 9px; padding: 10px 11px; }
-  .tile .t-num {
-    font-family: 'Archivo', sans-serif;
-    font-stretch: 118%;
-    font-weight: 700;
-    font-size: 1.32rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-  }
-  .tile .t-lbl { font-size: .66rem; color: var(--ink-faint); line-height: 1.3; margin-top: 3px; display: block; }
-  .tile.is-accent .t-num { color: var(--accent); }
-  .segbar { display: flex; height: 9px; border-radius: 999px; overflow: hidden; gap: 2px; }
-  .segbar span { display: block; }
-  .seglegend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .7rem; color: var(--ink-soft); }
-  .seglegend span { display: inline-flex; align-items: center; gap: 5px; }
-  .seglegend i { width: 7px; height: 7px; border-radius: 2px; display: block; }
-  .loadrows { display: flex; flex-direction: column; gap: 7px; }
-  .loadrow {
-    display: grid;
-    grid-template-columns: 74px 1fr 24px;
-    align-items: center;
-    gap: 10px;
-    font-size: .74rem;
-    color: var(--ink-soft);
-  }
-  .loadrow .bar { height: 7px; background: var(--line-soft); border-radius: 999px; overflow: hidden; }
-  .loadrow .bar span { display: block; height: 100%; background: var(--n-blue); border-radius: 999px; }
-  .loadrow .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
-  .mock-cap {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .66rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-
-  /* ---------- aperçu de l'application ---------- */
-  .shots { margin-top: 42px; }
-  .shot-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-  .shot-tab {
-    min-height: 40px;
-    padding: 9px 17px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--ink-soft);
-    font: inherit;
-    font-size: .88rem;
-    cursor: pointer;
-    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
-  }
-  .shot-tab:hover { border-color: var(--ink-faint); color: var(--ink); }
-  .shot-tab[aria-selected="true"] {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--on-accent);
-  }
-  @media (pointer: coarse) { .shot-tab { min-height: 44px; } }
-
-  .shot {
-    margin: 0;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    box-shadow: var(--lift);
-    overflow: hidden;
-  }
-  .shot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .shot img {
-    display: block;
-    width: 100%;
-    /* Rapport figé sur la plus haute des quatre captures : la hauteur du cadre
-       ne bouge pas d'un onglet à l'autre, et la place est réservée avant le
-       chargement de l'image. */
-    aspect-ratio: 1600 / 1125;
-    object-fit: cover;
-    object-position: top center;
-    background: #fff;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .shot figcaption { padding: 15px 20px; font-size: .91rem; color: var(--ink-soft); }
-
-  /* Les captures sont prises en thème clair : à côté d'une page sombre, un
-     aplat blanc éblouit. On le tempère sans dénaturer les couleurs. */
-  :root[data-theme="dark"] .shot img,
-  :root[data-theme="dark"] .wf-shot img { filter: brightness(.88); }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .shot img,
-    :root:not([data-theme="light"]) .wf-shot img { filter: brightness(.88); }
-  }
-
-  /* Sans JavaScript, les onglets ne commutent pas : on empile les quatre écrans. */
-  .no-js .shot-tabs { display: none; }
-  .no-js .shot[hidden] { display: block; }
-  .no-js .shot + .shot { margin-top: 16px; }
-
-  /* Capture large de l'éditeur, en pleine largeur sous les trois cartes. */
-  .wf-shot {
-    margin: 36px 0 0;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    box-shadow: var(--lift);
-    overflow: hidden;
-  }
-  .wf-shot img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1800 / 518;
-    object-fit: cover;
-    object-position: top center;
-    background: #fff;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .wf-shot figcaption { padding: 14px 20px; font-size: .91rem; color: var(--ink-soft); }
-
-  /* ---------- hébergement ---------- */
-  .deploy { display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: start; }
-  @media (max-width: 900px) { .deploy { grid-template-columns: 1fr; gap: 28px; } }
-  .checks { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
-  .check { display: flex; gap: 12px; align-items: flex-start; font-size: .95rem; }
-  .check svg { flex: none; color: var(--n-green); margin-top: 3px; }
-  .check span { color: var(--ink-soft); }
-
-  .flow-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; }
-  .flow-list { list-style: none; margin: 22px 0 0; padding: 0; }
-  .flow-list li {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    gap: 14px;
-    padding-bottom: 20px;
-    position: relative;
-  }
-  .flow-list li:last-child { padding-bottom: 0; }
-  .flow-list li:not(:last-child)::before {
-    content: "";
-    position: absolute;
-    left: 12.5px;
-    top: 30px;
-    bottom: 4px;
-    width: 1px;
-    background: var(--line);
-  }
-  .flow-list .pip {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--accent-soft);
-    color: var(--accent);
-    display: grid;
-    place-items: center;
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .72rem;
-    position: relative;
-    z-index: 1;
-  }
-  .flow-list p { font-size: .91rem; color: var(--ink-soft); margin-top: 3px; }
-
-  /* ---------- offres ---------- */
-  .offers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; align-items: stretch; }
-  @media (max-width: 900px) { .offers { grid-template-columns: 1fr; } }
-  .offer { display: flex; flex-direction: column; gap: 16px; position: relative; }
-  .offer.featured { border-color: var(--accent); box-shadow: var(--lift); }
-  .offer-badge {
-    position: absolute; top: -11px; left: 24px;
-    background: var(--accent); color: var(--on-accent);
-    font-size: .72rem; font-weight: 600; letter-spacing: .02em;
-    padding: 3px 11px; border-radius: 999px;
-  }
-  .offer h3 { font-size: 1.15rem; }
-  .offer .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
-  .offer .price em { color: var(--ink-faint); font-size: .82rem; font-style: normal; width: 100%; }
-  .offer .price b { font-size: 1.9rem; font-weight: 700; letter-spacing: -.01em; }
-  .offer .price span { color: var(--ink-soft); font-size: .9rem; }
-  .offer .offer-desc { color: var(--ink-soft); font-size: .95rem; }
-  .offer .offer-cta { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; padding-top: 8px; }
-  .tarifs { margin-top: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
-  .tarifs-title { padding: 15px 22px; font-size: .9rem; color: var(--ink-soft); border-bottom: 1px solid var(--line-soft); }
-  .tarifs .t-scroll { overflow-x: auto; }
-  .tarifs table { width: 100%; border-collapse: collapse; font-size: .95rem; }
-  .tarifs th, .tarifs td { padding: 13px 22px; text-align: left; white-space: nowrap; }
-  .tarifs thead th { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-faint); font-weight: 600; border-bottom: 1px solid var(--line-soft); }
-  .tarifs tbody tr + tr td { border-top: 1px solid var(--line-soft); }
-  .tarifs td:first-child { font-weight: 600; }
-  .tarifs td:not(:first-child) { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-
-  /* ---------- questions ---------- */
-  .faq { margin-top: 42px; border-top: 1px solid var(--line-soft); }
-  .faq details { border-bottom: 1px solid var(--line-soft); }
-  .faq summary {
-    cursor: pointer;
-    padding: 20px 40px 20px 0;
-    position: relative;
-    font-weight: 600;
-    font-size: 1.02rem;
-    list-style: none;
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: "";
-    position: absolute;
-    right: 10px;
-    top: 26px;
-    width: 9px;
-    height: 9px;
-    border-right: 1.8px solid var(--ink-faint);
-    border-bottom: 1.8px solid var(--ink-faint);
-    transform: rotate(45deg);
-    transition: transform .18s ease;
-  }
-  .faq details[open] summary::after { transform: rotate(-135deg); top: 30px; }
-  .faq .answer { padding: 0 40px 22px 0; color: var(--ink-soft); max-width: 76ch; }
-  .faq .answer a { color: var(--accent); }
-
-  /* ---------- contact ---------- */
-  .cta {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: clamp(32px, 5vw, 56px);
-    display: grid;
-    grid-template-columns: 1.15fr .85fr;
-    gap: 44px;
-    align-items: center;
-    box-shadow: var(--lift);
-  }
-  @media (max-width: 900px) { .cta { grid-template-columns: 1fr; gap: 30px; } }
-  .cta-copy { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
-  .cta h2 { max-width: 17ch; }
-  .mail-box {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--surface-2);
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .mail-lbl {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: .66rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-  a.mail {
-    font-family: 'PlexMono', ui-monospace, monospace;
-    font-size: 1rem;
-    color: var(--accent);
-    text-decoration: none;
-    word-break: break-all;
-  }
-  a.mail:hover { text-decoration: underline; }
-  /* Un mailto: reste muet quand aucun client mail n'est déclaré sur le poste :
-     l'adresse doit rester récupérable à la main. */
-  .mail-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .btn-copy {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    flex: none;
-    padding: 5px 10px;
-    border: 1px solid var(--line);
-    border-radius: 7px;
-    background: var(--surface);
-    color: var(--ink-soft);
-    font-family: inherit;
-    font-size: .74rem;
-    cursor: pointer;
-    transition: border-color .15s ease, color .15s ease;
-  }
-  .btn-copy:hover { border-color: var(--ink-faint); color: var(--ink); }
-  /* 26px de haut se rate au doigt : sur écran tactile, le bouton passe à 44. */
-  @media (pointer: coarse) { .btn-copy { min-height: 44px; padding-inline: 14px; } }
-
-  /* Même mesure pour les autres cibles restées à la taille du curseur : le
-     bouton compact de la barre, l'adresse email et les liens de pied de page.
-     La marque garde son display inline — le symbole y tient lieu de « P » et
-     doit rester posé sur la ligne de base — mais gagne sa zone cliquable par
-     le rembourrage, qui compte lui aussi pour le doigt. */
-  @media (pointer: coarse) {
-    .btn-sm, a.mail, .foot-in a {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-    }
-    .brand { padding-block: 11px; }
-    .foot-in { gap: 4px 28px; }
-  }
-  .btn-copy[data-done] { color: var(--n-green); border-color: var(--n-green); }
-  .mail-hint { font-size: .78rem; color: var(--ink-faint); margin: -4px 0 0; }
-  .mail-box ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .mail-box li { display: flex; gap: 9px; align-items: flex-start; font-size: .86rem; color: var(--ink-soft); }
-  .mail-box li svg { flex: none; color: var(--n-green); margin-top: 3px; }
-
-  footer { border-top: 1px solid var(--line-soft); margin-top: clamp(64px, 8vw, 110px); padding-block: 30px 44px; }
-  .foot-in {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 28px;
-    align-items: center;
-    font-size: .84rem;
-    color: var(--ink-faint);
-  }
-  .foot-in a { color: var(--ink-soft); text-decoration: none; }
-  .foot-in a:hover { color: var(--ink); }
-  .foot-in .sep { margin-left: auto; }
-
-  /* Apparition à l'entrée dans le champ de vision. La classe .reveal n'est
-     posée que par le script : sans JavaScript, rien n'est jamais masqué. */
-  .reveal { opacity: 0; transform: translateY(14px); }
-  .reveal.is-in {
-    opacity: 1;
-    transform: none;
-    transition: opacity .42s var(--ease), transform .42s var(--ease);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
-    html { scroll-behavior: auto; }
-    .wf-wire { animation: none; }
-    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  }
-</style>
+<link rel="stylesheet" href="/styles.css">
 
 <script>
   // Appliqué avant le premier rendu : lu plus tard, le thème choisi ferait
@@ -1685,11 +758,12 @@
   <section class="wrap sec" id="offres" aria-labelledby="titre-offres">
     <div class="sec-head">
       <p class="eyebrow">Offres</p>
-      <h2 id="titre-offres">Deux façons d'adopter Parqueo.</h2>
+      <h2 id="titre-offres">Trois façons d'adopter Parqueo.</h2>
       <p class="body-soft">
-        Installez Parqueo sur votre propre serveur et gardez la main sur tout, ou laissez-nous
-        l'héberger et l'infogérer pour n'avoir qu'à l'utiliser. Le logiciel est le même dans les
-        deux cas — c'est la gestion de l'infrastructure qui change.
+        Parqueo est un logiciel libre : installez-le sur votre serveur, gratuitement et sans
+        limite de comptes. Si vous préférez ne rien gérer, nous l'hébergeons et l'infogérons.
+        Et si vous le proposez à vos propres clients, une licence intégrateur vous dispense
+        des obligations de l'AGPL.
       </p>
     </div>
 
@@ -1698,22 +772,21 @@
         <p class="eyebrow">Auto-hébergé</p>
         <h3>Sur votre infrastructure</h3>
         <div class="price">
-          <b>149 €</b><span>/ technicien / an</span><em>dégressif au volume — voir la grille</em>
+          <b class="mot">Gratuit</b><span>logiciel libre, AGPL-3.0</span><em>techniciens et demandeurs illimités</em>
         </div>
         <p class="offer-desc">
-          Vous installez Parqueo sur votre serveur ou celui de votre hébergeur. Vos données ne
-          quittent jamais votre infrastructure.
+          Une commande, et Parqueo tourne sur votre serveur. Le code est public et auditable,
+          vos données ne quittent jamais votre infrastructure.
         </p>
         <div class="checks">
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Demandeurs illimités et gratuits</strong> — vous ne payez que vos techniciens.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Données 100 % chez vous</strong> — conformité RGPD et audits internes simplifiés.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Contrôle total</strong> — version, sauvegardes et intégrations à votre main.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Documentation fournie</strong> — installation, configuration et exploitation.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Accompagnement en option</strong> — installation, reprise du parc et support.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Aucune licence à compter</strong> — techniciens et demandeurs illimités, pour toujours.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Installation en une commande</strong> — certificat HTTPS obtenu et renouvelé tout seul.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Code source public</strong> — auditable, modifiable, sans dépendance à un éditeur.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Accompagnement en option</strong> — mise en service, reprise du parc, support.</span></div>
         </div>
         <div class="offer-cta">
           <a class="btn btn-ghost" href="/docs/installation/">Documentation</a>
-          <a class="btn btn-primary" href="#contact">Demander un devis</a>
+          <a class="btn btn-ghost" href="https://github.com/Lcanet2/parqueo">Code source</a>
         </div>
       </div>
 
@@ -1732,30 +805,54 @@
           <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Demandeurs illimités et gratuits</strong> — vous ne payez que vos techniciens.</span></div>
           <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Hébergement et sauvegardes inclus</strong> — rien à préparer côté infrastructure.</span></div>
           <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Mises à jour et supervision</strong> — la dernière version, sans intervention de votre part.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Mise en service rapide</strong> — opérationnel en quelques jours.</span></div>
           <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support et accompagnement</strong> — y compris sur vos premiers workflows.</span></div>
         </div>
         <div class="offer-cta">
           <a class="btn btn-primary" href="#contact">Demander une démo</a>
         </div>
       </div>
+
+      <div class="card offer">
+        <p class="eyebrow">Intégrateurs &amp; infogéreurs</p>
+        <h3>Licence commerciale</h3>
+        <div class="price">
+          <b class="mot">Sur devis</b><span>par prestataire</span><em>pour exploiter Parqueo chez vos clients</em>
+        </div>
+        <p class="offer-desc">
+          L'AGPL vous oblige à publier vos adaptations dès lors que vous exploitez Parqueo pour
+          des tiers. La licence commerciale vous en dispense.
+        </p>
+        <div class="checks">
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Exploitation pour vos clients</strong> — sans obligation de publier vos modifications.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Marque blanche</strong> — intégration à votre offre, sur devis.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support éditeur</strong> — un interlocuteur direct, pas un formulaire.</span></div>
+          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Formation de vos équipes</strong> — pour que vos techniciens déploient sans nous.</span></div>
+        </div>
+        <div class="offer-cta">
+          <a class="btn btn-ghost" href="/services/">En savoir plus</a>
+          <a class="btn btn-primary" href="#contact">Nous écrire</a>
+        </div>
+      </div>
     </div>
 
     <div class="tarifs">
-      <p class="tarifs-title">Tarif dégressif selon la taille de l'équipe — les demandeurs (vos utilisateurs) restent illimités et gratuits dans tous les cas.</p>
+      <p class="tarifs-title">
+        Tarif SaaS dégressif selon la taille de l'équipe. Les demandeurs — vos utilisateurs —
+        restent illimités et gratuits dans tous les cas, y compris en auto-hébergé.
+      </p>
       <div class="t-scroll">
         <table>
           <thead>
             <tr>
               <th scope="col">Techniciens</th>
-              <th scope="col">SaaS / technicien / mois</th>
-              <th scope="col">Auto-hébergé / technicien / an</th>
+              <th scope="col">Auto-hébergé</th>
+              <th scope="col">SaaS infogéré / technicien / mois</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1 à 3</td><td>19 €</td><td>149 €</td></tr>
-            <tr><td>4 à 10</td><td>16 €</td><td>129 €</td></tr>
-            <tr><td>11 et plus</td><td>sur devis</td><td>sur devis</td></tr>
+            <tr><td>1 à 3</td><td>Gratuit</td><td>19 €</td></tr>
+            <tr><td>4 à 10</td><td>Gratuit</td><td>16 €</td></tr>
+            <tr><td>11 et plus</td><td>Gratuit</td><td>sur devis</td></tr>
           </tbody>
         </table>
       </div>
@@ -1769,6 +866,20 @@
     </div>
 
     <div class="faq">
+      <details>
+        <summary>Parqueo est gratuit ? Où est le piège ?</summary>
+        <div class="answer">
+          Il n'y en a pas. Parqueo est un logiciel libre sous licence AGPL-3.0 : vous
+          l'installez sur votre serveur, avec autant de techniciens et de demandeurs que
+          vous voulez, sans rien payer et sans limite de durée. Le code est
+          <a href="https://github.com/Lcanet2/parqueo">public sur GitHub</a>.
+          Ce que nous vendons, c'est de ne pas avoir à s'en occuper : l'hébergement
+          infogéré, la mise en service, la reprise de votre parc existant et le support.
+          Et pour les prestataires qui exploitent Parqueo chez leurs clients, une licence
+          commerciale qui les dispense des obligations de l'AGPL.
+        </div>
+      </details>
+
       <details>
         <summary>Qu'est-ce qu'un logiciel ITSM et à quoi sert Parqueo ?</summary>
         <div class="answer">

@@ -10,7 +10,10 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 
 | Fichier        | Rôle                                                        |
 | -------------- | ----------------------------------------------------------- |
-| `index.html`   | la page entière (structure, styles, données structurées)     |
+| `index.html`   | la page d'accueil (structure et données structurées)         |
+| `styles.css`   | la charte, partagée par `index.html` et `services/`          |
+| `services/`    | services, tarifs et licence commerciale — écrit à la main    |
+| `install.sh`   | **copie** — servi sur `parqueo.fr/install.sh`, voir ci-dessous |
 | `fonts/`       | Archivo, Inter, IBM Plex Mono en woff2 (sous-ensemble latin) |
 | `img/`         | **généré** — captures de l'application — voir « Captures »   |
 | `og-image.png` | image de partage 1200×630 (réseaux sociaux, messageries)     |
@@ -22,6 +25,27 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 | `docs/docs.css`| la charte des pages de documentation (écrite à la main)      |
 
 Aucune dépendance, aucun script tiers, aucune requête vers un CDN.
+
+## `install.sh`
+
+Le fichier servi sur <https://parqueo.fr/install.sh> est une **copie** de celui
+du dépôt du logiciel, qui reste la source :
+
+```sh
+cp ../parqueo/install.sh install.sh   # puis remettre le bandeau « COPIE »
+```
+
+Il permet l'installation en une commande, sans cloner le dépôt :
+
+```sh
+curl -fsSL https://parqueo.fr/install.sh | sh -s -- --domaine support.entreprise.fr
+```
+
+Pour vérifier que la copie n'a pas dérivé :
+
+```sh
+diff <(grep -v '^# │\|^# ┌\|^# └' install.sh) ../parqueo/install.sh
+```
 
 ## Bascule sur un nom de domaine
 
