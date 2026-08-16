@@ -450,6 +450,21 @@ est rejeté en 404 avant d&#39;atteindre la base.</p>
 </tr>
 <tr>
 <td>GET</td>
+<td><code>/api/avatars/:fichier</code></td>
+<td>public <strong>par capacité</strong> — photo de profil, voir ci-dessous</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/auth/avatar</code></td>
+<td>authentifié — envoie sa propre photo (multipart, 2 Mo, PNG/JPEG/WebP/GIF)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/auth/avatar</code></td>
+<td>authentifié — retire sa propre photo</td>
+</tr>
+<tr>
+<td>GET</td>
 <td><code>/api/auth/config</code></td>
 <td>public — <code>{ sso, intune, snmp }</code> pour l&#39;affichage conditionnel de l&#39;UI</td>
 </tr>
@@ -478,6 +493,16 @@ est rejeté en 404 avant d&#39;atteindre la base.</p>
 <p><code>GET /api/about</code> est authentifiée à dessein : publier le numéro de version d&#39;un
 logiciel auto-hébergé indique à un visiteur anonyme quelles failles connues
 essayer. <code>/api/health</code> reste publique et ne renvoie que <code>{ ok: true }</code>.</p>
+<p><code>GET /api/avatars/:fichier</code> ne demande pas de jeton, et c&#39;est également un choix.
+Une balise <code>&lt;img&gt;</code> ne sait pas envoyer d&#39;en-tête <code>Authorization</code> : servir les
+photos derrière authentification imposerait un <code>fetch</code> par pastille converti en
+object URL, soit jusqu&#39;à cent requêtes non mises en cache sur une liste de
+tickets. L&#39;accès est donc protégé par le nom du fichier — 32 caractères
+hexadécimaux tirés au hasard, renouvelés à chaque envoi, stockés dans
+<code>users.avatar</code>. Connaître un identifiant de compte ne permet pas de deviner
+l&#39;adresse de sa photo. La contrepartie assumée : qui obtient l&#39;adresse complète
+voit l&#39;image sans être connecté. Les pièces jointes de tickets, elles, restent
+authentifiées.</p>
 <p><code>POST /api/auth/login</code> normalise l&#39;email (minuscules, espaces retirés) : les
 comptes sont stockés en minuscules à la création, à l&#39;import et via le SSO.</p>
 <p><code>PATCH /api/auth/password</code> exige l&#39;ancien mot de passe, impose 8 caractères
