@@ -34,9 +34,9 @@ img { max-width: 100%; height: auto; }
   --line-soft: #ededf1;
   --ink: #15151b;
   --ink-soft: #5d5d69;
-  --ink-faint: #93939f;
-  --accent: #d9435f;
-  --accent-strong: #bf3651;
+  --ink-faint: #6f6f7b;
+  --accent: #c6364f;
+  --accent-strong: #a92742;
   --accent-soft: #fdf0f2;
   --n-green: #15803d;
   --dot: #dadae1;
@@ -53,7 +53,7 @@ img { max-width: 100%; height: auto; }
     --line-soft: #232430;
     --ink: #edeef2;
     --ink-soft: #9fa0ad;
-    --ink-faint: #6e6f7c;
+    --ink-faint: #8d8e9c;
     --accent: #ff6b83;
     --accent-strong: #ff8b9d;
     --accent-soft: #2c1720;
@@ -72,7 +72,7 @@ img { max-width: 100%; height: auto; }
   --line-soft: #232430;
   --ink: #edeef2;
   --ink-soft: #9fa0ad;
-  --ink-faint: #6e6f7c;
+  --ink-faint: #8d8e9c;
   --accent: #ff6b83;
   --accent-strong: #ff8b9d;
   --accent-soft: #2c1720;
@@ -90,9 +90,9 @@ img { max-width: 100%; height: auto; }
   --line-soft: #ededf1;
   --ink: #15151b;
   --ink-soft: #5d5d69;
-  --ink-faint: #93939f;
-  --accent: #d9435f;
-  --accent-strong: #bf3651;
+  --ink-faint: #6f6f7b;
+  --accent: #c6364f;
+  --accent-strong: #a92742;
   --accent-soft: #fdf0f2;
   --n-green: #15803d;
   --dot: #dadae1;
@@ -184,7 +184,17 @@ h1, h2, h3, h4 {
 .nav-links a { text-decoration: none; }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a[aria-current="page"] { color: var(--accent); }
-@media (max-width: 900px) { .nav-links { display: none; } }
+/* Trois liens courts : les masquer sous 900px, comme c'était le cas, laissait
+   le mobile sans moyen de passer d'un document à l'autre. La barre prend un
+   second rang plutôt que de les perdre. */
+@media (max-width: 900px) {
+  .nav-in { height: auto; flex-wrap: wrap; padding-block: 10px; row-gap: 6px; }
+  .nav-links { order: 9; width: 100%; gap: 20px; font-size: .87rem; }
+  .nav-links a { display: inline-flex; align-items: center; min-height: 34px; }
+}
+@media (max-width: 900px) and (pointer: coarse) {
+  .nav-links a { min-height: 44px; }
+}
 
 .btn {
   display: inline-flex;

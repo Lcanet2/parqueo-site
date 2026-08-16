@@ -8,7 +8,7 @@
   « https://parqueo.fr/ » partout (canonical, Open Graph,
   JSON-LD, sitemap.xml, robots.txt) et ajoutez un fichier CNAME à la racine.
 -->
-<html lang="fr">
+<html lang="fr" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -151,6 +151,11 @@
   body { margin: 0; }
   img { max-width: 100%; height: auto; }
 
+  html { scroll-behavior: smooth; }
+  /* Les liens de la navigation visent des titres qui, sans cette marge, se
+     glisseraient sous la barre fixe une fois le défilement terminé. */
+  main[id], section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
   @font-face {
     font-family: 'Archivo';
     src: url(fonts/archivo.woff2) format('woff2');
@@ -179,9 +184,9 @@
     --line-soft: #ededf1;
     --ink: #15151b;
     --ink-soft: #5d5d69;
-    --ink-faint: #93939f;
-    --accent: #d9435f;
-    --accent-strong: #bf3651;
+    --ink-faint: #6f6f7b;
+    --accent: #c6364f;
+    --accent-strong: #a92742;
     --accent-soft: #fdf0f2;
     --n-blue: #3467d6;
     --n-amber: #b25e09;
@@ -191,6 +196,18 @@
     --dot: #dadae1;
     --on-accent: #ffffff;
     --lift: 0 1px 2px rgba(21, 21, 27, .04), 0 18px 40px -20px rgba(21, 21, 27, .22);
+
+    /* Échelle partagée — rayons, durée et courbe des transitions, hauteur de la
+       barre fixe. Ces valeurs ne dépendent pas du thème : elles restent dans le
+       :root de base et ne sont pas répétées dans les blocs clair/sombre. */
+    --r-xs: 7px;
+    --r-sm: 9px;
+    --r-md: 12px;
+    --r-lg: 14px;
+    --r-xl: 18px;
+    --dur: .18s;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    --nav-h: 62px;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -202,7 +219,7 @@
       --line-soft: #232430;
       --ink: #edeef2;
       --ink-soft: #9fa0ad;
-      --ink-faint: #6e6f7c;
+      --ink-faint: #8d8e9c;
       --accent: #ff6b83;
       --accent-strong: #ff8b9d;
       --accent-soft: #2c1720;
@@ -225,7 +242,7 @@
     --line-soft: #232430;
     --ink: #edeef2;
     --ink-soft: #9fa0ad;
-    --ink-faint: #6e6f7c;
+    --ink-faint: #8d8e9c;
     --accent: #ff6b83;
     --accent-strong: #ff8b9d;
     --accent-soft: #2c1720;
@@ -247,9 +264,9 @@
     --line-soft: #ededf1;
     --ink: #15151b;
     --ink-soft: #5d5d69;
-    --ink-faint: #93939f;
-    --accent: #d9435f;
-    --accent-strong: #bf3651;
+    --ink-faint: #6f6f7b;
+    --accent: #c6364f;
+    --accent-strong: #a92742;
     --accent-soft: #fdf0f2;
     --n-blue: #3467d6;
     --n-amber: #b25e09;
@@ -352,7 +369,7 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line-soft);
   }
-  .nav-in { display: flex; align-items: center; gap: 28px; height: 62px; }
+  .nav-in { display: flex; align-items: center; gap: 12px; height: var(--nav-h); }
   .brand {
     font-size: 1.16rem;
     font-weight: 620;
@@ -371,10 +388,130 @@
     width: .48em;
     margin-right: .045em;
   }
-  .nav-links { display: flex; gap: 26px; font-size: .89rem; color: var(--ink-soft); }
-  .nav-links a { text-decoration: none; }
+  .nav-links { display: flex; gap: 24px; font-size: .89rem; color: var(--ink-soft); margin-right: 4px; }
+  .nav-links a {
+    text-decoration: none;
+    position: relative;
+    padding-block: 4px;
+    white-space: nowrap;
+    transition: color var(--dur) var(--ease);
+  }
   .nav-links a:hover { color: var(--ink); }
-  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* Repère de section courante : la page fait huit écrans de haut, savoir où
+     l'on se trouve évite de remonter pour se situer. */
+  .nav-links a[aria-current="true"] { color: var(--ink); }
+  .nav-links a[aria-current="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  /* Boutons carrés de la barre : 40px de côté, portés à 44 sur écran tactile
+     où le doigt n'a pas la précision du curseur. */
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .icon-btn:hover { border-color: var(--ink-faint); color: var(--ink); }
+  @media (pointer: coarse) { .icon-btn { width: 44px; height: 44px; } }
+
+  /* Chaque bascule montre l'icône de la destination, pas celle de l'état
+     courant : en thème clair, la lune annonce le passage au sombre. */
+  .ico-dark, :root[data-theme="dark"] .ico-light { display: none; }
+  :root[data-theme="dark"] .ico-dark { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .ico-light { display: none; }
+    :root:not([data-theme="light"]) .ico-dark { display: block; }
+    :root[data-theme="light"] .ico-light { display: block; }
+  }
+
+  .nav-burger { display: none; }
+  .nav-burger .ico-shut { display: none; }
+  .nav[data-menu="open"] .nav-burger .ico-open { display: none; }
+  .nav[data-menu="open"] .nav-burger .ico-shut { display: block; }
+
+  .cta-short { display: none; }
+
+  @media (max-width: 1120px) {
+    .nav-burger { display: inline-grid; }
+    /* Sous 900px les liens quittent la barre pour un panneau déroulant : les
+       masquer sans rien mettre à la place laissait le mobile sans navigation. */
+    .nav-links {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+      padding: 6px 0 10px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--lift);
+      font-size: .95rem;
+    }
+    .nav[data-menu="open"] .nav-links { display: flex; }
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px max(20px, calc((100% - 1180px) / 2));
+    }
+    .nav-links a[aria-current="true"]::after {
+      left: 0;
+      right: auto;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      height: auto;
+    }
+  }
+  @media (max-width: 560px) {
+    .cta-long { display: none; }
+    .cta-short { display: inline; }
+    .nav-in { gap: 10px; }
+  }
+
+  /* Sans JavaScript le panneau ne peut pas s'ouvrir : le bouton disparaît et
+     les liens reprennent leur place, en rangée sous la barre. */
+  .no-js .nav-burger { display: none; }
+  /* La bascule de thème n'agit que par script : sans lui, elle n'aurait rien à
+     commander. */
+  .no-js #theme-btn { display: none; }
+  @media (max-width: 1120px) {
+    .no-js .nav-in { height: auto; flex-wrap: wrap; padding-block: 11px; }
+    .no-js .nav-links {
+      display: flex;
+      position: static;
+      order: 9;
+      width: 100%;
+      flex-flow: row wrap;
+      gap: 2px 18px;
+      padding: 4px 0 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
+      font-size: .88rem;
+    }
+    .no-js .nav-links a { min-height: 32px; padding: 0; }
+  }
 
   /* ---------- boutons ---------- */
   .btn {
@@ -394,6 +531,7 @@
   .btn-ghost { border-color: var(--line); background: var(--surface); color: var(--ink); }
   .btn-ghost:hover { border-color: var(--ink-faint); }
   .btn-sm { padding: 8px 14px; font-size: .85rem; }
+  .nav-cta { white-space: nowrap; flex: none; }
 
   /* ---------- hero ---------- */
   .hero { padding-block: clamp(52px, 7vw, 96px) 0; }
@@ -480,6 +618,13 @@
   }
   .wf-token { fill: var(--accent); }
   .wf-token-halo { fill: var(--accent); opacity: .18; }
+  /* Le schéma déborde sous 1000px : sans un mot, le défilement horizontal à
+     l'intérieur du cadre passe inaperçu et la moitié droite reste ignorée. */
+  .canvas-hint { display: none; }
+  @media (max-width: 1000px) {
+    .canvas-hint { display: inline-flex; gap: 6px; align-items: center; color: var(--ink-faint); }
+  }
+
   .canvas-legend {
     display: flex;
     flex-wrap: wrap;
@@ -657,6 +802,86 @@
     color: var(--ink-faint);
   }
 
+  /* ---------- aperçu de l'application ---------- */
+  .shots { margin-top: 42px; }
+  .shot-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .shot-tab {
+    min-height: 40px;
+    padding: 9px 17px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: .88rem;
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .shot-tab:hover { border-color: var(--ink-faint); color: var(--ink); }
+  .shot-tab[aria-selected="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+  @media (pointer: coarse) { .shot-tab { min-height: 44px; } }
+
+  .shot {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--lift);
+    overflow: hidden;
+  }
+  .shot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .shot img {
+    display: block;
+    width: 100%;
+    /* Rapport figé sur la plus haute des quatre captures : la hauteur du cadre
+       ne bouge pas d'un onglet à l'autre, et la place est réservée avant le
+       chargement de l'image. */
+    aspect-ratio: 1600 / 1125;
+    object-fit: cover;
+    object-position: top center;
+    background: #fff;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .shot figcaption { padding: 15px 20px; font-size: .91rem; color: var(--ink-soft); }
+
+  /* Les captures sont prises en thème clair : à côté d'une page sombre, un
+     aplat blanc éblouit. On le tempère sans dénaturer les couleurs. */
+  :root[data-theme="dark"] .shot img,
+  :root[data-theme="dark"] .wf-shot img { filter: brightness(.88); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .shot img,
+    :root:not([data-theme="light"]) .wf-shot img { filter: brightness(.88); }
+  }
+
+  /* Sans JavaScript, les onglets ne commutent pas : on empile les quatre écrans. */
+  .no-js .shot-tabs { display: none; }
+  .no-js .shot[hidden] { display: block; }
+  .no-js .shot + .shot { margin-top: 16px; }
+
+  /* Capture large de l'éditeur, en pleine largeur sous les trois cartes. */
+  .wf-shot {
+    margin: 36px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--lift);
+    overflow: hidden;
+  }
+  .wf-shot img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1800 / 518;
+    object-fit: cover;
+    object-position: top center;
+    background: #fff;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .wf-shot figcaption { padding: 14px 20px; font-size: .91rem; color: var(--ink-soft); }
+
   /* ---------- hébergement ---------- */
   .deploy { display: grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items: start; }
   @media (max-width: 900px) { .deploy { grid-template-columns: 1fr; gap: 28px; } }
@@ -813,6 +1038,23 @@
     transition: border-color .15s ease, color .15s ease;
   }
   .btn-copy:hover { border-color: var(--ink-faint); color: var(--ink); }
+  /* 26px de haut se rate au doigt : sur écran tactile, le bouton passe à 44. */
+  @media (pointer: coarse) { .btn-copy { min-height: 44px; padding-inline: 14px; } }
+
+  /* Même mesure pour les autres cibles restées à la taille du curseur : le
+     bouton compact de la barre, l'adresse email et les liens de pied de page.
+     La marque garde son display inline — le symbole y tient lieu de « P » et
+     doit rester posé sur la ligne de base — mais gagne sa zone cliquable par
+     le rembourrage, qui compte lui aussi pour le doigt. */
+  @media (pointer: coarse) {
+    .btn-sm, a.mail, .foot-in a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .brand { padding-block: 11px; }
+    .foot-in { gap: 4px 28px; }
+  }
   .btn-copy[data-done] { color: var(--n-green); border-color: var(--n-green); }
   .mail-hint { font-size: .78rem; color: var(--ink-faint); margin: -4px 0 0; }
   .mail-box ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -832,11 +1074,35 @@
   .foot-in a:hover { color: var(--ink); }
   .foot-in .sep { margin-left: auto; }
 
+  /* Apparition à l'entrée dans le champ de vision. La classe .reveal n'est
+     posée que par le script : sans JavaScript, rien n'est jamais masqué. */
+  .reveal { opacity: 0; transform: translateY(14px); }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity .42s var(--ease), transform .42s var(--ease);
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
     .wf-wire { animation: none; }
-    * { transition-duration: .01ms !important; }
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
   }
 </style>
+
+<script>
+  // Appliqué avant le premier rendu : lu plus tard, le thème choisi ferait
+  // clignoter la page (rendu système, puis bascule sous les yeux).
+  (function () {
+    var r = document.documentElement;
+    r.classList.remove('no-js');
+    try {
+      var t = localStorage.getItem('parqueo-theme');
+      if (t === 'dark' || t === 'light') r.setAttribute('data-theme', t);
+    } catch (e) { /* stockage refusé : on s'en tient à la préférence du système */ }
+  })();
+</script>
 </head>
 <body>
 
@@ -862,6 +1128,10 @@
     <symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9.5h18M9 9.5V19"/></symbol>
     <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13.5a3.6 3.6 0 0 0 5.3.4l2.9-2.9a3.7 3.7 0 0 0-5.3-5.2l-1.7 1.7"/><path d="M14 10.5a3.6 3.6 0 0 0-5.3-.4l-2.9 2.9a3.7 3.7 0 0 0 5.3 5.2l1.7-1.7"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.4A8.5 8.5 0 0 1 9.6 4a8.5 8.5 0 1 0 10.4 10.4z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="9" y="9" width="11" height="12" rx="2.2"/><path d="M15.5 5.8A2.2 2.2 0 0 0 13.3 3.5H6.2A2.2 2.2 0 0 0 4 5.8v9.4a2.2 2.2 0 0 0 2.2 2.2"/></symbol>
   </defs>
 </svg>
@@ -873,16 +1143,31 @@
         <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent)"/>
         <path d="M7 4v16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
       </svg>arqueo</a>
-    <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#parcours">Parcours d'un ticket</a>
+    <nav class="nav-links" id="nav-links" aria-label="Navigation principale">
+      <a href="#parcours">Parcours</a>
       <a href="#workflows">Workflows</a>
+      <a href="#apercu">L'application</a>
       <a href="#fonctions">Fonctionnalités</a>
       <a href="#hebergement">Hébergement</a>
       <a href="#offres">Offres</a>
       <a href="#faq">Questions</a>
       <a href="/docs/">Documentation</a>
     </nav>
-    <a class="btn btn-primary btn-sm" href="#contact">Demander une démo</a>
+
+    <button type="button" class="icon-btn" id="theme-btn" aria-label="Activer le thème sombre">
+      <svg class="ico-light" width="18" height="18" aria-hidden="true"><use href="#i-moon"/></svg>
+      <svg class="ico-dark" width="18" height="18" aria-hidden="true"><use href="#i-sun"/></svg>
+    </button>
+
+    <a class="btn btn-primary btn-sm nav-cta" href="#contact">
+      <span class="cta-long">Demander une démo</span><span class="cta-short">Démo</span>
+    </a>
+
+    <button type="button" class="icon-btn nav-burger" id="menu-btn"
+            aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+      <svg class="ico-open" width="20" height="20" aria-hidden="true"><use href="#i-menu"/></svg>
+      <svg class="ico-shut" width="20" height="20" aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
   </div>
 </header>
 
@@ -998,6 +1283,7 @@
         </svg>
       </div>
       <div class="canvas-legend">
+        <span class="canvas-hint" aria-hidden="true">Faites défiler le schéma vers la droite →</span>
         <span><b>Glissez</b> les blocs, tirez les fils.</span>
         <span><b>Aucune ligne de code</b> à écrire.</span>
         <span><b>Le ticket avance seul</b> jusqu'au bloc suivant.</span>
@@ -1124,6 +1410,19 @@
       <span class="block is-gate" style="--nc: var(--n-amber)"><i></i>Attendre un statut</span>
     </div>
 
+    <figure class="wf-shot">
+      <div class="canvas-bar">
+        <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="canvas-name">parqueo / workflows / éditeur</span>
+      </div>
+      <img src="img/editeur-workflow-1800.webp"
+           srcset="img/editeur-workflow-900.webp 900w, img/editeur-workflow-1800.webp 1800w"
+           sizes="(max-width: 1220px) 100vw, 1180px"
+           width="1800" height="518" loading="lazy" decoding="async"
+           alt="Éditeur de workflow de Parqueo : des blocs de déclencheur, d'action et de condition posés sur une grille et reliés par des fils, avec le panneau de réglages du bloc sélectionné.">
+      <figcaption>L'éditeur tel qu'il s'ouvre dans l'application : on pose les blocs, on tire les fils, on enregistre.</figcaption>
+    </figure>
+
     <div class="callout">
       <svg width="20" height="20" aria-hidden="true"><use href="#i-link"/></svg>
       <p>
@@ -1235,6 +1534,82 @@
           </div>
         </div>
       </article>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="apercu" aria-labelledby="titre-apercu">
+    <div class="sec-head">
+      <p class="eyebrow">L'application</p>
+      <h2 id="titre-apercu">Ce que votre équipe a sous les yeux.</h2>
+      <p class="body-soft">
+        Pas de maquette&nbsp;: quatre écrans de Parqueo tel qu'il tourne. Une interface dense là où
+        il faut trancher vite — la file de tickets, l'inventaire — et sobre partout ailleurs.
+      </p>
+    </div>
+
+    <div class="shots">
+      <div class="shot-tabs" role="tablist" aria-label="Écrans de l'application">
+        <button type="button" role="tab" class="shot-tab" id="tab-dash"
+                aria-controls="pan-dash" aria-selected="true" tabindex="0">Tableau de bord</button>
+        <button type="button" role="tab" class="shot-tab" id="tab-tickets"
+                aria-controls="pan-tickets" aria-selected="false" tabindex="-1">File de tickets</button>
+        <button type="button" role="tab" class="shot-tab" id="tab-ticket"
+                aria-controls="pan-ticket" aria-selected="false" tabindex="-1">Détail d'un ticket</button>
+        <button type="button" role="tab" class="shot-tab" id="tab-parc"
+                aria-controls="pan-parc" aria-selected="false" tabindex="-1">Inventaire du parc</button>
+      </div>
+
+      <figure class="shot" role="tabpanel" id="pan-dash" aria-labelledby="tab-dash" tabindex="0">
+        <div class="canvas-bar">
+          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="canvas-name">parqueo / tableau de bord</span>
+        </div>
+        <img src="img/tableau-de-bord-1600.webp"
+             srcset="img/tableau-de-bord-800.webp 800w, img/tableau-de-bord-1600.webp 1600w"
+             sizes="(max-width: 1220px) 100vw, 1180px"
+             width="1600" height="1125" loading="lazy" decoding="async"
+             alt="Tableau de bord de Parqueo : compteurs de tickets ouverts et non assignés, répartition par statut et charge de travail par technicien.">
+        <figcaption>L'écran d'accueil, composé par l'administrateur pour chaque rôle : on ouvre l'application et l'on sait quoi traiter.</figcaption>
+      </figure>
+
+      <figure class="shot" role="tabpanel" id="pan-tickets" aria-labelledby="tab-tickets" tabindex="0" hidden>
+        <div class="canvas-bar">
+          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="canvas-name">parqueo / tickets</span>
+        </div>
+        <img src="img/liste-tickets-1600.webp"
+             srcset="img/liste-tickets-800.webp 800w, img/liste-tickets-1600.webp 1600w"
+             sizes="(max-width: 1220px) 100vw, 1180px"
+             width="1600" height="1125" loading="lazy" decoding="async"
+             alt="Liste des tickets de Parqueo : colonnes de statut, priorité, équipe et technicien assigné, avec filtres au-dessus du tableau.">
+        <figcaption>La file complète, filtrable par statut, priorité, équipe ou technicien — et la vôtre seule si vous n'êtes pas administrateur.</figcaption>
+      </figure>
+
+      <figure class="shot" role="tabpanel" id="pan-ticket" aria-labelledby="tab-ticket" tabindex="0" hidden>
+        <div class="canvas-bar">
+          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="canvas-name">parqueo / tickets / #1284</span>
+        </div>
+        <img src="img/detail-ticket-1600.webp"
+             srcset="img/detail-ticket-800.webp 800w, img/detail-ticket-1600.webp 1600w"
+             sizes="(max-width: 1220px) 100vw, 1180px"
+             width="1600" height="1044" loading="lazy" decoding="async"
+             alt="Détail d'un ticket dans Parqueo : description de l'incident, fil des échanges, et panneau latéral des propriétés du ticket.">
+        <figcaption>Le fil des échanges d'un côté, les propriétés de l'autre : statut, priorité, assignation et actif concerné se changent sans quitter la page.</figcaption>
+      </figure>
+
+      <figure class="shot" role="tabpanel" id="pan-parc" aria-labelledby="tab-parc" tabindex="0" hidden>
+        <div class="canvas-bar">
+          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="canvas-name">parqueo / inventaire</span>
+        </div>
+        <img src="img/inventaire-1600.webp"
+             srcset="img/inventaire-800.webp 800w, img/inventaire-1600.webp 1600w"
+             sizes="(max-width: 1220px) 100vw, 1180px"
+             width="1600" height="1125" loading="lazy" decoding="async"
+             alt="Inventaire du parc informatique dans Parqueo : tableau des postes, imprimantes et serveurs avec leur type, leur état et leur utilisateur.">
+        <figcaption>Postes, imprimantes, serveurs et logiciels, chacun rattachable au ticket qui le concerne.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -1484,35 +1859,240 @@
 </footer>
 
 <script>
-  // Le mouvement SMIL du ticket ne se plie pas aux media queries : on l'arrête à la main.
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('svg').forEach((svg) => svg.pauseAnimations && svg.pauseAnimations());
+(function () {
+  'use strict';
+
+  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* --- mouvement ---------------------------------------------------------
+     Le mouvement SMIL du ticket ne se plie pas aux media queries : on l'arrête
+     à la main. */
+  if (reduit.matches) {
+    document.querySelectorAll('svg').forEach(function (svg) {
+      if (svg.pauseAnimations) svg.pauseAnimations();
+    });
   }
 
-  // Recours pour les postes sans client mail : le mailto: n'y produit aucun effet.
-  document.querySelectorAll('.btn-copy[data-copy]').forEach((btn) => {
-    const lbl = btn.querySelector('.btn-copy-txt');
-    btn.addEventListener('click', async () => {
-      const texte = btn.dataset.copy;
+  /* --- thème -------------------------------------------------------------
+     Le CSS sait déjà rendre les deux thèmes ; il manquait la commande. Le choix
+     est retenu d'une visite à l'autre, et l'absence de choix laisse la main à
+     la préférence du système. */
+  var racine = document.documentElement;
+  var btnTheme = document.getElementById('theme-btn');
+  var systemeSombre = window.matchMedia('(prefers-color-scheme: dark)');
+  var metas = Array.prototype.slice.call(document.querySelectorAll('meta[name="theme-color"]'));
+  var metasOrigine = metas.map(function (m) { return m.getAttribute('content'); });
+
+  function themeAffiche() {
+    return racine.getAttribute('data-theme') || (systemeSombre.matches ? 'dark' : 'light');
+  }
+
+  function majTheme() {
+    var force = racine.getAttribute('data-theme');
+    if (btnTheme) {
+      btnTheme.setAttribute('aria-label',
+        themeAffiche() === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
+    }
+    // Les deux <meta theme-color> sont conditionnées à la préférence du système :
+    // dès qu'un thème est forcé, elles décrivent la mauvaise page. On les aligne
+    // sur la couleur réellement affichée, et on les rend au système si le choix
+    // explicite disparaît.
+    if (!force) {
+      metas.forEach(function (m, k) { m.setAttribute('content', metasOrigine[k]); });
+      return;
+    }
+    var fond = getComputedStyle(racine).getPropertyValue('--canvas').trim();
+    if (fond) metas.forEach(function (m) { m.setAttribute('content', fond); });
+  }
+
+  if (btnTheme) {
+    btnTheme.addEventListener('click', function () {
+      var suivant = themeAffiche() === 'dark' ? 'light' : 'dark';
+      racine.setAttribute('data-theme', suivant);
+      try { localStorage.setItem('parqueo-theme', suivant); } catch (e) { /* stockage refusé */ }
+      majTheme();
+    });
+  }
+  if (systemeSombre.addEventListener) systemeSombre.addEventListener('change', majTheme);
+  majTheme();
+
+  /* --- menu de navigation (sous 900px) -----------------------------------
+     Au-dessus, les liens tiennent dans la barre ; en dessous, ils passaient
+     simplement en display:none et la page devenait un long défilement sans
+     repère. Ils descendent maintenant dans un panneau. */
+  var barre = document.querySelector('.nav');
+  var btnMenu = document.getElementById('menu-btn');
+  var liens = document.getElementById('nav-links');
+
+  function fermerMenu() {
+    if (!barre || barre.getAttribute('data-menu') !== 'open') return;
+    barre.removeAttribute('data-menu');
+    btnMenu.setAttribute('aria-expanded', 'false');
+    btnMenu.setAttribute('aria-label', 'Ouvrir le menu');
+  }
+
+  if (btnMenu && barre && liens) {
+    btnMenu.addEventListener('click', function () {
+      if (barre.getAttribute('data-menu') === 'open') { fermerMenu(); return; }
+      barre.setAttribute('data-menu', 'open');
+      btnMenu.setAttribute('aria-expanded', 'true');
+      btnMenu.setAttribute('aria-label', 'Fermer le menu');
+    });
+
+    // Sans cela le panneau resterait ouvert par-dessus la section qu'on vient
+    // de demander.
+    liens.addEventListener('click', function (e) { if (e.target.closest('a')) fermerMenu(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || barre.getAttribute('data-menu') !== 'open') return;
+      fermerMenu();
+      btnMenu.focus();
+    });
+    document.addEventListener('click', function (e) { if (!barre.contains(e.target)) fermerMenu(); });
+
+    var large = window.matchMedia('(min-width: 1121px)');
+    if (large.addEventListener) large.addEventListener('change', fermerMenu);
+  }
+
+  /* --- section courante ---------------------------------------------------
+     La page fait huit écrans : le lien de la section traversée est souligné
+     pour qu'on sache toujours où l'on est. */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  var parId = {};
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
+    parId[a.getAttribute('href').slice(1)] = a;
+  });
+
+  if (window.IntersectionObserver && sections.length) {
+    var vues = {};
+    var espion = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { vues[e.target.id] = e.isIntersecting; });
+      var courante = null;
+      for (var k = 0; k < sections.length; k++) {
+        if (vues[sections[k].id]) { courante = sections[k].id; break; }
+      }
+      Object.keys(parId).forEach(function (id) {
+        if (id === courante) parId[id].setAttribute('aria-current', 'true');
+        else parId[id].removeAttribute('aria-current');
+      });
+    }, { rootMargin: '-78px 0px -66% 0px' });
+    sections.forEach(function (sec) { espion.observe(sec); });
+  }
+
+  /* --- onglets des captures ----------------------------------------------
+     Modèle ARIA des onglets : une seule tabulation entre dans le groupe, les
+     flèches circulent à l'intérieur. */
+  var onglets = Array.prototype.slice.call(document.querySelectorAll('.shot-tab'));
+
+  function choisirOnglet(n, prendreLeFocus) {
+    onglets.forEach(function (t, k) {
+      var actif = k === n;
+      t.setAttribute('aria-selected', actif ? 'true' : 'false');
+      t.tabIndex = actif ? 0 : -1;
+      var panneau = document.getElementById(t.getAttribute('aria-controls'));
+      if (panneau) panneau.hidden = !actif;
+    });
+    if (prendreLeFocus) onglets[n].focus();
+  }
+
+  onglets.forEach(function (t, n) {
+    t.addEventListener('click', function () { choisirOnglet(n, false); });
+    t.addEventListener('keydown', function (e) {
+      var cible = { ArrowLeft: n - 1, ArrowRight: n + 1, Home: 0, End: onglets.length - 1 }[e.key];
+      if (cible === undefined) return;
+      e.preventDefault();
+      choisirOnglet((cible + onglets.length) % onglets.length, true);
+    });
+  });
+
+  /* --- apparition au défilement ------------------------------------------
+     La classe .reveal n'est posée qu'ici : si le script ne s'exécute pas, ou si
+     le mouvement est refusé, rien n'est jamais masqué. */
+  if (!reduit.matches && window.IntersectionObserver) {
+    var cibles = Array.prototype.slice.call(document.querySelectorAll(
+      '.canvas-panel, .stats, .sec .sec-head, .step, .trio > *, .blocks, .wf-shot, ' +
+      '.callout, .shots, .grid-feat > *, .deploy > *, .offers > *, .tarifs, .faq, .cta'
+    ));
+    cibles.forEach(function (el) { el.classList.add('reveal'); });
+
+    var apparition = new IntersectionObserver(function (entrees, obs) {
+      entrees.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        // Décalage par rang dans la fratrie : une grille de cartes se remplit
+        // de gauche à droite au lieu d'apparaître d'un bloc.
+        var freres = Array.prototype.filter.call(el.parentElement.children, function (n) {
+          return n.classList.contains('reveal');
+        });
+        el.style.transitionDelay = Math.min(freres.indexOf(el), 5) * 60 + 'ms';
+        el.classList.add('is-in');
+        obs.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+
+    cibles.forEach(function (el) { apparition.observe(el); });
+  }
+
+  /* --- chiffres du bandeau ------------------------------------------------
+     Le décompte n'est lancé qu'une fois le bandeau visible, et seulement sur
+     le premier nœud de texte : le « % » de la dernière case doit rester. */
+  if (!reduit.matches && window.IntersectionObserver) {
+    var compteurs = Array.prototype.slice.call(document.querySelectorAll('.stat .num'))
+      .map(function (el) {
+        var noeud = el.firstChild;
+        if (!noeud || noeud.nodeType !== 3) return null;
+        var fin = parseInt(noeud.textContent, 10);
+        return isNaN(fin) ? null : { noeud: noeud, fin: fin };
+      })
+      .filter(Boolean);
+
+    if (compteurs.length) {
+      compteurs.forEach(function (c) { c.noeud.textContent = '0'; });
+      var bandeau = document.querySelector('.stats');
+      var obsNum = new IntersectionObserver(function (entrees, obs) {
+        if (!entrees[0].isIntersecting) return;
+        obs.disconnect();
+        var debut = performance.now();
+        var duree = 900;
+        (function pas(maintenant) {
+          var t = Math.min((maintenant - debut) / duree, 1);
+          var e = 1 - Math.pow(1 - t, 3); // ralentit en fin de course
+          compteurs.forEach(function (c) { c.noeud.textContent = Math.round(c.fin * e); });
+          if (t < 1) requestAnimationFrame(pas);
+        })(debut);
+      }, { threshold: 0.4 });
+      obsNum.observe(bandeau);
+    }
+  }
+
+  /* --- copie de l'adresse -------------------------------------------------
+     Recours pour les postes sans client mail : le mailto: n'y produit aucun
+     effet. */
+  document.querySelectorAll('.btn-copy[data-copy]').forEach(function (btn) {
+    var lbl = btn.querySelector('.btn-copy-txt');
+    btn.addEventListener('click', async function () {
+      var texte = btn.dataset.copy;
       try {
         await navigator.clipboard.writeText(texte);
-      } catch {
-        // navigator.clipboard manque hors contexte sécurisé et sur les navigateurs anciens.
-        const zone = document.createElement('textarea');
+      } catch (err) {
+        // navigator.clipboard manque hors contexte sécurisé et sur les
+        // navigateurs anciens.
+        var zone = document.createElement('textarea');
         zone.value = texte;
         zone.setAttribute('readonly', '');
         zone.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
         document.body.appendChild(zone);
         zone.select();
-        try { document.execCommand('copy'); } catch { /* rien de plus à tenter */ }
+        try { document.execCommand('copy'); } catch (e) { /* rien de plus à tenter */ }
         zone.remove();
       }
       lbl.textContent = 'Copié';
       btn.dataset.done = '';
       clearTimeout(btn._t);
-      btn._t = setTimeout(() => { lbl.textContent = 'Copier'; delete btn.dataset.done; }, 2000);
+      btn._t = setTimeout(function () { lbl.textContent = 'Copier'; delete btn.dataset.done; }, 2000);
     });
   });
+})();
 </script>
 </body>
 </html>

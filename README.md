@@ -12,6 +12,7 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 | -------------- | ----------------------------------------------------------- |
 | `index.html`   | la page entière (structure, styles, données structurées)     |
 | `fonts/`       | Archivo, Inter, IBM Plex Mono en woff2 (sous-ensemble latin) |
+| `img/`         | **généré** — captures de l'application — voir « Captures »   |
 | `og-image.png` | image de partage 1200×630 (réseaux sociaux, messageries)     |
 | `og-image.svg` | la source de l'image ci-dessus — voir « Regénérer l'image »  |
 | `favicon.svg`  | icône d'onglet                                              |
@@ -59,6 +60,25 @@ calquée sur celle de `index.html`.
   « Copier ») — le script ci-dessus le remplace partout.
 - **Date du sitemap** : `<lastmod>` est remis à jour à chaque exécution du
   script ; à ajuster à la main lors d'une refonte du contenu.
+
+## Captures de l'application (`/img/`)
+
+La section « L'application » et la bande de l'éditeur de workflow affichent de
+vraies captures, converties en WebP depuis `docs/img/` (les PNG 2560 px servis
+tels quels pesaient dix fois plus). Elles se régénèrent depuis ce dépôt :
+
+```sh
+npm install sharp
+node -e "const s=require('sharp');(async()=>{for(const[n,w]of[\
+['tableau-de-bord',[1600,800]],['liste-tickets',[1600,800]],['inventaire',[1600,800]],\
+['detail-ticket',[1600,800]],['editeur-workflow',[1800,900]]])for(const x of w)\
+await s('docs/img/'+n+'.png').resize({width:x,withoutEnlargement:true})\
+.webp({quality:74,effort:6}).toFile('img/'+n+'-'+x+'.webp')})()"
+```
+
+Les deux largeurs alimentent le `srcset` de chaque image. Si vous changez une
+capture, gardez les dimensions déclarées dans `width`/`height` à jour : elles
+réservent la place avant le chargement et évitent que la page ne saute.
 
 ## Regénérer l'image de partage
 
