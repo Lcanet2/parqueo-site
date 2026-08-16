@@ -431,7 +431,22 @@ est rejeté en 404 avant d&#39;atteindre la base.</p>
 <tbody><tr>
 <td>GET</td>
 <td><code>/api/health</code></td>
-<td>public — sonde de vie</td>
+<td>public — sonde de vie, ne divulgue rien d&#39;autre</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/setup/status</code></td>
+<td>public — <code>{ needsSetup }</code>, vrai tant qu&#39;aucun compte n&#39;existe</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/setup</code></td>
+<td>public — crée le premier administrateur ; <code>409</code> si un compte existe déjà</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/about</code></td>
+<td><strong>authentifié</strong> — <code>{ version, license }</code></td>
 </tr>
 <tr>
 <td>GET</td>
@@ -460,6 +475,9 @@ est rejeté en 404 avant d&#39;atteindre la base.</p>
 </tr>
 </tbody></table>
 </div>
+<p><code>GET /api/about</code> est authentifiée à dessein : publier le numéro de version d&#39;un
+logiciel auto-hébergé indique à un visiteur anonyme quelles failles connues
+essayer. <code>/api/health</code> reste publique et ne renvoie que <code>{ ok: true }</code>.</p>
 <p><code>POST /api/auth/login</code> normalise l&#39;email (minuscules, espaces retirés) : les
 comptes sont stockés en minuscules à la création, à l&#39;import et via le SSO.</p>
 <p><code>PATCH /api/auth/password</code> exige l&#39;ancien mot de passe, impose 8 caractères
@@ -952,8 +970,13 @@ visible dans l&#39;interface ; sinon le message devient une demande à part.</li
 l&#39;API est exposée publiquement.</li>
 <li><strong>Webhook sortant</strong> : un administrateur peut cibler une IP interne (SSRF) — le
 rôle admin est de toute façon de confiance.</li>
-<li><strong>Compte de seed par défaut</strong> (<code>admin@parqueo.local</code> / <code>admin1234</code>) : à
-changer impérativement au premier démarrage.</li>
+<li><strong>Premier compte</strong> : aucun identifiant n&#39;est livré avec l&#39;application. Le
+compte administrateur se crée au premier accès via <code>POST /api/setup</code>, route
+publique qui ne répond que tant que la base ne contient <strong>aucun</strong>
+utilisateur. Le critère porte sur l&#39;existence d&#39;un utilisateur, non d&#39;un
+administrateur : sinon, une base dont les administrateurs auraient été
+supprimés permettrait à n&#39;importe qui de s&#39;y déclarer administrateur. Deux
+appels concurrents sont sérialisés par un verrou consultatif PostgreSQL.</li>
 </ol>
 <hr>
 <h2 id="10-dimensionnement-et-limites">10. Dimensionnement et limites<a class="anchor" href="#10-dimensionnement-et-limites" aria-label="Lien vers cette section">#</a></h2>

@@ -98,15 +98,16 @@
     <nav>
       <ul>
         <li class="n2"><a href="#1-prérequis">1. Prérequis</a></li>
-        <li class="n2"><a href="#2-installation-en-production">2. Installation en production</a></li>
-        <li class="n3"><a href="#21-utilisateur-système-et-code">2.1 Utilisateur système et code</a></li>
-        <li class="n3"><a href="#22-base-de-données">2.2 Base de données</a></li>
-        <li class="n3"><a href="#23-api">2.3 API</a></li>
-        <li class="n3"><a href="#24-client">2.4 Client</a></li>
-        <li class="n3"><a href="#25-reverse-proxy">2.5 Reverse proxy</a></li>
-        <li class="n3"><a href="#26-service-systemd">2.6 Service systemd</a></li>
-        <li class="n3"><a href="#27-premier-démarrage">2.7 Premier démarrage</a></li>
-        <li class="n3"><a href="#28-alternative-docker-compose">2.8 Alternative : docker compose</a></li>
+        <li class="n2"><a href="#2-installation">2. Installation</a></li>
+        <li class="n3"><a href="#21-installation-en-une-commande">2.1 Installation en une commande</a></li>
+        <li class="n3"><a href="#22-premier-démarrage">2.2 Premier démarrage</a></li>
+        <li class="n3"><a href="#23-exploitation-courante">2.3 Exploitation courante</a></li>
+        <li class="n3"><a href="#24-utilisateur-système-et-code">2.4 Utilisateur système et code</a></li>
+        <li class="n3"><a href="#25-base-de-données">2.5 Base de données</a></li>
+        <li class="n3"><a href="#26-api">2.6 API</a></li>
+        <li class="n3"><a href="#27-client">2.7 Client</a></li>
+        <li class="n3"><a href="#28-reverse-proxy">2.8 Reverse proxy</a></li>
+        <li class="n3"><a href="#29-service-systemd">2.9 Service systemd</a></li>
         <li class="n2"><a href="#3-référence-des-variables-denvironnement">3. Référence des variables d&amp;#39;environnement</a></li>
         <li class="n3"><a href="#31-cœur">3.1 Cœur</a></li>
         <li class="n3"><a href="#32-email-sortant">3.2 Email sortant</a></li>
@@ -145,7 +146,7 @@
 déploie et maintient l&#39;application.</p>
 <ul>
 <li><a href="#1-pr%C3%A9requis">1. Prérequis</a></li>
-<li><a href="#2-installation-en-production">2. Installation en production</a> — dont §2.8 docker compose</li>
+<li><a href="#2-installation">2. Installation</a> — §2.1 en une commande, §2.4 sans Docker</li>
 <li><a href="#3-r%C3%A9f%C3%A9rence-des-variables-denvironnement">3. Référence des variables d&#39;environnement</a></li>
 <li><a href="#4-configuration-du-sso-microsoft-entra-id">4. Configuration du SSO Microsoft Entra ID</a></li>
 <li><a href="#5-configuration-du-collecteur-email">5. Configuration du collecteur email</a></li>
@@ -157,6 +158,11 @@ déploie et maintient l&#39;application.</p>
 </ul>
 <hr>
 <h2 id="1-prérequis">1. Prérequis<a class="anchor" href="#1-prérequis" aria-label="Lien vers cette section">#</a></h2>
+<p><strong>Chemin recommandé (§2.1)</strong> — Docker avec le plugin Compose, et rien d&#39;autre.
+Ni Node.js, ni PostgreSQL, ni reverse proxy à installer : tout est fourni par
+les images, certificat TLS compris.</p>
+<p><strong>Installation manuelle (§2.4 et suivantes)</strong>, si vous ne voulez pas de
+conteneurs :</p>
 <div class="table-scroll"><table>
 <thead>
 <tr>
@@ -178,30 +184,124 @@ déploie et maintient l&#39;application.</p>
 <tr>
 <td>Reverse proxy</td>
 <td>nginx, Caddy, Traefik…</td>
-<td><strong>requis</strong> (voir §2.5)</td>
+<td><strong>requis</strong> (voir §2.8)</td>
 </tr>
 </tbody></table>
 </div>
-<p>Pour une évaluation rapide, Docker avec le plugin Compose suffit et remplace tout
-le tableau ci-dessus : voir §2.8.</p>
 <p>Optionnels, activés seulement s&#39;ils sont configurés : un serveur <strong>SMTP</strong> (notifications), une boîte <strong>IMAP</strong> (collecteur email), un <strong>tenant Microsoft Entra ID</strong> (SSO).</p>
 <p><strong>Ressources</strong> : l&#39;API est un processus Node mono-thread léger. Pour quelques
 dizaines d&#39;utilisateurs simultanés, 1 vCPU et 1 Go de RAM suffisent, PostgreSQL
 compris. L&#39;espace disque est dicté par les pièces jointes (10 Mo par fichier au
 maximum).</p>
 <hr>
-<h2 id="2-installation-en-production">2. Installation en production<a class="anchor" href="#2-installation-en-production" aria-label="Lien vers cette section">#</a></h2>
-<p>Exemple pour une machine Debian/Ubuntu, application déployée dans
+<h2 id="2-installation">2. Installation<a class="anchor" href="#2-installation" aria-label="Lien vers cette section">#</a></h2>
+<p>Deux chemins. Le premier convient à la très grande majorité des cas et ne demande
+que Docker ; le second s&#39;adresse à qui ne veut pas de conteneurs.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>§2.1 à §2.3 — en une commande</th>
+<th>§2.4 à §2.9 — installation manuelle</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prérequis</td>
+<td>Docker + plugin Compose</td>
+<td>Node.js, PostgreSQL, reverse proxy</td>
+</tr>
+<tr>
+<td>Certificat TLS</td>
+<td>obtenu et renouvelé tout seul</td>
+<td>à votre charge (Let&#39;s Encrypt)</td>
+</tr>
+<tr>
+<td>Mise à jour</td>
+<td><code>docker compose pull &amp;&amp; up -d</code></td>
+<td><code>git pull</code>, rebuild, redémarrage</td>
+</tr>
+<tr>
+<td>À construire</td>
+<td>rien, les images sont publiées</td>
+<td>client et dépendances</td>
+</tr>
+</tbody></table>
+</div>
+<h3 id="21-installation-en-une-commande">2.1 Installation en une commande<a class="anchor" href="#21-installation-en-une-commande" aria-label="Lien vers cette section">#</a></h3>
+<pre><code class="language-sh">curl -fsSL https://parqueo.fr/install.sh | sh -s -- --domaine parqueo.exemple.fr
+</code></pre>
+<p>Le script vérifie Docker, télécharge la configuration, <strong>génère les secrets</strong>,
+tire les images publiées et démarre la stack. Il ne compile rien : ni git, ni
+Node, ni les sources ne sont nécessaires sur le serveur.</p>
+<p>Sans <code>--domaine</code>, Parqueo répond en HTTP sur le port 80 — pratique pour évaluer
+sur un réseau interne. Avec un nom de domaine, Caddy demande un certificat
+Let&#39;s Encrypt au premier démarrage et le renouvelle seul ; les ports <strong>80 et
+443</strong> doivent alors être joignables depuis Internet, le 80 servant à la
+validation du domaine et à la redirection vers HTTPS.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Détail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Répertoire</td>
+<td><code>./parqueo</code> (surchargeable par <code>--repertoire</code>)</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td><code>.env</code>, créé en <code>600</code>, secrets générés</td>
+</tr>
+<tr>
+<td>Données</td>
+<td>volumes <code>parqueo-db</code>, <code>parqueo-uploads</code>, <code>parqueo-caddy</code> (certificats)</td>
+</tr>
+<tr>
+<td>Images</td>
+<td><code>ghcr.io/lcanet2/parqueo-api</code> et <code>-web</code></td>
+</tr>
+</tbody></table>
+</div>
+<p><code>JWT_SECRET</code> et <code>POSTGRES_PASSWORD</code> sont générés une fois et <strong>ne doivent plus
+changer</strong> : le premier invalide toutes les sessions ouvertes, le second rend la
+base inaccessible. Une réexécution du script conserve un <code>.env</code> existant.</p>
+<p>Pour une installation hors ligne ou depuis un miroir interne, <code>PARQUEO_SOURCE</code>
+redirige le téléchargement de la configuration.</p>
+<h3 id="22-premier-démarrage">2.2 Premier démarrage<a class="anchor" href="#22-premier-démarrage" aria-label="Lien vers cette section">#</a></h3>
+<p>Ouvrez l&#39;adresse affichée par le script. <strong>Le premier écran vous fait créer le
+compte administrateur</strong> : Parqueo n&#39;est livré avec aucun mot de passe par défaut.</p>
+<p>La route qui crée ce compte ne répond que tant que la base ne contient aucun
+utilisateur, et se referme définitivement ensuite. Le critère est bien « aucun
+utilisateur » et non « aucun administrateur » : rouvrir l&#39;installation sur une
+base en service laisserait n&#39;importe qui s&#39;y déclarer administrateur.</p>
+<p>Ensuite : créez les équipes et les catégories, puis parcourez Paramètres.</p>
+<p>L&#39;amorçage automatique de la base (<code>SEED_ON_START</code>, actif par défaut) ne pose
+qu&#39;une catégorie et une équipe, sans lesquelles aucun ticket n&#39;est ouvrable.
+Il ne crée aucun compte, et reste sans effet sur une base déjà amorcée.</p>
+<h3 id="23-exploitation-courante">2.3 Exploitation courante<a class="anchor" href="#23-exploitation-courante" aria-label="Lien vers cette section">#</a></h3>
+<p>Depuis le répertoire d&#39;installation :</p>
+<pre><code class="language-sh">docker compose pull &amp;&amp; docker compose up -d   # mettre à jour
+docker compose down                           # arrêter, données conservées
+docker compose down -v                        # tout effacer, volumes compris
+docker compose logs -f api                    # suivre les journaux
+</code></pre>
+<p>Les migrations de base sont appliquées au démarrage du conteneur <code>api</code> : une
+mise à jour ne demande aucune commande supplémentaire. Pour les sauvegardes,
+voir §7.</p>
+<hr>
+<p>Les sections suivantes décrivent l&#39;<strong>installation manuelle</strong>, sans Docker.
+Exemple pour une machine Debian/Ubuntu, application déployée dans
 <code>/opt/parqueo</code>, servie par nginx sur <code>https://parqueo.exemple.fr</code>.</p>
-<h3 id="21-utilisateur-système-et-code">2.1 Utilisateur système et code<a class="anchor" href="#21-utilisateur-système-et-code" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="24-utilisateur-système-et-code">2.4 Utilisateur système et code<a class="anchor" href="#24-utilisateur-système-et-code" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">sudo adduser --system --group --home /opt/parqueo parqueo
 sudo -u parqueo git clone https://github.com/Lcanet2/parqueo.git /opt/parqueo
 </code></pre>
-<h3 id="22-base-de-données">2.2 Base de données<a class="anchor" href="#22-base-de-données" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="25-base-de-données">2.5 Base de données<a class="anchor" href="#25-base-de-données" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">sudo -u postgres psql -c &quot;CREATE USER parqueo WITH PASSWORD &#39;&lt;mot-de-passe-solide&gt;&#39;;&quot;
 sudo -u postgres psql -c &quot;CREATE DATABASE parqueo OWNER parqueo;&quot;
 </code></pre>
-<h3 id="23-api">2.3 API<a class="anchor" href="#23-api" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="26-api">2.6 API<a class="anchor" href="#26-api" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">cd /opt/parqueo/server
 sudo -u parqueo npm ci
 sudo -u parqueo npx prisma generate
@@ -214,19 +314,23 @@ sudo -u parqueo npm run seed
 <p>Installez <strong>toutes</strong> les dépendances (<code>npm ci</code>, sans <code>--omit=dev</code>) : la CLI
 Prisma qui applique les migrations est une dépendance de développement.
 <code>migrate deploy</code> applique les migrations existantes sans jamais réinitialiser la
-base — c&#39;est la commande de production. Le seed crée un compte
-<code>admin@parqueo.local</code> / <code>admin1234</code>, <strong>à changer au premier démarrage</strong>.</p>
+base — c&#39;est la commande de production. <code>npm run seed</code> pose la catégorie et
+l&#39;équipe par défaut ; il ne crée aucun compte, celui-ci se crée au premier
+accès (§2.2).</p>
 <p>Générer un <code>JWT_SECRET</code> solide :</p>
 <pre><code class="language-sh">node -e &quot;console.log(require(&#39;crypto&#39;).randomBytes(48).toString(&#39;base64url&#39;))&quot;
 </code></pre>
-<h3 id="24-client">2.4 Client<a class="anchor" href="#24-client" aria-label="Lien vers cette section">#</a></h3>
+<p>L&#39;API refuse de démarrer sans <code>JWT_SECRET</code>, ou avec un secret de moins de 16
+caractères, et le dit explicitement dans le journal. Elle démarrait autrefois
+sans, pour n&#39;échouer qu&#39;à la première tentative de connexion.</p>
+<h3 id="27-client">2.7 Client<a class="anchor" href="#27-client" aria-label="Lien vers cette section">#</a></h3>
 <pre><code class="language-sh">cd /opt/parqueo/client
 sudo -u parqueo npm ci
 sudo -u parqueo npm run build       # produit client/dist
 </code></pre>
 <p><code>dist/</code> est un ensemble de fichiers statiques : aucun processus Node ne tourne
 pour le front.</p>
-<h3 id="25-reverse-proxy">2.5 Reverse proxy<a class="anchor" href="#25-reverse-proxy" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="28-reverse-proxy">2.8 Reverse proxy<a class="anchor" href="#28-reverse-proxy" aria-label="Lien vers cette section">#</a></h3>
 <p>Le client appelle <code>/api</code> en <strong>relatif</strong> : le proxy doit servir le front et l&#39;API
 <strong>sur la même origine</strong>. C&#39;est la seule contrainte de déploiement structurante.</p>
 <pre><code class="language-nginx">server {
@@ -268,7 +372,7 @@ server {
 </code></pre>
 <p>Le jeton SSO transite en query string (<code>?sso_token=…</code>) : si vous journalisez les
 URL complètes, filtrez ce paramètre.</p>
-<h3 id="26-service-systemd">2.6 Service systemd<a class="anchor" href="#26-service-systemd" aria-label="Lien vers cette section">#</a></h3>
+<h3 id="29-service-systemd">2.9 Service systemd<a class="anchor" href="#29-service-systemd" aria-label="Lien vers cette section">#</a></h3>
 <p><code>/etc/systemd/system/parqueo.service</code> :</p>
 <pre><code class="language-ini">[Unit]
 Description=Parqueo API
@@ -300,62 +404,7 @@ sudo systemctl status parqueo
 <code>EnvironmentFile</code>). <strong><code>WorkingDirectory</code> est critique</strong> : les pièces jointes sont
 écrites dans <code>uploads/</code> en chemin relatif ; démarrer ailleurs rend les fichiers
 existants introuvables.</p>
-<h3 id="27-premier-démarrage">2.7 Premier démarrage<a class="anchor" href="#27-premier-démarrage" aria-label="Lien vers cette section">#</a></h3>
-<ol>
-<li>ouvrir <code>https://parqueo.exemple.fr</code> ;</li>
-<li>se connecter avec <code>admin@parqueo.local</code> / <code>admin1234</code> ;</li>
-<li><strong>changer le mot de passe</strong> depuis « Mon compte », ou créer un admin nominatif
-puis supprimer le compte de seed ;</li>
-<li>créer les équipes et les catégories ;</li>
-<li>parcourir Paramètres.</li>
-</ol>
-<h3 id="28-alternative-docker-compose">2.8 Alternative : docker compose<a class="anchor" href="#28-alternative-docker-compose" aria-label="Lien vers cette section">#</a></h3>
-<p>Le dépôt fournit une stack complète (PostgreSQL + API + nginx servant le client)
-pour évaluer Parqueo ou démarrer vite :</p>
-<pre><code class="language-sh">cp .env.docker.example .env
-printf &#39;JWT_SECRET=%s\n&#39; &quot;$(openssl rand -base64 48)&quot; &gt;&gt; .env
-docker compose up -d
-</code></pre>
-<p>Parqueo répond alors sur <a href="http://localhost:8080">http://localhost:8080</a>. Au premier démarrage, le
-conteneur <code>api</code> applique les migrations puis crée le compte
-<code>admin@parqueo.local</code> / <code>admin1234</code> — passez <code>SEED_ON_START=false</code> une fois votre
-propre compte administrateur en place.</p>
-<div class="table-scroll"><table>
-<thead>
-<tr>
-<th>Élément</th>
-<th>Détail</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Fichiers</td>
-<td><code>docker-compose.yml</code>, <code>server/Dockerfile</code>, <code>client/Dockerfile</code>, <code>docker/nginx.conf</code></td>
-</tr>
-<tr>
-<td>Configuration</td>
-<td><code>.env</code> à la racine (modèle : <code>.env.docker.example</code>)</td>
-</tr>
-<tr>
-<td>Données</td>
-<td>volumes <code>parqueo-db</code> (base) et <code>parqueo-uploads</code> (pièces jointes)</td>
-</tr>
-<tr>
-<td>Arrêt</td>
-<td><code>docker compose down</code> conserve les volumes ; <code>down -v</code> efface tout</td>
-</tr>
-<tr>
-<td>Sauvegarde</td>
-<td><code>docker compose exec db pg_dump -U parqueo parqueo &gt; sauvegarde.sql</code> (voir §7)</td>
-</tr>
-</tbody></table>
-</div>
-<p><code>JWT_SECRET</code> et <code>POSTGRES_PASSWORD</code> n&#39;ont <strong>aucune valeur par défaut</strong> : la stack
-refuse de démarrer tant qu&#39;ils ne sont pas renseignés. Un secret de signature
-connu permettrait à n&#39;importe qui de forger un jeton d&#39;administrateur.</p>
-<p><strong>Ce que cette stack ne fait pas</strong> : pas de TLS (le conteneur <code>web</code> écoute en
-HTTP), pas de sauvegarde automatique, pas de supervision. Pour une exposition sur
-Internet, placez-la derrière votre terminaison TLS et ajustez <code>PUBLIC_URL</code>, ou
-suivez l&#39;installation native décrite ci-dessus.</p>
+<p>Le premier démarrage se déroule ensuite comme au §2.2.</p>
 <hr>
 <h2 id="3-référence-des-variables-denvironnement">3. Référence des variables d&#39;environnement<a class="anchor" href="#3-référence-des-variables-denvironnement" aria-label="Lien vers cette section">#</a></h2>
 <p>Fichier <code>server/.env</code>. Seules les quatre premières sont nécessaires au
@@ -715,6 +764,15 @@ sudo systemctl start parqueo
 absentes du disque : les deux vont ensemble.</p>
 <hr>
 <h2 id="8-mise-à-jour">8. Mise à jour<a class="anchor" href="#8-mise-à-jour" aria-label="Lien vers cette section">#</a></h2>
+<p><strong>Installation par images (§2.1)</strong> — deux commandes, depuis le répertoire
+d&#39;installation :</p>
+<pre><code class="language-sh">docker compose pull
+docker compose up -d
+</code></pre>
+<p>Les migrations de base sont appliquées au démarrage du conteneur <code>api</code>. Pour
+rester sur une version précise plutôt que sur la dernière, renseignez
+<code>PARQUEO_VERSION</code> dans le <code>.env</code> (par exemple <code>PARQUEO_VERSION=0.1.0</code>).</p>
+<p><strong>Installation manuelle (§2.4)</strong> :</p>
 <pre><code class="language-sh">sudo systemctl stop parqueo
 
 cd /opt/parqueo
