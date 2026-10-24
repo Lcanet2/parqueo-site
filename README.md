@@ -14,8 +14,9 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 | `styles.css`   | la charte, partagée par `index.html` et `services/`          |
 | `services/`    | services, tarifs et licence commerciale — écrit à la main    |
 | `install.sh`   | **copie** — servi sur `parqueo.fr/install.sh`, voir ci-dessous |
-| `fonts/`       | Archivo, Inter, IBM Plex Mono en woff2 (sous-ensemble latin) |
-| `img/`         | **généré** — captures de l'application — voir « Captures »   |
+| `site.js`      | comportements partagés : thème, menu, parcours d'un ticket, offres, formulaire |
+| `fonts/`       | Overpass (OFL) pour tout le texte, IBM Plex Mono pour le code |
+| `img/`         | **généré** — captures et courte vidéo de l'application — voir « Captures » ; `baies-serveurs-*.webp` : photo NOIRLab/NSF/AURA/T. Slovinský, CC BY 4.0, créditée en pied de page |
 | `og-image.png` | image de partage 1200×630 (réseaux sociaux, messageries)     |
 | `og-image.svg` | la source de l'image ci-dessus — voir « Regénérer l'image »  |
 | `favicon.svg`  | icône d'onglet                                              |
@@ -106,21 +107,14 @@ réservent la place avant le chargement et évitent que la page ne saute.
 
 ## Regénérer l'image de partage
 
-`og-image.svg` est la source ; le PNG en est le rendu. Les polices ne sont pas
-installées sur le système, il faut donc les décompresser depuis `fonts/` et les
-donner à fontconfig :
+`og-image.svg` est la source ; le PNG en est le rendu. Le SVG charge Overpass
+depuis `fonts/` : il faut donc le rendre dans un navigateur, servi depuis la
+racine du site, et en faire une capture à 1200×630 :
 
 ```sh
-npm install sharp wawoff2
-node -e "const w=require('wawoff2'),f=require('fs');(async()=>{for(const[s,o]of\
-[['archivo','Archivo'],['inter','Inter'],['plexmono','IBM Plex Mono']])\
-f.writeFileSync('/tmp/pf/'+o+'.ttf',Buffer.from(await w.decompress(f.readFileSync('fonts/'+s+'.woff2'))))})()"
-printf '<fontconfig><dir>/tmp/pf</dir><cachedir>/tmp/pf/c</cachedir></fontconfig>' > /tmp/pf/fonts.conf
-FONTCONFIG_FILE=/tmp/pf/fonts.conf node -e "require('sharp')('og-image.svg',{density:144})\
-.resize(1200,630,{fit:'fill'}).png({compressionLevel:9}).toFile('og-image.png')"
+python3 -m http.server 8090 &
+npx playwright screenshot --viewport-size=1200,630 http://localhost:8090/og-image.svg og-image.png
 ```
-
-Le rendu se fait à 2× puis se réduit à 1200×630 — à 1× le texte bave.
 
 ## Référencement
 

@@ -1,8 +1,9 @@
 <!doctype html>
 <!--
   ADRESSE DE CONTACT — à remplacer quand la boîte mail sera prête.
-  Cherchez « contact@parqueo.fr » : 8 occurrences (données structurées JSON-LD,
-  liens mailto de la section contact, pied de page).
+  Cherchez « contact@parqueo.fr » : 8 occurrences ici (données structurées
+  JSON-LD, formulaire et liens de la section contact, pied de page), plus
+  celle du formulaire dans site.js.
 
   ADRESSE DU SITE — si vous branchez un nom de domaine, remplacez
   « https://parqueo.fr/ » partout (canonical, Open Graph,
@@ -36,12 +37,11 @@
 <meta name="twitter:description" content="Ticketing, inventaire du parc, catalogue de demandes et workflows visuels, dans un logiciel ITSM auto-hébergé.">
 <meta name="twitter:image" content="https://parqueo.fr/og-image.png">
 
-<meta name="theme-color" content="#f6f6f8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e0e13" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d0f" media="(prefers-color-scheme: dark)">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/overpass.woff2" as="font" type="font/woff2" crossorigin>
 
 <script type="application/ld+json">
 {
@@ -166,10 +166,13 @@
 
 <script>
   // Appliqué avant le premier rendu : lu plus tard, le thème choisi ferait
-  // clignoter la page (rendu système, puis bascule sous les yeux).
+  // clignoter la page (rendu système, puis bascule sous les yeux). La classe
+  // `js` n'arme les animations d'entrée que si le script tourne : sans lui,
+  // tout le contenu reste visible.
   (function () {
     var r = document.documentElement;
     r.classList.remove('no-js');
+    r.classList.add('js');
     try {
       var t = localStorage.getItem('parqueo-theme');
       if (t === 'dark' || t === 'light') r.setAttribute('data-theme', t);
@@ -177,1033 +180,388 @@
   })();
 </script>
 </head>
-<body>
+<body class="page-home">
 
 <a class="skip" href="#contenu">Aller au contenu</a>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12z"/></symbol>
-    <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5.6M17.5 14.4A5.4 5.4 0 0 1 20.5 19"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.3l3.4 2"/></symbol>
-    <symbol id="i-branch" viewBox="0 0 24 24"><path d="M6 3v6.5c0 2 1.6 3.5 3.5 3.5H14"/><path d="M6 21v-4"/><path d="M17.5 9.5 21 13l-3.5 3.5"/><path d="M9.5 13H21"/></symbol>
-    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 8 7.1 4.9a1.6 1.6 0 0 0 1.8 0L20 8"/></symbol>
-    <symbol id="i-mail-plain" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 8 7.1 4.9a1.6 1.6 0 0 0 1.8 0L20 8"/></symbol>
-    <symbol id="i-note" viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2.5"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4"/></symbol>
-    <symbol id="i-form" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol>
-    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v4H6.5A2.5 2.5 0 0 1 4 19.5z"/></symbol>
-    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.8 21 7v10l-9 4.2L3 17V7z"/><path d="M3 7l9 4.2L21 7M12 11.2V21"/></symbol>
-    <symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5.4 5.2 3 13v5.5A1.5 1.5 0 0 0 4.5 20h15a1.5 1.5 0 0 0 1.5-1.5V13l-2.4-7.8A1.6 1.6 0 0 0 17 4H7a1.6 1.6 0 0 0-1.6 1.2z"/></symbol>
-    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4.5 5.5V12c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V5.5z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V4"/><path d="M4 20h16"/><rect x="7.5" y="12" width="3.4" height="5" rx="1"/><rect x="13.5" y="7.5" width="3.4" height="9.5" rx="1"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4 1.5 5.5 1.5 5.5H5s1.5-1.5 1.5-5.5z"/><path d="M10.2 19a2 2 0 0 0 3.6 0"/></symbol>
-    <symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9.5h18M9 9.5V19"/></symbol>
-    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M10 13.5a3.6 3.6 0 0 0 5.3.4l2.9-2.9a3.7 3.7 0 0 0-5.3-5.2l-1.7 1.7"/><path d="M14 10.5a3.6 3.6 0 0 0-5.3-.4l-2.9 2.9a3.7 3.7 0 0 0 5.3 5.2l1.7-1.7"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
-    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></symbol>
-    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.4A8.5 8.5 0 0 1 9.6 4a8.5 8.5 0 1 0 10.4 10.4z"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
-    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
-    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="9" y="9" width="11" height="12" rx="2.2"/><path d="M15.5 5.8A2.2 2.2 0 0 0 13.3 3.5H6.2A2.2 2.2 0 0 0 4 5.8v9.4a2.2 2.2 0 0 0 2.2 2.2"/></symbol>
-  </defs>
-</svg>
-
 <header class="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="Parqueo">
-      <svg class="mk" viewBox="6 3 12 18" fill="none" aria-hidden="true">
-        <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent)"/>
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Parqueo, accueil">
+      <svg class="mk" viewBox="6 3 12 18" aria-hidden="true" focusable="false">
+        <path d="M7 3h6a5 5 0 0 1 0 10H7z" fill="var(--accent-field)"/>
         <path d="M7 4v16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
       </svg>arqueo</a>
     <nav class="nav-links" id="nav-links" aria-label="Navigation principale">
       <a href="#parcours">Parcours</a>
       <a href="#workflows">Workflows</a>
-      <a href="#apercu">L'application</a>
-      <a href="#fonctions">Fonctionnalités</a>
       <a href="#hebergement">Hébergement</a>
       <a href="#offres">Offres</a>
       <a href="#faq">Questions</a>
       <a href="/docs/">Documentation</a>
     </nav>
-
-    <button type="button" class="icon-btn" id="theme-btn" aria-label="Activer le thème sombre">
-      <svg class="ico-light" width="18" height="18" aria-hidden="true"><use href="#i-moon"/></svg>
-      <svg class="ico-dark" width="18" height="18" aria-hidden="true"><use href="#i-sun"/></svg>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Activer le thème sombre">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/><circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
     </button>
-
-    <a class="btn btn-primary btn-sm nav-cta" href="#contact">
-      <span class="cta-long">Demander une démo</span><span class="cta-short">Démo</span>
-    </a>
-
-    <button type="button" class="icon-btn nav-burger" id="menu-btn"
-            aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
-      <svg class="ico-open" width="20" height="20" aria-hidden="true"><use href="#i-menu"/></svg>
-      <svg class="ico-shut" width="20" height="20" aria-hidden="true"><use href="#i-close"/></svg>
-    </button>
+    <a class="btn btn-sm nav-cta" href="#contact">Demander une démo</a>
+    <button type="button" class="menu-btn" id="menu-btn" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">Menu</button>
   </div>
 </header>
 
 <main id="contenu">
-  <section class="wrap hero" id="top" aria-labelledby="titre-principal">
-    <div class="hero-copy">
-      <p class="eyebrow">Logiciel ITSM auto-hébergé · tickets, parc, automatisation</p>
-      <h1 id="titre-principal">
-        Le logiciel de helpdesk et de gestion de parc, <span class="hero-accent">sans l'usine à gaz.</span>
-      </h1>
-      <p class="lede">
-        Parqueo réunit le <strong>ticketing</strong>, l'<strong>inventaire du parc</strong> et
-        l'<strong>automatisation des procédures</strong> dans une interface comprise sans formation.
-        Vous dessinez vos procédures une fois&nbsp;; l'application les applique.
+
+  <!-- ============ Premier écran : la panse du P, à l'échelle d'un panneau ============ -->
+  <section class="hero" id="top" aria-labelledby="titre-principal">
+    <div class="hero-copy" data-reveal>
+      <h1 id="titre-principal" class="display">Tickets, parc, workflows.</h1>
+      <p class="hero-lede">
+        Parqueo est un logiciel ITSM libre, installé sur votre serveur. Les demandes arrivent,
+        vos procédures les rangent, et un ticket reste parqué en attente jusqu'à ce qu'un
+        technicien le prenne.
       </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#contact">Demander une démonstration</a>
-        <a class="btn btn-ghost" href="#workflows">Voir les workflows</a>
-      </div>
-      <p class="hero-note">Installé sur vos serveurs · Node.js, PostgreSQL, React · Vos données restent chez vous.</p>
-    </div>
-
-    <figure class="canvas-panel">
-      <figcaption class="canvas-bar">
-        <span class="dotrow"><i></i><i></i><i></i></span>
-        <span class="canvas-name">workflows / Incident réseau — prise en charge</span>
-        <span class="canvas-pill">Actif</span>
-      </figcaption>
-      <div class="canvas-scroll">
-        <svg viewBox="0 0 1348 356" role="img" aria-label="Éditeur de workflow de Parqueo : un ticket créé dans la catégorie Réseau est affecté à l'équipe Support N1, attend sa prise en charge, puis selon sa priorité déclenche l'envoi d'un email ou l'ajout d'une note.">
-          <defs>
-            <pattern id="wf-dots" width="26" height="26" patternUnits="userSpaceOnUse">
-              <circle class="wf-dots" cx="1.5" cy="1.5" r="1.4"/>
-            </pattern>
-          </defs>
-
-          <rect width="1348" height="356" fill="url(#wf-dots)"/>
-
-          <path class="wf-wire" d="M244 180 H294"/>
-          <path class="wf-wire" d="M514 180 H564"/>
-          <path class="wf-wire" d="M784 180 H834"/>
-          <path class="wf-wire" d="M1054 180 C1079 180 1079 86 1104 86"/>
-          <path class="wf-wire" d="M1054 180 C1079 180 1079 274 1104 274"/>
-
-          <g id="wf-token">
-            <circle class="wf-token-halo" r="9"/>
-            <circle class="wf-token" r="4.5"/>
-            <animateMotion dur="6s" repeatCount="indefinite" calcMode="linear"
-              keyPoints="0;0.47;0.47;1" keyTimes="0;0.42;0.66;1"
-              path="M244 180 H1054 C1079 180 1079 86 1104 86"/>
-          </g>
-
-          <g class="wf-node" style="--nc: var(--accent)" transform="translate(24,142)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-bolt" x="22" y="29" width="18" height="18" fill="var(--nc)"/>
-            <text class="wf-cap" x="58" y="30">DÉCLENCHEUR</text>
-            <text class="wf-title" x="58" y="48">Ticket créé</text>
-            <text class="wf-sub" x="58" y="64">Catégorie : Réseau</text>
-          </g>
-
-          <g class="wf-node" style="--nc: var(--n-blue)" transform="translate(294,142)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-team" x="22" y="29" width="18" height="18" class="wf-glyph"/>
-            <text class="wf-cap" x="58" y="30">ACTION</text>
-            <text class="wf-title" x="58" y="48">Affecter à l'équipe</text>
-            <text class="wf-sub" x="58" y="64">Support N1</text>
-          </g>
-
-          <g class="wf-node wf-gate" style="--nc: var(--n-amber)" transform="translate(564,142)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-clock" x="22" y="29" width="18" height="18" class="wf-glyph"/>
-            <text class="wf-cap" x="58" y="30">ATTENTE</text>
-            <text class="wf-title" x="58" y="48">Prise en charge</text>
-            <text class="wf-sub" x="58" y="64">Le ticket patiente ici</text>
-          </g>
-
-          <g class="wf-node" style="--nc: var(--n-violet)" transform="translate(834,142)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-branch" x="22" y="29" width="18" height="18" class="wf-glyph"/>
-            <text class="wf-cap" x="58" y="30">CONDITION</text>
-            <text class="wf-title" x="58" y="48">Priorité = haute ?</text>
-            <text class="wf-sub" x="58" y="64">Deux chemins</text>
-          </g>
-
-          <g class="wf-node" style="--nc: var(--n-green)" transform="translate(1104,48)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-mail-plain" x="22" y="29" width="18" height="18" class="wf-glyph"/>
-            <text class="wf-cap" x="58" y="30">ACTION</text>
-            <text class="wf-title" x="58" y="48">Envoyer un email</text>
-            <text class="wf-sub" x="58" y="64">Astreinte + demandeur</text>
-          </g>
-
-          <g class="wf-node" style="--nc: var(--n-grey)" transform="translate(1104,236)">
-            <rect class="wf-card" width="220" height="76" rx="14"/>
-            <rect class="wf-chip" x="16" y="23" width="30" height="30" rx="9"/>
-            <use href="#i-note" x="22" y="29" width="18" height="18" class="wf-glyph"/>
-            <text class="wf-cap" x="58" y="30">ACTION</text>
-            <text class="wf-title" x="58" y="48">Ajouter une note</text>
-            <text class="wf-sub" x="58" y="64">Journal du ticket</text>
-          </g>
-
-          <g>
-            <rect class="wf-branch-bg" x="1062" y="116" width="34" height="17" rx="5"/>
-            <text class="wf-branch-tx" x="1079" y="128">oui</text>
-            <rect class="wf-branch-bg" x="1062" y="220" width="34" height="17" rx="5"/>
-            <text class="wf-branch-tx" x="1079" y="232">non</text>
-          </g>
-        </svg>
-      </div>
-      <div class="canvas-legend">
-        <span class="canvas-hint" aria-hidden="true">Faites défiler le schéma vers la droite →</span>
-        <span><b>Glissez</b> les blocs, tirez les fils.</span>
-        <span><b>Aucune ligne de code</b> à écrire.</span>
-        <span><b>Le ticket avance seul</b> jusqu'au bloc suivant.</span>
-      </div>
-    </figure>
-
-    <div class="stats">
-      <div class="stat">
-        <span class="num">10</span>
-        <span class="lbl">blocs d'automatisation prêts à poser</span>
-      </div>
-      <div class="stat">
-        <span class="num">13</span>
-        <span class="lbl">widgets de tableau de bord</span>
-      </div>
-      <div class="stat">
-        <span class="num">3</span>
-        <span class="lbl">canaux d'entrée : portail, catalogue, email</span>
-      </div>
-      <div class="stat">
-        <span class="num">100<span style="font-size:1.3rem">%</span></span>
-        <span class="lbl">auto-hébergé, sur votre infrastructure</span>
+      <div class="hero-actions">
+        <a class="btn" href="#contact">Demander une démo</a>
+        <a class="text-link" href="#parcours">Suivre un ticket</a>
       </div>
     </div>
-  </section>
-
-  <section class="wrap sec" id="parcours" aria-labelledby="titre-parcours">
-    <div class="sec-head">
-      <p class="eyebrow">Le parcours d'un ticket</p>
-      <h2 id="titre-parcours">De la demande de l'utilisateur à la clôture, sans relance manuelle.</h2>
-    </div>
-
-    <div class="steps">
-      <article class="step">
-        <span class="num">01</span>
-        <div class="step-body">
-          <h3>L'utilisateur fait sa demande</h3>
-          <p>
-            Trois portes d'entrée — catalogue de formulaires, ticket libre ou email — et la base de
-            connaissances propose déjà une réponse avant de valider.
-          </p>
-        </div>
-      </article>
-      <article class="step">
-        <span class="num">02</span>
-        <div class="step-body">
-          <h3>Le workflow prend la main</h3>
-          <p>
-            Affectation à la bonne équipe, priorité ajustée, accusé de réception envoyé — puis le
-            ticket patiente jusqu'à sa prise en charge.
-          </p>
-        </div>
-      </article>
-      <article class="step">
-        <span class="num">03</span>
-        <div class="step-body">
-          <h3>Le technicien traite l'incident</h3>
-          <p>
-            Fil de discussion, pièces jointes, journal horodaté et matériel rattaché : l'historique
-            de l'équipement se construit tout seul.
-          </p>
-        </div>
-      </article>
-      <article class="step">
-        <span class="num">04</span>
-        <div class="step-body">
-          <h3>Résolution puis clôture</h3>
-          <p>
-            Enquête de satisfaction en un clic, puis clôture automatique du ticket résolu après le
-            délai que vous fixez.
-          </p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap sec" id="workflows" aria-labelledby="titre-workflows">
-    <div class="sec-head">
-      <p class="eyebrow">Workflows</p>
-      <h2 id="titre-workflows">Des workflows visuels qui appliquent vos procédures à chaque ticket.</h2>
-      <p class="body-soft">
-        Un déclencheur, puis des blocs qui agissent (affecter, notifier, changer la priorité) ou
-        attendent&nbsp;: le ticket se gare et ne repart qu'une fois la condition remplie.
-      </p>
-    </div>
-
-    <div class="trio">
-      <article class="card" style="--nc: var(--accent)">
-        <p class="kicker">Déclencheurs</p>
-        <h3>Le point de départ</h3>
-        <p>
-          Un ticket créé ou dont le statut change, filtré par catégorie, formulaire ou priorité — un
-          workflow par procédure, pas un fourre-tout.
-        </p>
-      </article>
-      <article class="card" style="--nc: var(--n-blue)">
-        <p class="kicker">Actions</p>
-        <h3>Ce que l'application fait à votre place</h3>
-        <p>
-          Affecter, ajuster la priorité ou le statut, poster une note, envoyer un email, appeler un
-          webhook.
-        </p>
-      </article>
-      <article class="card" style="--nc: var(--n-amber)">
-        <p class="kicker">Attentes &amp; conditions</p>
-        <h3>La procédure suit le rythme réel</h3>
-        <p>
-          L'attente retient le ticket jusqu'à sa prise en charge ; la condition ouvre deux chemins,
-          l'urgence d'un côté, le traitement normal de l'autre.
-        </p>
-      </article>
-    </div>
-
-    <div class="blocks">
-      <span class="block" style="--nc: var(--n-blue)"><i></i>Affecter à une équipe</span>
-      <span class="block" style="--nc: var(--accent)"><i></i>Assigner à une personne</span>
-      <span class="block" style="--nc: var(--n-amber)"><i></i>Changer la priorité</span>
-      <span class="block" style="--nc: var(--n-blue)"><i></i>Changer le statut</span>
-      <span class="block" style="--nc: var(--n-grey)"><i></i>Ajouter une note</span>
-      <span class="block" style="--nc: var(--n-green)"><i></i>Envoyer un email</span>
-      <span class="block" style="--nc: var(--n-grey)"><i></i>Webhook</span>
-      <span class="block" style="--nc: var(--n-violet)"><i></i>Condition oui / non</span>
-      <span class="block is-gate" style="--nc: var(--n-amber)"><i></i>Attendre la prise en charge</span>
-      <span class="block is-gate" style="--nc: var(--n-amber)"><i></i>Attendre un statut</span>
-    </div>
-
-    <figure class="wf-shot">
-      <div class="canvas-bar">
-        <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="canvas-name">parqueo / workflows / éditeur</span>
-      </div>
-      <img src="img/editeur-workflow-1800.webp"
-           srcset="img/editeur-workflow-900.webp 900w, img/editeur-workflow-1800.webp 1800w"
-           sizes="(max-width: 1220px) 100vw, 1180px"
-           width="1800" height="518" loading="lazy" decoding="async"
-           alt="Éditeur de workflow de Parqueo : des blocs de déclencheur, d'action et de condition posés sur une grille et reliés par des fils, avec le panneau de réglages du bloc sélectionné.">
-      <figcaption>L'éditeur tel qu'il s'ouvre dans l'application : on pose les blocs, on tire les fils, on enregistre.</figcaption>
-    </figure>
-
-    <div class="callout">
-      <svg width="20" height="20" aria-hidden="true"><use href="#i-link"/></svg>
-      <p>
-        <strong>Le bloc webhook ouvre la porte au reste de votre SI.</strong>
-        Branchez n8n, Zapier ou vos scripts : Parqueo envoie le ticket, votre automatisation fait le reste.
-      </p>
-    </div>
-  </section>
-
-  <section class="wrap sec" id="fonctions" aria-labelledby="titre-fonctions">
-    <div class="sec-head">
-      <p class="eyebrow">Fonctionnalités</p>
-      <h2 id="titre-fonctions">Tout ce qu'on attend d'un logiciel ITSM, rien de superflu.</h2>
-      <p class="body-soft">
-        Chaque module s'active et se règle depuis l'administration — vos équipes n'ont que ce dont
-        elles se servent.
-      </p>
-    </div>
-
-    <div class="grid-feat">
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-form"/></svg></span>
-        <h3>Catalogue de demandes</h3>
-        <p>
-          Formulaires sur mesure (texte, listes, dates, cases), chacun avec sa catégorie, sa priorité
-          et son propre workflow.
-        </p>
-      </article>
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-book"/></svg></span>
-        <h3>Base de connaissances</h3>
-        <p>
-          Des articles courts, suggérés pendant la saisie de la demande et rédigés par vos techniciens
-          eux-mêmes.
-        </p>
-      </article>
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-box"/></svg></span>
-        <h3>Gestion de parc informatique</h3>
-        <p>
-          Postes, imprimantes, serveurs et logiciels, avec l'état, le détenteur et l'historique des
-          tickets par équipement.
-        </p>
-      </article>
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-inbox"/></svg></span>
-        <h3>Collecteur email</h3>
-        <p>
-          Une boîte IMAP surveillée : chaque email devient un ticket, chaque réponse un commentaire.
-          Le portail devient optionnel.
-        </p>
-      </article>
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-shield"/></svg></span>
-        <h3>Connexion Microsoft Entra ID</h3>
-        <p>
-          Authentification unique OpenID Connect, restriction par domaine, comptes locaux en secours.
-          Aucun mot de passe à distribuer.
-        </p>
-      </article>
-      <article class="card feat">
-        <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-users"/></svg></span>
-        <h3>Rôles, équipes et visibilité</h3>
-        <p>
-          Utilisateur, technicien, administrateur : chacun ne voit que ses demandes, la file de son
-          équipe ou tout le service.
-        </p>
-      </article>
-      <article class="card feat feat-wide">
-        <div class="dash">
-          <div>
-            <span class="feat-ico"><svg width="19" height="19" aria-hidden="true"><use href="#i-chart"/></svg></span>
-            <h3 style="margin-top:11px">Tableaux de bord modulaires</h3>
-            <p style="margin-top:8px">
-              L'administrateur compose l'écran d'accueil de chaque rôle en posant des widgets sur une
-              grille : chiffres clés, répartition par statut, charge par technicien, état du parc.
-              Treize widgets, et chacun peut réarranger le sien.
-            </p>
-          </div>
-          <div class="dash-mock" aria-hidden="true">
-            <span class="mock-cap">Tableau de bord — technicien</span>
-            <div class="tiles">
-              <div class="tile"><span class="t-num">24</span><span class="t-lbl">Ouverts</span></div>
-              <div class="tile"><span class="t-num">6</span><span class="t-lbl">Non assignés</span></div>
-              <div class="tile is-accent"><span class="t-num">3</span><span class="t-lbl">Priorité haute</span></div>
-              <div class="tile"><span class="t-num">118</span><span class="t-lbl">Actifs</span></div>
-            </div>
-            <div>
-              <div class="segbar">
-                <span style="background:var(--n-blue); flex:6"></span>
-                <span style="background:var(--n-amber); flex:11"></span>
-                <span style="background:var(--n-violet); flex:7"></span>
-                <span style="background:var(--n-green); flex:9"></span>
-                <span style="background:var(--n-grey); flex:14"></span>
-              </div>
-              <div class="seglegend" style="margin-top:9px">
-                <span><i style="background:var(--n-blue)"></i>Nouveau</span>
-                <span><i style="background:var(--n-amber)"></i>En cours</span>
-                <span><i style="background:var(--n-violet)"></i>En attente</span>
-                <span><i style="background:var(--n-green)"></i>Résolu</span>
-                <span><i style="background:var(--n-grey)"></i>Fermé</span>
-              </div>
-            </div>
-            <div class="loadrows">
-              <div class="loadrow"><span>Camille</span><span class="bar"><span style="width:82%"></span></span><span class="val">9</span></div>
-              <div class="loadrow"><span>Rachid</span><span class="bar"><span style="width:64%"></span></span><span class="val">7</span></div>
-              <div class="loadrow"><span>Élodie</span><span class="bar"><span style="width:36%"></span></span><span class="val">4</span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap sec" id="apercu" aria-labelledby="titre-apercu">
-    <div class="sec-head">
-      <p class="eyebrow">L'application</p>
-      <h2 id="titre-apercu">Ce que votre équipe a sous les yeux.</h2>
-      <p class="body-soft">
-        Pas de maquette&nbsp;: quatre écrans de Parqueo tel qu'il tourne. Une interface dense là où
-        il faut trancher vite — la file de tickets, l'inventaire — et sobre partout ailleurs.
-      </p>
-    </div>
-
-    <div class="shots">
-      <div class="shot-tabs" role="tablist" aria-label="Écrans de l'application">
-        <button type="button" role="tab" class="shot-tab" id="tab-dash"
-                aria-controls="pan-dash" aria-selected="true" tabindex="0">Tableau de bord</button>
-        <button type="button" role="tab" class="shot-tab" id="tab-tickets"
-                aria-controls="pan-tickets" aria-selected="false" tabindex="-1">File de tickets</button>
-        <button type="button" role="tab" class="shot-tab" id="tab-ticket"
-                aria-controls="pan-ticket" aria-selected="false" tabindex="-1">Détail d'un ticket</button>
-        <button type="button" role="tab" class="shot-tab" id="tab-parc"
-                aria-controls="pan-parc" aria-selected="false" tabindex="-1">Inventaire du parc</button>
-      </div>
-
-      <figure class="shot" role="tabpanel" id="pan-dash" aria-labelledby="tab-dash" tabindex="0">
-        <div class="canvas-bar">
-          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="canvas-name">parqueo / tableau de bord</span>
-        </div>
-        <img src="img/tableau-de-bord-1600.webp"
-             srcset="img/tableau-de-bord-800.webp 800w, img/tableau-de-bord-1600.webp 1600w"
-             sizes="(max-width: 1220px) 100vw, 1180px"
-             width="1600" height="1125" loading="lazy" decoding="async"
-             alt="Tableau de bord de Parqueo : compteurs de tickets ouverts et non assignés, répartition par statut et charge de travail par technicien.">
-        <figcaption>L'écran d'accueil, composé par l'administrateur pour chaque rôle : on ouvre l'application et l'on sait quoi traiter.</figcaption>
-      </figure>
-
-      <figure class="shot" role="tabpanel" id="pan-tickets" aria-labelledby="tab-tickets" tabindex="0" hidden>
-        <div class="canvas-bar">
-          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="canvas-name">parqueo / tickets</span>
-        </div>
+    <figure class="hero-bowl">
+      <div class="bowl-stage shutter">
         <img src="img/liste-tickets-1600.webp"
              srcset="img/liste-tickets-800.webp 800w, img/liste-tickets-1600.webp 1600w"
-             sizes="(max-width: 1220px) 100vw, 1180px"
-             width="1600" height="1125" loading="lazy" decoding="async"
-             alt="Liste des tickets de Parqueo : colonnes de statut, priorité, équipe et technicien assigné, avec filtres au-dessus du tableau.">
-        <figcaption>La file complète, filtrable par statut, priorité, équipe ou technicien — et la vôtre seule si vous n'êtes pas administrateur.</figcaption>
-      </figure>
-
-      <figure class="shot" role="tabpanel" id="pan-ticket" aria-labelledby="tab-ticket" tabindex="0" hidden>
-        <div class="canvas-bar">
-          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="canvas-name">parqueo / tickets / #1284</span>
-        </div>
-        <img src="img/detail-ticket-1600.webp"
-             srcset="img/detail-ticket-800.webp 800w, img/detail-ticket-1600.webp 1600w"
-             sizes="(max-width: 1220px) 100vw, 1180px"
-             width="1600" height="1044" loading="lazy" decoding="async"
-             alt="Détail d'un ticket dans Parqueo : description de l'incident, fil des échanges, et panneau latéral des propriétés du ticket.">
-        <figcaption>Le fil des échanges d'un côté, les propriétés de l'autre : statut, priorité, assignation et actif concerné se changent sans quitter la page.</figcaption>
-      </figure>
-
-      <figure class="shot" role="tabpanel" id="pan-parc" aria-labelledby="tab-parc" tabindex="0" hidden>
-        <div class="canvas-bar">
-          <span class="dotrow" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="canvas-name">parqueo / inventaire</span>
-        </div>
-        <img src="img/inventaire-1600.webp"
-             srcset="img/inventaire-800.webp 800w, img/inventaire-1600.webp 1600w"
-             sizes="(max-width: 1220px) 100vw, 1180px"
-             width="1600" height="1125" loading="lazy" decoding="async"
-             alt="Inventaire du parc informatique dans Parqueo : tableau des postes, imprimantes et serveurs avec leur type, leur état et leur utilisateur.">
-        <figcaption>Postes, imprimantes, serveurs et logiciels, chacun rattachable au ticket qui le concerne.</figcaption>
-      </figure>
-    </div>
+             sizes="(max-width: 760px) 120vw, 64vw"
+             width="1600" height="1000" fetchpriority="high"
+             alt="La file de tickets de Parqueo : filtres par statut, ticket, statut, priorité, catégorie et technicien assigné.">
+      </div>
+      <figcaption class="sr-only">La file de tickets, telle qu'elle s'affiche dans Parqueo.</figcaption>
+    </figure>
   </section>
 
-  <section class="wrap sec" id="hebergement" aria-labelledby="titre-hebergement">
-    <div class="deploy">
-      <div>
-        <div class="sec-head">
-          <p class="eyebrow">Hébergement &amp; données</p>
-          <h2 id="titre-hebergement">Vos données là où vous les voulez.</h2>
-          <p class="body-soft">
-            Une API Node.js, une base PostgreSQL, une interface React. En auto-hébergé, tout tourne
-            sur votre infrastructure : rien n'est envoyé chez un éditeur, rien n'a besoin d'être
-            ouvert sur l'extérieur — de quoi simplifier autant la conformité RGPD que les audits
-            internes. En SaaS, nous hébergeons et infogérons l'ensemble pour vous.
-          </p>
-        </div>
-        <div class="checks">
-          <div class="check">
-            <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Chez vous ou chez nous</strong> — auto-hébergé sur votre serveur, ou hébergé et infogéré par nos soins.</span>
-          </div>
-          <div class="check">
-            <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Aucun agent obligatoire</strong> — un navigateur suffit pour utiliser Parqueo, sur poste comme sur mobile.</span>
-          </div>
-          <div class="check">
-            <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Reprise de l'existant</strong> — import CSV, ou création des comptes à la première connexion SSO.</span>
-          </div>
-          <div class="check">
-            <svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg>
-            <span><strong>Réglages en interface</strong> — priorité, clôture automatique, notifications, visibilité du parc.</span>
-          </div>
+  <!-- ============ Parcours : on fait avancer un ticket soi-même ============ -->
+  <section class="journey" id="parcours" aria-labelledby="titre-parcours">
+    <div class="journey-fields">
+      <div class="journey-words">
+        <h2 id="titre-parcours" class="head" aria-live="polite">
+          <span data-stage-text="0">D'abord, la demande arrive.</span>
+          <span data-stage-text="1" hidden>Ensuite, le ticket se gare.</span>
+          <span data-stage-text="2" hidden>Puis un technicien le prend.</span>
+          <span data-stage-text="3" hidden>Enfin, il se ferme seul.</span>
+        </h2>
+        <div class="journey-notes">
+          <p data-stage-note="0">Par le catalogue, un ticket libre ou un simple email. Pendant la saisie, la base de connaissances propose déjà l'article qui règle le problème.</p>
+          <p data-stage-note="1" hidden>Le workflow affecte l'équipe et prévient le demandeur, puis le ticket attend sur le bloc « prise en charge ». Personne n'a à le relancer.</p>
+          <p data-stage-note="2" hidden>Dès qu'il est assigné, le ticket quitte sa place et le workflow reprend au bloc suivant. Le journal garde chaque étape, horodatée.</p>
+          <p data-stage-note="3" hidden>Résolu, il envoie l'enquête de satisfaction en un clic. Sans nouvelle activité, il se ferme après le délai que vous fixez, 7 jours par défaut.</p>
         </div>
       </div>
 
-      <div class="flow-card">
-        <p class="eyebrow">Ce qui se passe ensuite</p>
-        <ol class="flow-list">
-          <li>
-            <span class="pip">1</span>
-            <div>
-              <h3>Vous écrivez</h3>
-              <p>Quelques lignes sur votre parc, vos effectifs et les procédures qui vous coûtent le plus de temps.</p>
-            </div>
-          </li>
-          <li>
-            <span class="pip">2</span>
-            <div>
-              <h3>Démonstration</h3>
-              <p>L'application en fonctionnement, sur un jeu de données proche du vôtre : tickets, parc, workflows.</p>
-            </div>
-          </li>
-          <li>
-            <span class="pip">3</span>
-            <div>
-              <h3>Mise en service</h3>
-              <p>Installation sur votre infrastructure ou sur notre hébergement, reprise de l'inventaire, création des catégories et des équipes.</p>
-            </div>
-          </li>
-          <li>
-            <span class="pip">4</span>
-            <div>
-              <h3>Vos workflows</h3>
-              <p>On dessine ensemble les premières procédures — celles que votre service répète chaque semaine.</p>
-            </div>
-          </li>
-        </ol>
+      <div class="journey-stage">
+        <article class="tk" data-ui aria-label="Ticket 1284 dans Parqueo">
+          <header class="tk-head">
+            <p class="tk-crumb">Tickets › #1284</p>
+            <h3 class="tk-title">Imprimante du 2e étage hors ligne</h3>
+            <p class="tk-meta">
+              <span class="tk-status" data-status="new"><i class="mark"></i><span data-status-label>Nouveau</span></span>
+              <span class="tk-chip">Moyenne</span>
+              <span>Imprimantes</span>
+            </p>
+          </header>
+          <dl class="tk-props">
+            <div><dt>Demandeur</dt><dd><span class="av" style="--h:32">CM</span>Claire Martin</dd></div>
+            <div><dt>Assigné à</dt><dd data-assignee><span class="dash">—</span></dd></div>
+            <div><dt>Équipe</dt><dd data-team><span class="dash">—</span></dd></div>
+          </dl>
+          <ol class="tk-log" aria-label="Journal du ticket">
+            <li data-from="0"><time>08:42</time>Créé depuis le formulaire « Imprimante en panne »</li>
+            <li data-from="0"><time>08:42</time>Article proposé : « Relancer la file d'impression »</li>
+            <li data-from="1"><time>08:42</time>Affecté à l'équipe Support N1 (workflow « Imprimantes »)</li>
+            <li data-from="1"><time>08:42</time>Email envoyé à Claire Martin</li>
+            <li data-from="1" class="parked" data-until="2"><time>08:42</time><i class="mark"></i>Parqué sur « Attendre la prise en charge »</li>
+            <li data-from="2"><time>09:15</time>Assigné à Sarah Lemoine</li>
+            <li data-from="2"><time>09:15</time>Statut changé : Nouveau → En cours</li>
+            <li data-from="3"><time>10:02</time>Statut changé : En cours → Résolu</li>
+            <li data-from="3"><time>10:02</time>Enquête envoyée. Réponse : oui, bien traité</li>
+          </ol>
+        </article>
       </div>
+    </div>
+
+    <div class="journey-control">
+      <label class="sr-only" for="stage-range">Étape du ticket</label>
+      <input type="range" id="stage-range" min="0" max="3" step="1" value="0" aria-valuetext="La demande arrive">
+      <ol class="journey-steps" aria-hidden="true">
+        <li data-step="0">Arrivée</li>
+        <li data-step="1">Parqué</li>
+        <li data-step="2">Pris en charge</li>
+        <li data-step="3">Fermé</li>
+      </ol>
     </div>
   </section>
 
-  <section class="wrap sec" id="offres" aria-labelledby="titre-offres">
-    <div class="sec-head">
-      <p class="eyebrow">Offres</p>
-      <h2 id="titre-offres">Trois façons d'adopter Parqueo.</h2>
-      <p class="body-soft">
-        Parqueo est un logiciel libre : installez-le sur votre serveur, gratuitement et sans
-        limite de comptes. Si vous préférez ne rien gérer, nous l'hébergeons et l'infogérons.
-        Et si vous le proposez à vos propres clients, une licence intégrateur vous dispense
-        des obligations de l'AGPL.
+  <!-- ============ Un interrupteur, à l'échelle d'une affiche ============ -->
+  <section class="switch-field" id="workflows" aria-labelledby="titre-workflows" data-on="true">
+    <div class="switch-copy" data-reveal>
+      <h2 id="titre-workflows" class="head">Workflow <span data-switch-word>actif</span></h2>
+      <p>
+        Vous dessinez une procédure une fois, avec des blocs : affecter, notifier, attendre,
+        tester la priorité. Activée, elle s'applique à chaque ticket qui correspond à son
+        déclencheur. Aucune ligne de code.
       </p>
     </div>
-
-    <div class="offers">
-      <div class="card offer">
-        <p class="eyebrow">Auto-hébergé</p>
-        <h3>Sur votre infrastructure</h3>
-        <div class="price">
-          <b class="mot">Gratuit</b><span>logiciel libre, AGPL-3.0</span><em>techniciens et demandeurs illimités</em>
-        </div>
-        <p class="offer-desc">
-          Une commande, et Parqueo tourne sur votre serveur. Le code est public et auditable,
-          vos données ne quittent jamais votre infrastructure.
-        </p>
-        <div class="checks">
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Aucune licence à compter</strong> — techniciens et demandeurs illimités, pour toujours.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Installation en une commande</strong> — certificat HTTPS obtenu et renouvelé tout seul.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Code source public</strong> — auditable, modifiable, sans dépendance à un éditeur.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Accompagnement en option</strong> — mise en service, reprise du parc, support.</span></div>
-        </div>
-        <div class="offer-cta">
-          <a class="btn btn-ghost" href="/docs/installation/">Documentation</a>
-          <a class="btn btn-ghost" href="https://github.com/Lcanet2/parqueo">Code source</a>
-        </div>
-      </div>
-
-      <div class="card offer featured">
-        <span class="offer-badge">Sans rien gérer</span>
-        <p class="eyebrow">SaaS infogéré</p>
-        <h3>Hébergé et maintenu par nous</h3>
-        <div class="price">
-          <b>19 €</b><span>/ technicien / mois</span><em>dégressif au volume — voir la grille</em>
-        </div>
-        <p class="offer-desc">
-          On héberge Parqueo, on l'installe, on le met à jour et on le sauvegarde. Vous vous
-          concentrez sur vos tickets, pas sur les serveurs.
-        </p>
-        <div class="checks">
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Demandeurs illimités et gratuits</strong> — vous ne payez que vos techniciens.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Hébergement et sauvegardes inclus</strong> — rien à préparer côté infrastructure.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Mises à jour et supervision</strong> — la dernière version, sans intervention de votre part.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support et accompagnement</strong> — y compris sur vos premiers workflows.</span></div>
-        </div>
-        <div class="offer-cta">
-          <a class="btn btn-primary" href="#contact">Demander une démo</a>
-        </div>
-      </div>
-
-      <div class="card offer">
-        <p class="eyebrow">Intégrateurs &amp; infogéreurs</p>
-        <h3>Licence commerciale</h3>
-        <div class="price">
-          <b class="mot">Sur devis</b><span>par prestataire</span><em>pour exploiter Parqueo chez vos clients</em>
-        </div>
-        <p class="offer-desc">
-          L'AGPL vous oblige à publier vos adaptations dès lors que vous exploitez Parqueo pour
-          des tiers. La licence commerciale vous en dispense.
-        </p>
-        <div class="checks">
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Exploitation pour vos clients</strong> — sans obligation de publier vos modifications.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Marque blanche</strong> — intégration à votre offre, sur devis.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Support éditeur</strong> — un interlocuteur direct, pas un formulaire.</span></div>
-          <div class="check"><svg width="17" height="17" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Formation de vos équipes</strong> — pour que vos techniciens déploient sans nous.</span></div>
-        </div>
-        <div class="offer-cta">
-          <a class="btn btn-ghost" href="/services/">En savoir plus</a>
-          <a class="btn btn-primary" href="#contact">Nous écrire</a>
-        </div>
-      </div>
+    <div class="giant-switch" data-ui>
+      <p class="gs-name">Incident réseau, prise en charge</p>
+      <button type="button" class="gs-toggle" role="switch" aria-checked="true" aria-labelledby="titre-workflows">
+        <span class="gs-knob"></span>
+      </button>
+      <p class="gs-label" data-switch-label>Actif</p>
     </div>
+  </section>
 
-    <div class="tarifs">
-      <p class="tarifs-title">
-        Tarif SaaS dégressif selon la taille de l'équipe. Les demandeurs — vos utilisateurs —
-        restent illimités et gratuits dans tous les cas, y compris en auto-hébergé.
+  <section class="editor-band" aria-labelledby="titre-editeur">
+    <div class="editor-copy" data-reveal>
+      <h2 id="titre-editeur" class="head">Le ticket se gare, puis repart.</h2>
+      <p>
+        Un bloc d'attente retient le ticket jusqu'à sa prise en charge ou jusqu'au statut que
+        vous choisissez. Ensuite, la condition ouvre deux chemins : la priorité haute
+        prévient l'astreinte, le reste suit le traitement normal.
       </p>
-      <div class="t-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Techniciens</th>
-              <th scope="col">Auto-hébergé</th>
-              <th scope="col">SaaS infogéré / technicien / mois</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1 à 3</td><td>Gratuit</td><td>19 €</td></tr>
-            <tr><td>4 à 10</td><td>Gratuit</td><td>16 €</td></tr>
-            <tr><td>11 et plus</td><td>Gratuit</td><td>sur devis</td></tr>
-          </tbody>
-        </table>
+      <ul class="bowl-list">
+        <li>Déclencheurs : ticket créé ou statut changé, filtrés par catégorie, formulaire ou priorité.</li>
+        <li>Actions : affecter une équipe ou une personne, changer la priorité ou le statut, ajouter une note, envoyer un email, appeler un webhook vers n8n, Zapier ou vos scripts.</li>
+        <li>Attentes et conditions : attendre la prise en charge, attendre un statut, tester oui ou non.</li>
+      </ul>
+    </div>
+    <figure class="editor-shot">
+      <img src="img/editeur-workflow-1800.webp"
+           srcset="img/editeur-workflow-900.webp 900w, img/editeur-workflow-1800.webp 1800w"
+           sizes="(max-width: 760px) 100vw, 60vw" width="1800" height="1125" loading="lazy"
+           alt="L'éditeur de workflow de Parqueo : quand un ticket Réseau est créé, il est affecté à l'équipe Infrastructure, le demandeur est prévenu, le ticket attend sa prise en charge, puis une condition sur la priorité prévient l'astreinte ou ajoute une note.">
+      <figcaption>L'éditeur tel qu'il s'ouvre dans Parqueo, ici le workflow « Incident réseau ».</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ Fonctionnalités : une phrase, un interrupteur ============ -->
+  <section class="bands" id="fonctions" aria-labelledby="titre-fonctions">
+    <h2 id="titre-fonctions" class="head bands-head">Ce que Parqueo fait à votre place.</h2>
+    <div class="band" data-tone="blue" data-on="true">
+      <div class="band-text">
+        <h3>Un email devient un ticket.</h3>
+        <p class="band-more">Le collecteur IMAP relève la boîte support toutes les 60 secondes. Un message ouvre un ticket, une réponse s'ajoute à sa conversation.</p>
+      </div>
+      <button type="button" class="mini-switch" role="switch" aria-checked="true" aria-label="Collecteur email"><span></span></button>
+    </div>
+    <div class="band" data-tone="ink">
+      <div class="band-text">
+        <h3>Le formulaire qualifie la demande.</h3>
+        <p class="band-more">Le catalogue pose les bonnes questions (texte, listes, dates, cases). Le ticket arrive avec sa catégorie, sa priorité et son workflow.</p>
+      </div>
+      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Catalogue de demandes"><span></span></button>
+    </div>
+    <div class="band" data-tone="grey" data-on="true">
+      <div class="band-text">
+        <h3>L'article répond avant le ticket.</h3>
+        <p class="band-more">Pendant la saisie, la base de connaissances suggère les articles écrits par vos techniciens. La demande la plus simple ne part jamais.</p>
+      </div>
+      <button type="button" class="mini-switch" role="switch" aria-checked="true" aria-label="Base de connaissances"><span></span></button>
+    </div>
+    <div class="band" data-tone="blue">
+      <div class="band-text">
+        <h3>Le parc se remplit tout seul.</h3>
+        <p class="band-more">Agent GLPI sur les postes, connecteur Microsoft Intune sans agent, scan réseau SNMP pour les imprimantes, switches et NAS. Ou la saisie à la main.</p>
+      </div>
+      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Inventaire automatique"><span></span></button>
+    </div>
+    <div class="band" data-tone="ink">
+      <div class="band-text">
+        <h3>Entra ID ouvre la session.</h3>
+        <p class="band-more">Connexion Microsoft avec restriction par domaine, compte créé à la première connexion. Les comptes locaux restent pour les prestataires et le secours.</p>
+      </div>
+      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Connexion Microsoft Entra ID"><span></span></button>
+    </div>
+  </section>
+
+  <!-- ============ Mur de tuiles : les écrans et ce qu'ils contiennent ============ -->
+  <section class="wall" id="apercu" aria-labelledby="titre-apercu">
+    <ul class="tiles" data-reveal>
+      <li class="tile" data-tone="ink"><h2 id="titre-apercu" class="tile-word tile-heading">L'appli&shy;cation</h2><span class="tile-cap">telle qu'elle tourne</span></li>
+      <li class="tile tile-shot"><a href="img/tableau-de-bord-1600.webp"><img src="img/tableau-de-bord-800.webp" width="800" height="500" loading="lazy" alt="Tableau de bord : tickets à traiter, répartition par statut, flux hebdomadaire, charge par technicien."></a><span class="tile-cap">Tableau de bord</span></li>
+      <li class="tile" data-tone="blue"><span class="tile-word">10</span><span class="tile-cap">blocs de workflow</span></li>
+      <li class="tile" data-tone="grey"><span class="tile-word">13</span><span class="tile-cap">widgets de tableau de bord</span></li>
+      <li class="tile" data-tone="grey"><span class="tile-word">3</span><span class="tile-cap">rôles : demandeur, technicien, admin</span></li>
+      <li class="tile tile-shot"><a href="img/detail-ticket-1600.webp"><img src="img/detail-ticket-800.webp" width="800" height="500" loading="lazy" alt="Détail d'un ticket en attente : conversation, journal, statut, priorité et assignation."></a><span class="tile-cap">Détail d'un ticket</span></li>
+      <li class="tile" data-tone="ink"><span class="tile-word">0</span><span class="tile-cap">mot de passe livré par défaut</span></li>
+      <li class="tile tile-shot"><video src="img/file-tickets.webm" poster="img/file-tickets-poster.webp" width="1100" height="720" muted loop playsinline autoplay preload="none" aria-label="La file de tickets filtrée tour à tour par statut : en attente, nouveau, en cours, puis tous."></video><span class="tile-cap">La file, filtrée par statut</span></li>
+      <li class="tile" data-tone="blue"><span class="tile-word">SNMP</span><span class="tile-cap">imprimantes, switches, NAS</span></li>
+      <li class="tile" data-tone="grey"><span class="tile-word">1</span><span class="tile-cap">commande pour installer</span></li>
+      <li class="tile tile-shot"><a href="img/inventaire-1600.webp"><img src="img/inventaire-800.webp" width="800" height="500" loading="lazy" alt="Inventaire du parc : postes, imprimantes et serveurs avec leur état et leur source."></a><span class="tile-cap">Inventaire du parc</span></li>
+      <li class="tile" data-tone="ink"><span class="tile-word">AGPL</span><span class="tile-cap">code public, auditable</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ Hébergement : panneau sombre, photo en panse ============ -->
+  <section class="host" id="hebergement" aria-labelledby="titre-hebergement">
+    <div class="host-panel">
+      <div class="host-left" data-reveal>
+        <h2 id="titre-hebergement" class="head">Vos données, chez vous.</h2>
+        <figure class="host-photo">
+          <img src="img/baies-serveurs-1600.webp"
+               srcset="img/baies-serveurs-800.webp 800w, img/baies-serveurs-1600.webp 1600w"
+               sizes="(max-width: 760px) 86vw, 38vw" width="1600" height="1067" loading="lazy"
+               alt="Baies de serveurs, voyants bleus allumés, dans une salle informatique.">
+        </figure>
+      </div>
+      <div class="host-right" data-reveal>
+        <div class="host-block">
+          <h3>Une commande, votre serveur</h3>
+          <p>Docker avec Compose suffit. L'installeur tire les images, génère les secrets, lance PostgreSQL et obtient le certificat HTTPS tout seul.</p>
+          <pre><code>curl -fsSL https://parqueo.fr/install.sh | sh</code></pre>
+        </div>
+        <div class="host-block">
+          <h3>Rien ne sort, rien à ouvrir</h3>
+          <p>Tickets, inventaire et pièces jointes restent dans votre base. Aucun service tiers, ce qui simplifie la conformité RGPD et les audits internes. Le premier écran vous fait créer le compte administrateur.</p>
+        </div>
+        <div class="host-block">
+          <h3>Ou chez nous, sans rien gérer</h3>
+          <p>Nous hébergeons, mettons à jour et sauvegardons Parqueo pour vous. Reprise de l'inventaire en CSV ou comptes créés à la première connexion SSO.</p>
+        </div>
+        <a class="btn btn-on-dark" href="/docs/installation/">Lire le guide d'installation</a>
       </div>
     </div>
   </section>
 
-  <section class="wrap sec" id="faq" aria-labelledby="titre-faq">
-    <div class="sec-head">
-      <p class="eyebrow">Questions fréquentes</p>
-      <h2 id="titre-faq">Ce qu'on nous demande avant de se lancer.</h2>
+  <!-- ============ Offres : les noms sont le sommaire, un seul chiffre vit ============ -->
+  <section class="plans" id="offres" aria-labelledby="titre-offres">
+    <h2 id="titre-offres" class="head plans-head">Trois façons d'adopter Parqueo.</h2>
+    <div class="plans-grid">
+      <div class="plan-names" role="tablist" aria-label="Offres">
+        <button type="button" role="tab" id="plan-tab-0" aria-controls="plan-0" aria-selected="false" tabindex="-1">Auto-hébergé</button>
+        <button type="button" role="tab" id="plan-tab-1" aria-controls="plan-1" aria-selected="true">SaaS infogéré</button>
+        <button type="button" role="tab" id="plan-tab-2" aria-controls="plan-2" aria-selected="false" tabindex="-1">Licence commerciale</button>
+      </div>
+      <div class="plan-stage">
+        <div class="plan" role="tabpanel" id="plan-0" aria-labelledby="plan-tab-0" hidden>
+          <p class="plan-price">Gratuit</p>
+          <p class="plan-period">logiciel libre, AGPL-3.0, pour toujours</p>
+          <p class="plan-body">Une commande, et Parqueo tourne sur votre serveur. Techniciens et demandeurs illimités, aucune licence à compter. Le code est public et auditable ; la mise en service, la reprise du parc et le support restent proposés en option.</p>
+          <div class="plan-actions"><a class="btn" href="/docs/installation/">Installer Parqueo</a><a class="text-link" href="https://github.com/Lcanet2/parqueo">Code source</a></div>
+        </div>
+        <div class="plan" role="tabpanel" id="plan-1" aria-labelledby="plan-tab-1">
+          <p class="plan-price">19&nbsp;€</p>
+          <p class="plan-period">par technicien et par mois, demandeurs gratuits</p>
+          <p class="plan-body">Hébergement, sauvegardes, mises à jour et supervision inclus, avec du support jusque sur vos premiers workflows. Le tarif baisse avec l'équipe : 19&nbsp;€ de 1 à 3 techniciens, 16&nbsp;€ de 4 à 10, sur devis au-delà.</p>
+          <div class="plan-actions"><a class="btn" href="#contact">Demander une démo</a></div>
+        </div>
+        <div class="plan" role="tabpanel" id="plan-2" aria-labelledby="plan-tab-2" hidden>
+          <p class="plan-price">Sur devis</p>
+          <p class="plan-period">par prestataire, selon le nombre de clients</p>
+          <p class="plan-body">L'AGPL vous oblige à publier vos adaptations dès que vous exploitez Parqueo pour des tiers. La licence commerciale vous en dispense, avec la marque blanche, un support éditeur direct et la formation de vos techniciens.</p>
+          <div class="plan-actions"><a class="btn" href="/services/">Voir les services</a></div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="faq">
-      <details>
+  <!-- ============ Questions ============ -->
+  <section class="faq" id="faq" aria-labelledby="titre-faq">
+    <h2 id="titre-faq" class="head faq-head">Avant de se lancer.</h2>
+    <div class="faq-list" data-reveal>
+      <details name="faq" open>
         <summary>Parqueo est gratuit ? Où est le piège ?</summary>
-        <div class="answer">
-          Il n'y en a pas. Parqueo est un logiciel libre sous licence AGPL-3.0 : vous
-          l'installez sur votre serveur, avec autant de techniciens et de demandeurs que
-          vous voulez, sans rien payer et sans limite de durée. Le code est
-          <a href="https://github.com/Lcanet2/parqueo">public sur GitHub</a>.
-          Ce que nous vendons, c'est de ne pas avoir à s'en occuper : l'hébergement
-          infogéré, la mise en service, la reprise de votre parc existant et le support.
-          Et pour les prestataires qui exploitent Parqueo chez leurs clients, une licence
-          commerciale qui les dispense des obligations de l'AGPL.
+        <div class="faq-a">
+          <p>Il n'y en a pas. Parqueo est un logiciel libre sous licence AGPL-3.0 : vous l'installez sur votre serveur, avec autant de techniciens et de demandeurs que vous voulez, sans rien payer et sans limite de durée. Le code est <a href="https://github.com/Lcanet2/parqueo">public sur GitHub</a>.</p>
+          <p>Ce que nous vendons, c'est de ne pas avoir à s'en occuper : l'hébergement infogéré, la mise en service, la reprise de votre parc existant et le support. Et, pour les prestataires qui exploitent Parqueo chez leurs clients, une licence commerciale qui les dispense des obligations de l'AGPL.</p>
         </div>
       </details>
-
-      <details>
-        <summary>Qu'est-ce qu'un logiciel ITSM et à quoi sert Parqueo ?</summary>
-        <div class="answer">
-          Un logiciel ITSM organise le travail d'un service informatique : réception des demandes des
-          utilisateurs, suivi des incidents, inventaire des équipements. Parqueo réunit ces trois
-          volets — ticketing, gestion de parc et automatisation des procédures — dans une seule
-          application web, installée sur vos serveurs.
-        </div>
+      <details name="faq">
+        <summary>Qu'est-ce qu'un logiciel ITSM, et à quoi sert Parqueo ?</summary>
+        <div class="faq-a"><p>Un logiciel ITSM organise le travail d'un service informatique : réception des demandes des utilisateurs, suivi des incidents, inventaire des équipements. Parqueo réunit ces trois volets (ticketing, gestion de parc et automatisation des procédures) dans une seule application web, installée sur vos serveurs.</p></div>
       </details>
-      <details>
-        <summary>Où sont hébergées les données de Parqueo ?</summary>
-        <div class="answer">
-          Vous choisissez. En auto-hébergé, tout est installé sur votre serveur ou celui de votre
-          hébergeur : aucune donnée de ticket, d'inventaire ou de pièce jointe ne transite par un
-          service tiers, ce qui simplifie la conformité RGPD. En SaaS, Parqueo est hébergé et
-          infogéré par nos soins — vous n'avez aucune infrastructure à gérer.
-        </div>
+      <details name="faq">
+        <summary>Où sont hébergées les données ?</summary>
+        <div class="faq-a"><p>Vous choisissez. En auto-hébergé, tout est installé sur votre serveur ou celui de votre hébergeur : aucune donnée de ticket, d'inventaire ou de pièce jointe ne transite par un service tiers, ce qui simplifie la conformité RGPD. En SaaS, Parqueo est hébergé et infogéré par nos soins : vous n'avez aucune infrastructure à gérer.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>Faut-il installer un agent sur les postes ?</summary>
-        <div class="answer">
-          Non, ce n'est pas obligatoire. Parqueo s'utilise depuis un navigateur, sur poste comme sur
-          mobile.
-        </div>
+        <div class="faq-a"><p>Non, ce n'est pas obligatoire. Parqueo s'utilise depuis un navigateur, sur poste comme sur mobile. Pour remplir l'inventaire automatiquement, vous pouvez brancher l'agent GLPI, le connecteur Intune (sans agent) ou le scan réseau SNMP.</p></div>
       </details>
-      <details>
-        <summary>Peut-on se connecter avec les comptes Microsoft 365 de l'entreprise ?</summary>
-        <div class="answer">
-          Oui. Parqueo gère l'authentification unique avec Microsoft Entra ID via OpenID Connect,
-          avec restriction par domaine email. Les comptes locaux restent disponibles pour les
-          prestataires ou les accès de secours.
-        </div>
+      <details name="faq">
+        <summary>Peut-on se connecter avec les comptes Microsoft 365 ?</summary>
+        <div class="faq-a"><p>Oui. Parqueo gère l'authentification unique avec Microsoft Entra ID via OpenID Connect, avec restriction par domaine email. Les comptes locaux restent disponibles pour les prestataires ou les accès de secours.</p></div>
       </details>
-      <details>
-        <summary>Comment se déroule une démonstration de Parqueo ?</summary>
-        <div class="answer">
-          Écrivez-nous en décrivant votre parc et vos procédures actuelles. Nous vous montrons
-          l'application sur un jeu de données proche du vôtre, puis nous étudions ensemble la reprise
-          de votre inventaire et la configuration de vos premiers workflows.
-        </div>
+      <details name="faq">
+        <summary>Comment se déroule une démonstration ?</summary>
+        <div class="faq-a"><p>Écrivez-nous en décrivant votre parc et vos procédures actuelles. Nous vous montrons l'application sur un jeu de données proche du vôtre, puis nous étudions ensemble la reprise de votre inventaire et la configuration de vos premiers workflows.</p></div>
       </details>
     </div>
   </section>
 
-  <section class="wrap sec" id="contact" style="padding-top:0" aria-labelledby="titre-contact">
-    <div class="cta">
-      <div class="cta-copy">
-        <p class="eyebrow">Prendre contact</p>
-        <h2 id="titre-contact">Voyons Parqueo sur votre parc.</h2>
-        <p class="lede">
-          Décrivez votre service en quelques lignes — nombre de postes, taille de l'équipe, ce qui
-          vous fait perdre du temps aujourd'hui. Vous recevrez une réponse avec une proposition de
-          date pour la démonstration.
+  <!-- ============ Contact : un ticket à détacher ============ -->
+  <section class="contact" id="contact" aria-labelledby="titre-contact">
+    <form class="coupon" id="demo-form" action="mailto:contact@parqueo.fr" method="post" enctype="text/plain">
+      <div class="coupon-stub">
+        <h2 id="titre-contact" class="coupon-head">Voyons Parqueo sur votre parc.</h2>
+        <p class="coupon-ticket" aria-hidden="true">
+          <span>Ticket de démonstration</span>
+          <span id="coupon-stamp">Émis aujourd'hui</span>
         </p>
-        <a class="btn btn-primary" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20Parqueo">
-          <svg width="16" height="16" aria-hidden="true"><use href="#i-mail"/></svg>
-          Demander une démonstration
-        </a>
+        <p class="coupon-lede">Quelques lignes suffisent. Vous recevez une réponse avec une date pour la démonstration, sur un jeu de données proche du vôtre.</p>
       </div>
-      <div class="mail-box">
-        <span class="mail-lbl">Écrire directement</span>
-        <div class="mail-row">
-          <a class="mail" href="mailto:contact@parqueo.fr?subject=Demande%20de%20d%C3%A9monstration%20Parqueo">contact@parqueo.fr</a>
-          <button type="button" class="btn-copy" data-copy="contact@parqueo.fr">
-            <svg width="14" height="14" aria-hidden="true"><use href="#i-copy"/></svg>
-            <span class="btn-copy-txt" aria-live="polite">Copier</span>
-          </button>
-        </div>
-        <p class="mail-hint">Le bouton n'ouvre rien ? Copiez l'adresse et écrivez-nous depuis votre messagerie habituelle.</p>
-        <ul>
-          <li><svg width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg> Démonstration adaptée à votre contexte</li>
-          <li><svg width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg> Étude de la reprise de votre inventaire</li>
-          <li><svg width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg> Installation sur votre infrastructure</li>
-        </ul>
+      <div class="coupon-fields" data-reveal>
+        <label class="sr-only" for="f-nom">Votre nom</label>
+        <input id="f-nom" name="nom" autocomplete="name" placeholder="Votre nom" required>
+        <label class="sr-only" for="f-email">Votre email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="Votre email professionnel" required>
+        <label class="sr-only" for="f-parc">Taille du parc</label>
+        <input id="f-parc" name="parc" placeholder="Nombre de postes et de techniciens">
+        <label class="sr-only" for="f-message">Ce qui vous fait perdre du temps</label>
+        <textarea id="f-message" name="message" rows="3" placeholder="Ce qui vous fait perdre du temps aujourd'hui"></textarea>
+        <button type="submit" class="coupon-submit">Demander une démonstration</button>
+        <p class="coupon-alt">
+          Ou écrivez à <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
+          <button type="button" class="copy-btn" data-copy="contact@parqueo.fr"><span class="copy-txt">Copier l'adresse</span></button>
+        </p>
       </div>
-    </div>
+    </form>
   </section>
 </main>
 
-<footer>
-  <div class="wrap foot-in">
-    <span>Parqueo — logiciel de helpdesk et de gestion de parc informatique auto-hébergé.</span>
-    <span class="sep"></span>
-    <a href="/docs/">Documentation</a>
-    <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
-    <span>Node.js · PostgreSQL · Prisma · React</span>
+<!-- ============ Pied de page : le P construit en grand ============ -->
+<footer class="foot">
+  <div class="foot-mark" aria-hidden="true">
+    <span class="fm-stem"></span>
+    <span class="fm-bowl"></span>
+    <span class="fm-word">arqueo</span>
+  </div>
+  <div class="foot-cols" data-reveal>
+    <div>
+      <h2 class="foot-h">Produit</h2>
+      <a href="#parcours">Parcours d'un ticket</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#offres">Offres</a>
+      <a href="/services/">Services et licence</a>
+    </div>
+    <div>
+      <h2 class="foot-h">Documentation</h2>
+      <a href="/docs/fonctionnel/">Fonctionnelle</a>
+      <a href="/docs/installation/">Installation</a>
+      <a href="/docs/technique/">Technique</a>
+    </div>
+    <div>
+      <h2 class="foot-h">Code</h2>
+      <a href="https://github.com/Lcanet2/parqueo">Parqueo sur GitHub</a>
+      <a href="https://www.gnu.org/licenses/agpl-3.0.html">Licence AGPL-3.0</a>
+      <a href="/install.sh">install.sh</a>
+    </div>
+    <div class="foot-contact">
+      <h2 class="foot-h">Contact</h2>
+      <a href="mailto:contact@parqueo.fr">contact@parqueo.fr</a>
+      <p>Logiciel de helpdesk et de gestion de parc informatique auto-hébergé. Node.js, PostgreSQL, React.</p>
+    </div>
+  </div>
+  <div class="foot-last">
+    <p class="credits">Photo des baies : « NOIRLab HQ Server Racks » par NOIRLab/NSF/AURA/T.&nbsp;Slovinský, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, via <a href="https://commons.wikimedia.org/w/index.php?curid=134195917">Wikimedia Commons</a>. Police Overpass, licence OFL.</p>
+    <a class="btn btn-sm" href="#top">Haut de page</a>
   </div>
 </footer>
 
-<script>
-(function () {
-  'use strict';
-
-  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  /* --- mouvement ---------------------------------------------------------
-     Le mouvement SMIL du ticket ne se plie pas aux media queries : on l'arrête
-     à la main. */
-  if (reduit.matches) {
-    document.querySelectorAll('svg').forEach(function (svg) {
-      if (svg.pauseAnimations) svg.pauseAnimations();
-    });
-  }
-
-  /* --- thème -------------------------------------------------------------
-     Le CSS sait déjà rendre les deux thèmes ; il manquait la commande. Le choix
-     est retenu d'une visite à l'autre, et l'absence de choix laisse la main à
-     la préférence du système. */
-  var racine = document.documentElement;
-  var btnTheme = document.getElementById('theme-btn');
-  var systemeSombre = window.matchMedia('(prefers-color-scheme: dark)');
-  var metas = Array.prototype.slice.call(document.querySelectorAll('meta[name="theme-color"]'));
-  var metasOrigine = metas.map(function (m) { return m.getAttribute('content'); });
-
-  function themeAffiche() {
-    return racine.getAttribute('data-theme') || (systemeSombre.matches ? 'dark' : 'light');
-  }
-
-  function majTheme() {
-    var force = racine.getAttribute('data-theme');
-    if (btnTheme) {
-      btnTheme.setAttribute('aria-label',
-        themeAffiche() === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre');
-    }
-    // Les deux <meta theme-color> sont conditionnées à la préférence du système :
-    // dès qu'un thème est forcé, elles décrivent la mauvaise page. On les aligne
-    // sur la couleur réellement affichée, et on les rend au système si le choix
-    // explicite disparaît.
-    if (!force) {
-      metas.forEach(function (m, k) { m.setAttribute('content', metasOrigine[k]); });
-      return;
-    }
-    var fond = getComputedStyle(racine).getPropertyValue('--canvas').trim();
-    if (fond) metas.forEach(function (m) { m.setAttribute('content', fond); });
-  }
-
-  if (btnTheme) {
-    btnTheme.addEventListener('click', function () {
-      var suivant = themeAffiche() === 'dark' ? 'light' : 'dark';
-      racine.setAttribute('data-theme', suivant);
-      try { localStorage.setItem('parqueo-theme', suivant); } catch (e) { /* stockage refusé */ }
-      majTheme();
-    });
-  }
-  if (systemeSombre.addEventListener) systemeSombre.addEventListener('change', majTheme);
-  majTheme();
-
-  /* --- menu de navigation (sous 900px) -----------------------------------
-     Au-dessus, les liens tiennent dans la barre ; en dessous, ils passaient
-     simplement en display:none et la page devenait un long défilement sans
-     repère. Ils descendent maintenant dans un panneau. */
-  var barre = document.querySelector('.nav');
-  var btnMenu = document.getElementById('menu-btn');
-  var liens = document.getElementById('nav-links');
-
-  function fermerMenu() {
-    if (!barre || barre.getAttribute('data-menu') !== 'open') return;
-    barre.removeAttribute('data-menu');
-    btnMenu.setAttribute('aria-expanded', 'false');
-    btnMenu.setAttribute('aria-label', 'Ouvrir le menu');
-  }
-
-  if (btnMenu && barre && liens) {
-    btnMenu.addEventListener('click', function () {
-      if (barre.getAttribute('data-menu') === 'open') { fermerMenu(); return; }
-      barre.setAttribute('data-menu', 'open');
-      btnMenu.setAttribute('aria-expanded', 'true');
-      btnMenu.setAttribute('aria-label', 'Fermer le menu');
-    });
-
-    // Sans cela le panneau resterait ouvert par-dessus la section qu'on vient
-    // de demander.
-    liens.addEventListener('click', function (e) { if (e.target.closest('a')) fermerMenu(); });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape' || barre.getAttribute('data-menu') !== 'open') return;
-      fermerMenu();
-      btnMenu.focus();
-    });
-    document.addEventListener('click', function (e) { if (!barre.contains(e.target)) fermerMenu(); });
-
-    var large = window.matchMedia('(min-width: 1121px)');
-    if (large.addEventListener) large.addEventListener('change', fermerMenu);
-  }
-
-  /* --- section courante ---------------------------------------------------
-     La page fait huit écrans : le lien de la section traversée est souligné
-     pour qu'on sache toujours où l'on est. */
-  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
-  var parId = {};
-  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
-    parId[a.getAttribute('href').slice(1)] = a;
-  });
-
-  if (window.IntersectionObserver && sections.length) {
-    var vues = {};
-    var espion = new IntersectionObserver(function (entrees) {
-      entrees.forEach(function (e) { vues[e.target.id] = e.isIntersecting; });
-      var courante = null;
-      for (var k = 0; k < sections.length; k++) {
-        if (vues[sections[k].id]) { courante = sections[k].id; break; }
-      }
-      Object.keys(parId).forEach(function (id) {
-        if (id === courante) parId[id].setAttribute('aria-current', 'true');
-        else parId[id].removeAttribute('aria-current');
-      });
-    }, { rootMargin: '-78px 0px -66% 0px' });
-    sections.forEach(function (sec) { espion.observe(sec); });
-  }
-
-  /* --- onglets des captures ----------------------------------------------
-     Modèle ARIA des onglets : une seule tabulation entre dans le groupe, les
-     flèches circulent à l'intérieur. */
-  var onglets = Array.prototype.slice.call(document.querySelectorAll('.shot-tab'));
-
-  function choisirOnglet(n, prendreLeFocus) {
-    onglets.forEach(function (t, k) {
-      var actif = k === n;
-      t.setAttribute('aria-selected', actif ? 'true' : 'false');
-      t.tabIndex = actif ? 0 : -1;
-      var panneau = document.getElementById(t.getAttribute('aria-controls'));
-      if (panneau) panneau.hidden = !actif;
-    });
-    if (prendreLeFocus) onglets[n].focus();
-  }
-
-  onglets.forEach(function (t, n) {
-    t.addEventListener('click', function () { choisirOnglet(n, false); });
-    t.addEventListener('keydown', function (e) {
-      var cible = { ArrowLeft: n - 1, ArrowRight: n + 1, Home: 0, End: onglets.length - 1 }[e.key];
-      if (cible === undefined) return;
-      e.preventDefault();
-      choisirOnglet((cible + onglets.length) % onglets.length, true);
-    });
-  });
-
-  /* --- apparition au défilement ------------------------------------------
-     La classe .reveal n'est posée qu'ici : si le script ne s'exécute pas, ou si
-     le mouvement est refusé, rien n'est jamais masqué. */
-  if (!reduit.matches && window.IntersectionObserver) {
-    var cibles = Array.prototype.slice.call(document.querySelectorAll(
-      '.canvas-panel, .stats, .sec .sec-head, .step, .trio > *, .blocks, .wf-shot, ' +
-      '.callout, .shots, .grid-feat > *, .deploy > *, .offers > *, .tarifs, .faq, .cta'
-    ));
-    cibles.forEach(function (el) { el.classList.add('reveal'); });
-
-    var apparition = new IntersectionObserver(function (entrees, obs) {
-      entrees.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        // Décalage par rang dans la fratrie : une grille de cartes se remplit
-        // de gauche à droite au lieu d'apparaître d'un bloc.
-        var freres = Array.prototype.filter.call(el.parentElement.children, function (n) {
-          return n.classList.contains('reveal');
-        });
-        el.style.transitionDelay = Math.min(freres.indexOf(el), 5) * 60 + 'ms';
-        el.classList.add('is-in');
-        obs.unobserve(el);
-      });
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
-
-    cibles.forEach(function (el) { apparition.observe(el); });
-  }
-
-  /* --- chiffres du bandeau ------------------------------------------------
-     Le décompte n'est lancé qu'une fois le bandeau visible, et seulement sur
-     le premier nœud de texte : le « % » de la dernière case doit rester. */
-  if (!reduit.matches && window.IntersectionObserver) {
-    var compteurs = Array.prototype.slice.call(document.querySelectorAll('.stat .num'))
-      .map(function (el) {
-        var noeud = el.firstChild;
-        if (!noeud || noeud.nodeType !== 3) return null;
-        var fin = parseInt(noeud.textContent, 10);
-        return isNaN(fin) ? null : { noeud: noeud, fin: fin };
-      })
-      .filter(Boolean);
-
-    if (compteurs.length) {
-      compteurs.forEach(function (c) { c.noeud.textContent = '0'; });
-      var bandeau = document.querySelector('.stats');
-      var obsNum = new IntersectionObserver(function (entrees, obs) {
-        if (!entrees[0].isIntersecting) return;
-        obs.disconnect();
-        var debut = performance.now();
-        var duree = 900;
-        (function pas(maintenant) {
-          var t = Math.min((maintenant - debut) / duree, 1);
-          var e = 1 - Math.pow(1 - t, 3); // ralentit en fin de course
-          compteurs.forEach(function (c) { c.noeud.textContent = Math.round(c.fin * e); });
-          if (t < 1) requestAnimationFrame(pas);
-        })(debut);
-      }, { threshold: 0.4 });
-      obsNum.observe(bandeau);
-    }
-  }
-
-  /* --- copie de l'adresse -------------------------------------------------
-     Recours pour les postes sans client mail : le mailto: n'y produit aucun
-     effet. */
-  document.querySelectorAll('.btn-copy[data-copy]').forEach(function (btn) {
-    var lbl = btn.querySelector('.btn-copy-txt');
-    btn.addEventListener('click', async function () {
-      var texte = btn.dataset.copy;
-      try {
-        await navigator.clipboard.writeText(texte);
-      } catch (err) {
-        // navigator.clipboard manque hors contexte sécurisé et sur les
-        // navigateurs anciens.
-        var zone = document.createElement('textarea');
-        zone.value = texte;
-        zone.setAttribute('readonly', '');
-        zone.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-        document.body.appendChild(zone);
-        zone.select();
-        try { document.execCommand('copy'); } catch (e) { /* rien de plus à tenter */ }
-        zone.remove();
-      }
-      lbl.textContent = 'Copié';
-      btn.dataset.done = '';
-      clearTimeout(btn._t);
-      btn._t = setTimeout(function () { lbl.textContent = 'Copier'; delete btn.dataset.done; }, 2000);
-    });
-  });
-})();
-</script>
+<script src="/site.js" defer></script>
 </body>
 </html>
