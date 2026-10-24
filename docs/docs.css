@@ -1,5 +1,5 @@
 /* Pages de documentation — même charte que la page d'accueil.
-   Généré à la main, chargé par les pages produites par ../parqueo/docs/build-web.mjs.
+   Chargé par les pages de docs/, éditées à la main.
    Les chemins de polices sont relatifs à ce fichier (/docs/docs.css → /fonts/). */
 
 *, *::before, *::after { box-sizing: border-box; }

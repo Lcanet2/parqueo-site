@@ -21,9 +21,9 @@ En ligne : <https://lcanet2.github.io/parqueo-site/>
 | `og-image.svg` | la source de l'image ci-dessus — voir « Regénérer l'image »  |
 | `favicon.svg`  | icône d'onglet                                              |
 | `robots.txt`   | autorise l'indexation, déclare le sitemap                    |
-| `sitemap.xml`  | **généré** — voir « Documentation » ci-dessous               |
-| `docs/`        | **généré** — les trois documents en HTML                     |
-| `docs/docs.css`| la charte des pages de documentation (écrite à la main)      |
+| `sitemap.xml`  | écrit à la main — voir « Documentation » ci-dessous          |
+| `docs/`        | les trois documents en HTML, édités ici                      |
+| `docs/docs.css`| la charte des pages de documentation                         |
 
 Aucune dépendance, aucun script tiers, aucune requête vers un CDN.
 
@@ -63,28 +63,23 @@ du dépôt (enregistrements DNS, HTTPS côté GitHub, Search Console).
 
 ## Documentation (`/docs/`)
 
-Les pages de `docs/` **ne se modifient pas ici** : elles sont produites à partir
-des trois markdown du dépôt du logiciel, qui restent la source unique.
+Les trois documents (fonctionnel, installation, technique) et leur sommaire
+`docs/index.html` sont **édités directement ici**, en HTML. Ils étaient
+autrefois produits par un générateur Markdown, perdu depuis : les pages
+publiées sont devenues la source.
 
-```sh
-cd ../parqueo/docs && npm install && npm run build:web
-```
-
-Le script `build-web.mjs` écrit `docs/index.html`, les trois
-`docs/<slug>/index.html` et régénère `sitemap.xml` avec les cinq URL. Il attend
-le dépôt du site rangé à côté de celui du logiciel ; sinon, donnez le chemin
-dans `SITE_DIR`.
-
-Seul `docs/docs.css` est écrit à la main — c'est la charte des pages générées,
-calquée sur celle de `index.html`.
+- `docs/docs.css` porte la charte des pages, calquée sur `styles.css` ;
+- `docs/img/` contient les captures (PNG, 1280 px de large rendues en 2×) ;
+- après l'ajout ou le retrait d'une page, mettez `sitemap.xml` à jour à la
+  main (`<loc>` et `<lastmod>`).
 
 ## À personnaliser
 
 - **Adresse de contact** : `contact@parqueo.fr` est un texte d'attente
   (9 occurrences dans `index.html`, dont l'attribut `data-copy` du bouton
   « Copier ») — le script ci-dessus le remplace partout.
-- **Date du sitemap** : `<lastmod>` est remis à jour à chaque exécution du
-  script ; à ajuster à la main lors d'une refonte du contenu.
+- **Date du sitemap** : `<lastmod>` est à ajuster à la main quand une page
+  change de contenu.
 
 ## Captures de l'application (`/img/`)
 
