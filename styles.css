@@ -807,8 +807,11 @@ a { color: inherit; }
   .journey-steps li.is-current, .journey-steps li:nth-child(n+3).is-current { color: var(--ink); }
   .tk-props { grid-template-columns: 1fr 1fr; }
 
-  .switch-field { min-height: 86svh; padding: 48px var(--m); }
-  .giant-switch { right: -22vw; left: var(--m); bottom: -5vh; font-size: 46vw; }
+  /* L'interrupteur suit le texte au lieu d'être calé en bas d'une section de
+     hauteur fixe : sur un téléphone haut, un grand vide les séparait. Il
+     reste rogné par le bas de l'aplat, comme sur grand écran. */
+  .switch-field { min-height: 0; padding: 48px var(--m) 0; }
+  .giant-switch { position: relative; right: auto; bottom: auto; margin: 48px -22vw -.14em 0; font-size: 46vw; }
   .gs-name { font-size: .1em; }
 
   .editor-band, .faq, .plans-grid, .host-panel, .page-head, .svc, .licence-panel, .cta-strip { display: block; }
