@@ -106,30 +106,148 @@
     montrer(Number(range.value));
   }
 
-  /* --- L'interrupteur géant du workflow -------------------------------- */
+  /* --- L'interrupteur géant du workflow --------------------------------
+     Il part en pause et bascule tout seul quand la section arrive à l'écran :
+     on voit le geste sans avoir à le faire. Il reste cliquable. */
   var champ = document.querySelector('.switch-field');
   if (champ) {
     var gs = champ.querySelector('.gs-toggle');
     var mot = champ.querySelector('[data-switch-word]');
     var lbl = champ.querySelector('[data-switch-label]');
-    gs.addEventListener('click', function () {
-      var on = gs.getAttribute('aria-checked') !== 'true';
+    var basculer = function (on) {
       gs.setAttribute('aria-checked', String(on));
       champ.dataset.on = String(on);
       mot.textContent = on ? 'actif' : 'en pause';
       lbl.textContent = on ? 'Actif' : 'En pause';
-    });
+    };
+    gs.addEventListener('click', function () { basculer(gs.getAttribute('aria-checked') !== 'true'); });
+    if ('IntersectionObserver' in window && !reduit.matches) {
+      basculer(false);
+      var obsChamp = new IntersectionObserver(function (entrees) {
+        if (!entrees[0].isIntersecting) return;
+        obsChamp.disconnect();
+        setTimeout(function () { basculer(true); }, 450);
+      }, { threshold: 0.6 });
+      obsChamp.observe(champ);
+    }
   }
 
-  /* --- Bandes : une phrase, un interrupteur ---------------------------- */
-  document.querySelectorAll('.band .mini-switch').forEach(function (sw) {
-    var band = sw.closest('.band');
-    sw.addEventListener('click', function () {
-      var on = sw.getAttribute('aria-checked') !== 'true';
-      sw.setAttribute('aria-checked', String(on));
-      band.dataset.on = String(on);
+  /* --- Ce que Parqueo fait : la tâche en cours suit le défilement -------
+     Section épinglée (grand écran, voir styles.css) : chaque course de
+     défilement passe à la tâche suivante et affiche son écran, la page ne
+     bouge pas. Le calcul part de la position, pas du sens : remonter revient
+     en arrière. Un clic sur un titre défile jusqu'à sa tâche. Hors
+     épinglage, les cinq tâches sont à la suite et rien n'est à suivre. */
+  var taches = document.querySelector('.feats');
+  var tachesPin = taches && taches.querySelector('.feats-pin');
+  var listeTaches = taches ? Array.prototype.slice.call(taches.querySelectorAll('.feat')) : [];
+  var tachesEpinglees = function () { return tachesPin && getComputedStyle(tachesPin).position === 'sticky'; };
+  var courseTache = function () { return (taches.offsetHeight - tachesPin.offsetHeight) / (listeTaches.length - 1); };
+  var hautTaches = function () { return taches.getBoundingClientRect().top + window.scrollY; };
+  if (listeTaches.length) {
+    var majTaches = function () {
+      var n = -1;
+      if (tachesEpinglees()) {
+        var dy = window.scrollY - hautTaches();
+        n = Math.min(listeTaches.length - 1, Math.max(0, Math.round(dy / courseTache())));
+      }
+      listeTaches.forEach(function (li, i) { li.classList.toggle('is-current', i === n); });
+    };
+    var majPrevue = false;
+    var planifier = function () {
+      if (majPrevue) return;
+      majPrevue = true;
+      requestAnimationFrame(function () { majPrevue = false; majTaches(); });
+    };
+    window.addEventListener('scroll', planifier, { passive: true });
+    window.addEventListener('resize', planifier);
+    taches.querySelectorAll('[data-feat]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (!tachesEpinglees()) return;
+        window.scrollTo({ top: hautTaches() + Number(btn.dataset.feat) * courseTache() });
+      });
     });
-  });
+    majTaches();
+  }
+
+  /* --- Une page par cran de molette (accueil, grand écran, souris) -----
+     Les arrêts sont recalculés à chaque cran : le haut de chaque section,
+     un arrêt par tâche dans la section épinglée, les éléments marqués
+     `data-stop` (valeur : l'air laissé au-dessus, en px), et sinon des
+     paliers dans les sections bien plus hautes que la fenêtre. Le clavier, la barre de
+     défilement et le tactile gardent le défilement normal. */
+  var molette = window.matchMedia('(min-width: 900px) and (min-height: 640px) and (hover: hover) and (pointer: fine)');
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page-home main > section, .page-home .foot'));
+  if (pages.length) {
+    var anim = null, finAnim = 0, dernierCran = 0;
+
+    var arrets = function () {
+      var vh = window.innerHeight;
+      var max = document.documentElement.scrollHeight - vh;
+      var liste = [max];
+      pages.forEach(function (s) {
+        var haut = s.getBoundingClientRect().top + window.scrollY;
+        if (s === taches && tachesEpinglees()) {
+          for (var k = 0; k < listeTaches.length; k++) liste.push(haut + k * courseTache());
+          return;
+        }
+        var marques = s.querySelectorAll('[data-stop]');
+        // Une marge intérieure plus grande que 72 px est un écart entre
+        // sections, pas du contenu : on s'arrête sur le contenu. `data-air`
+        // laisse de l'air au-dessus d'un titre posé sur le fond blanc.
+        var y = haut + Math.max(0, (parseFloat(getComputedStyle(s).paddingTop) || 0) - 72) - (parseFloat(s.dataset.air) || 0);
+        var h = s.offsetHeight - (y - haut);
+        liste.push(y);
+        Array.prototype.forEach.call(marques, function (el) {
+          liste.push(el.getBoundingClientRect().top + window.scrollY - (parseFloat(el.dataset.stop) || 0));
+        });
+        if (!marques.length && h > vh * 1.35) {
+          for (var z = y + vh * 0.8; z < y + h - vh; z += vh * 0.8) liste.push(z);
+          liste.push(y + h - vh);
+        }
+      });
+      liste = liste.map(function (v) { return Math.round(Math.min(max, Math.max(0, v))); }).sort(function (a, b) { return a - b; });
+      return liste.filter(function (v, i) { return i === 0 || v - liste[i - 1] > 32; });
+    };
+
+    var adoucir = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+    var arreter = function () { if (anim) { cancelAnimationFrame(anim); anim = null; } };
+    var defiler = function (cible) {
+      var depart = window.scrollY, d = cible - depart, t0 = performance.now();
+      var duree = Math.min(750, 260 + Math.abs(d) * 0.45);
+      var image = function (t) {
+        var p = Math.min(1, (t - t0) / duree);
+        // `instant` : le scroll-behavior: smooth du CSS lisserait chaque image.
+        window.scrollTo({ top: depart + d * adoucir(p), behavior: 'instant' });
+        if (p < 1) anim = requestAnimationFrame(image);
+        else { anim = null; finAnim = performance.now(); }
+      };
+      anim = requestAnimationFrame(image);
+    };
+
+    window.addEventListener('wheel', function (e) {
+      if (!molette.matches || reduit.matches || e.ctrlKey || e.defaultPrevented) return;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      if (e.target.closest && e.target.closest('textarea, select')) return;
+      e.preventDefault();
+      // Un geste = une page. Les crans qui suivent de près (molette qu'on
+      // fait tourner, inertie du pavé tactile) sont avalés tant que
+      // l'animation tourne, puis tant qu'ils restent faibles et rapprochés.
+      var t = performance.now(), calme = t - dernierCran > 160;
+      dernierCran = t;
+      if (anim) return;
+      var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      if (!calme && (t - finAnim < 400 || Math.abs(dy) < 40)) return;
+      if (!dy) return;
+      var y = window.scrollY, liste = arrets(), cible = null;
+      if (dy > 0) cible = liste.filter(function (v) { return v > y + 32; })[0];
+      else cible = liste.filter(function (v) { return v < y - 32; }).pop();
+      if (cible != null) defiler(cible);
+    }, { passive: false });
+    ['keydown', 'mousedown', 'touchstart'].forEach(function (ev) {
+      window.addEventListener(ev, arreter, { passive: true });
+    });
+  }
 
   /* --- Offres : onglets au clavier et à la souris ---------------------- */
   var onglets = Array.prototype.slice.call(document.querySelectorAll('.plan-names [role="tab"]'));

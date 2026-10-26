@@ -338,62 +338,143 @@
     </figure>
   </section>
 
-  <!-- ============ Fonctionnalités : une phrase, un interrupteur ============ -->
-  <section class="bands" id="fonctions" aria-labelledby="titre-fonctions">
-    <h2 id="titre-fonctions" class="head bands-head">Ce que Parqueo fait à votre place.</h2>
-    <div class="band" data-tone="blue" data-on="true">
-      <div class="band-text">
-        <h3>Un email devient un ticket.</h3>
-        <p class="band-more">Le collecteur IMAP relève la boîte support toutes les 60 secondes. Un message ouvre un ticket, une réponse s'ajoute à sa conversation.</p>
-      </div>
-      <button type="button" class="mini-switch" role="switch" aria-checked="true" aria-label="Collecteur email"><span></span></button>
-    </div>
-    <div class="band" data-tone="ink">
-      <div class="band-text">
-        <h3>Le formulaire qualifie la demande.</h3>
-        <p class="band-more">Le catalogue pose les bonnes questions (texte, listes, dates, cases). Le ticket arrive avec sa catégorie, sa priorité et son workflow.</p>
-      </div>
-      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Catalogue de demandes"><span></span></button>
-    </div>
-    <div class="band" data-tone="grey" data-on="true">
-      <div class="band-text">
-        <h3>L'article répond avant le ticket.</h3>
-        <p class="band-more">Pendant la saisie, la base de connaissances suggère les articles écrits par vos techniciens. La demande la plus simple ne part jamais.</p>
-      </div>
-      <button type="button" class="mini-switch" role="switch" aria-checked="true" aria-label="Base de connaissances"><span></span></button>
-    </div>
-    <div class="band" data-tone="blue">
-      <div class="band-text">
-        <h3>Le parc se remplit tout seul.</h3>
-        <p class="band-more">Agent GLPI sur les postes, connecteur Microsoft Intune sans agent, scan réseau SNMP pour les imprimantes, switches et NAS. Ou la saisie à la main.</p>
-      </div>
-      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Inventaire automatique"><span></span></button>
-    </div>
-    <div class="band" data-tone="ink">
-      <div class="band-text">
-        <h3>Entra ID ouvre la session.</h3>
-        <p class="band-more">Connexion Microsoft avec restriction par domaine, compte créé à la première connexion. Les comptes locaux restent pour les prestataires et le secours.</p>
-      </div>
-      <button type="button" class="mini-switch" role="switch" aria-checked="false" aria-label="Connexion Microsoft Entra ID"><span></span></button>
+  <!-- ============ Fonctionnalités : cinq tâches, l'écran qui les prouve ============
+       Grand écran : la section s'épingle, chaque cran de molette passe à la tâche
+       suivante et l'écran de Parqueo correspondant s'affiche dans la panse.
+       Téléphone, ou sans script : les cinq tâches à la suite, chacune avec son écran. -->
+  <section class="feats" id="fonctions" aria-labelledby="titre-fonctions">
+    <div class="feats-pin">
+      <h2 id="titre-fonctions" class="head feats-head">Ce que Parqueo fait à votre place.</h2>
+      <ol class="feats-list">
+        <li class="feat">
+          <h3 class="feat-name"><button type="button" data-feat="0">Un email devient un ticket.</button></h3>
+          <p class="feat-more">Le collecteur IMAP relève la boîte support toutes les 60 secondes. Un message ouvre un ticket, une réponse s'ajoute à sa conversation.</p>
+          <figure class="feat-shot">
+            <div class="ui-card" data-ui aria-label="La boîte support relevée par Parqueo">
+              <p class="ui-crumb">Collecteur email › support@votre-entreprise.fr</p>
+              <ul class="ui-mails">
+                <li><span class="av" style="--h:32">CM</span><div><b>Claire Martin</b><span>Imprimante du 2e étage hors ligne</span></div><time>08:41</time></li>
+                <li><span class="ui-arrow" aria-hidden="true"></span><div><b>Ticket #1284 créé</b><span>Catégorie Imprimantes, demandeur Claire Martin</span></div><time>08:42</time></li>
+                <li><span class="av" style="--h:32">CM</span><div><b>Re: [#1284] Imprimante du 2e étage</b><span>« Elle refonctionne, merci ! »</span></div><time>10:05</time></li>
+                <li><span class="ui-arrow" aria-hidden="true"></span><div><b>Ajouté à la conversation du #1284</b><span>Aucun nouveau ticket ouvert</span></div><time>10:05</time></li>
+              </ul>
+            </div>
+          </figure>
+        </li>
+        <li class="feat">
+          <h3 class="feat-name"><button type="button" data-feat="1">Le formulaire qualifie la demande.</button></h3>
+          <p class="feat-more">Le catalogue pose les bonnes questions : texte, listes, dates, cases. Le ticket arrive avec sa catégorie, sa priorité et son workflow.</p>
+          <figure class="feat-shot">
+            <div class="ui-card" data-ui aria-label="Un formulaire du catalogue de demandes">
+              <p class="ui-crumb">Catalogue › Imprimante en panne</p>
+              <div class="ui-fields">
+                <p><span>Étage</span><b class="ui-select">2e étage</b></p>
+                <p><span>Imprimante</span><b class="ui-select">IMP-HP-4</b></p>
+                <p><span>Message affiché</span><b class="ui-input">Hors ligne</b></p>
+                <p class="ui-check"><i aria-hidden="true"></i>J'ai déjà redémarré l'imprimante</p>
+              </div>
+              <p class="ui-result"><span>Le ticket arrivera avec</span>
+                <b class="tk-chip ui-chip-blue">Imprimantes</b><b class="tk-chip">Moyenne</b><b class="tk-chip ui-chip-grey">Workflow « Imprimantes »</b></p>
+            </div>
+          </figure>
+        </li>
+        <li class="feat">
+          <h3 class="feat-name"><button type="button" data-feat="2">L'article répond avant le ticket.</button></h3>
+          <p class="feat-more">Pendant la saisie, la base de connaissances suggère les articles écrits par vos techniciens. La demande la plus simple ne part jamais.</p>
+          <figure class="feat-shot">
+            <div class="ui-card" data-ui aria-label="Suggestions d'articles pendant la création d'un ticket">
+              <p class="ui-crumb">Tickets › Nouvelle demande</p>
+              <div class="ui-fields">
+                <p><span>Titre</span><b class="ui-input ui-typing">l'imprimante ne répond plus</b></p>
+              </div>
+              <div class="ui-suggest">
+                <p>Ces articles peuvent peut-être vous aider :</p>
+                <ul>
+                  <li>Relancer la file d'impression</li>
+                  <li>Remettre une imprimante réseau en ligne</li>
+                  <li>Ajouter une imprimante sur son poste</li>
+                </ul>
+              </div>
+            </div>
+          </figure>
+        </li>
+        <li class="feat">
+          <h3 class="feat-name"><button type="button" data-feat="3">Le parc se remplit tout seul.</button></h3>
+          <p class="feat-more">Agent GLPI sur les postes, connecteur Microsoft Intune sans agent, scan réseau SNMP pour les imprimantes, switches et NAS. Ou la saisie à la main.</p>
+          <figure class="feat-shot">
+            <div class="ui-card" data-ui aria-label="L'inventaire du parc et la source de chaque équipement">
+              <p class="ui-crumb">Inventaire › 24 équipements suivis</p>
+              <table class="ui-table">
+                <thead><tr><th>Nom</th><th>Type</th><th>Source</th></tr></thead>
+                <tbody>
+                  <tr><td>PC-COMPTA-03</td><td>Poste</td><td><b class="ui-src" data-src="agent">Agent</b></td></tr>
+                  <tr><td>LAPTOP-RH-12</td><td>Portable</td><td><b class="ui-src" data-src="intune">Intune</b></td></tr>
+                  <tr><td>IMP-HP-4</td><td>Imprimante</td><td><b class="ui-src" data-src="scan">Scan réseau</b></td></tr>
+                  <tr><td>SW-ETAGE-2</td><td>Switch</td><td><b class="ui-src" data-src="scan">Scan réseau</b></td></tr>
+                  <tr><td>NAS-SAUVEGARDE</td><td>NAS</td><td><b class="ui-src" data-src="scan">Scan réseau</b></td></tr>
+                  <tr><td>Sage Compta</td><td>Logiciel</td><td><b class="ui-src">Manuel</b></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+        </li>
+        <li class="feat">
+          <h3 class="feat-name"><button type="button" data-feat="4">Entra ID ouvre la session.</button></h3>
+          <p class="feat-more">Connexion Microsoft avec restriction par domaine, compte créé à la première connexion. Les comptes locaux restent pour les prestataires et le secours.</p>
+          <figure class="feat-shot">
+            <div class="ui-card ui-login" data-ui aria-label="L'écran de connexion de Parqueo">
+              <p class="ui-title">Connexion</p>
+              <p class="ui-intro">Connectez-vous pour retrouver vos tickets et votre parc.</p>
+              <p class="ui-btn">Se connecter avec Microsoft</p>
+              <p class="ui-or"><span>ou</span></p>
+              <div class="ui-fields">
+                <p><span>Email</span><b class="ui-input">prestataire@externe.fr</b></p>
+                <p><span>Mot de passe</span><b class="ui-input">••••••••••</b></p>
+              </div>
+            </div>
+          </figure>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <!-- ============ Mur de tuiles : les écrans et ce qu'ils contiennent ============ -->
-  <section class="wall" id="apercu" aria-labelledby="titre-apercu">
-    <ul class="tiles" data-reveal>
-      <li class="tile" data-tone="ink"><h2 id="titre-apercu" class="tile-word tile-heading">L'appli&shy;cation</h2><span class="tile-cap">telle qu'elle tourne</span></li>
-      <li class="tile tile-shot"><a href="img/tableau-de-bord-1600.webp"><img src="img/tableau-de-bord-800.webp" width="800" height="500" loading="lazy" alt="Tableau de bord : tickets à traiter, répartition par statut, flux hebdomadaire, charge par technicien."></a><span class="tile-cap">Tableau de bord</span></li>
-      <li class="tile" data-tone="blue"><span class="tile-word">10</span><span class="tile-cap">blocs de workflow</span></li>
-      <li class="tile" data-tone="grey"><span class="tile-word">13</span><span class="tile-cap">widgets de tableau de bord</span></li>
-      <li class="tile" data-tone="grey"><span class="tile-word">3</span><span class="tile-cap">rôles : demandeur, technicien, admin</span></li>
-      <li class="tile tile-shot"><a href="img/detail-ticket-1600.webp"><img src="img/detail-ticket-800.webp" width="800" height="500" loading="lazy" alt="Détail d'un ticket en attente : conversation, journal, statut, priorité et assignation."></a><span class="tile-cap">Détail d'un ticket</span></li>
-      <li class="tile" data-tone="ink"><span class="tile-word">0</span><span class="tile-cap">mot de passe livré par défaut</span></li>
-      <li class="tile tile-shot"><video src="img/file-tickets.webm" poster="img/file-tickets-poster.webp" width="1100" height="720" muted loop playsinline autoplay preload="none" aria-label="La file de tickets filtrée tour à tour par statut : en attente, nouveau, en cours, puis tous."></video><span class="tile-cap">La file, filtrée par statut</span></li>
-      <li class="tile" data-tone="blue"><span class="tile-word">SNMP</span><span class="tile-cap">imprimantes, switches, NAS</span></li>
-      <li class="tile" data-tone="grey"><span class="tile-word">1</span><span class="tile-cap">commande pour installer</span></li>
-      <li class="tile tile-shot"><a href="img/inventaire-1600.webp"><img src="img/inventaire-800.webp" width="800" height="500" loading="lazy" alt="Inventaire du parc : postes, imprimantes et serveurs avec leur état et leur source."></a><span class="tile-cap">Inventaire du parc</span></li>
-      <li class="tile" data-tone="ink"><span class="tile-word">AGPL</span><span class="tile-cap">code public, auditable</span></li>
-    </ul>
+  <!-- ============ L'application : quatre écrans, puis la fiche technique ============ -->
+  <section class="app" data-air="64" id="apercu" aria-labelledby="titre-apercu">
+    <div class="app-intro" data-reveal>
+      <h2 id="titre-apercu" class="head">L'application, telle qu'elle tourne.</h2>
+      <p>Les écrans que vos techniciens ouvrent chaque matin : la file, le tableau de bord, le détail d'un ticket, l'inventaire.</p>
+    </div>
+    <div class="shots">
+      <figure class="shot shot-main">
+        <div class="shot-frame"><video src="img/file-tickets.webm" poster="img/file-tickets-poster.webp" width="1100" height="720" muted loop playsinline autoplay preload="none" aria-label="La file de tickets filtrée tour à tour par statut : en attente, nouveau, en cours, puis tous."></video></div>
+        <figcaption>La file, filtrée par statut en un clic.</figcaption>
+      </figure>
+      <figure class="shot shot-side">
+        <a class="shot-frame" href="img/tableau-de-bord-1600.webp"><img src="img/tableau-de-bord-800.webp" width="800" height="500" loading="lazy" alt="Tableau de bord : tickets à traiter, répartition par statut, flux hebdomadaire, charge par technicien."></a>
+        <figcaption>Le tableau de bord, composé par rôle.</figcaption>
+      </figure>
+      <figure class="shot shot-side" data-stop="40">
+        <a class="shot-frame" href="img/detail-ticket-1600.webp"><img src="img/detail-ticket-800.webp" width="800" height="500" loading="lazy" alt="Détail d'un ticket en attente : conversation, journal, statut, priorité et assignation."></a>
+        <figcaption>Un ticket : conversation et journal sur la même page.</figcaption>
+      </figure>
+      <figure class="shot shot-main">
+        <a class="shot-frame" href="img/inventaire-1600.webp"><img src="img/inventaire-1600.webp" width="1600" height="1000" loading="lazy" alt="Inventaire du parc : postes, imprimantes et serveurs avec leur état et leur source."></a>
+        <figcaption>L'inventaire : postes, serveurs, imprimantes, logiciels.</figcaption>
+      </figure>
+    </div>
+    <div class="specs" data-stop="0">
+      <h3 class="specs-head">La fiche technique.</h3>
+      <dl class="specs-list" data-reveal>
+        <div><dt>blocs de workflow, attentes et conditions comprises</dt><dd>10</dd></div>
+        <div><dt>widgets pour composer les tableaux de bord</dt><dd>13</dd></div>
+        <div><dt>rôles : demandeur, technicien, administrateur</dt><dd>3</dd></div>
+        <div><dt>secondes entre deux relèves de la boîte support</dt><dd>60</dd></div>
+        <div><dt>commande pour installer sur votre serveur</dt><dd>1</dd></div>
+        <div><dt>mot de passe livré par défaut</dt><dd>0</dd></div>
+        <div><dt>sources d'inventaire : agent GLPI, Intune, scan SNMP, saisie</dt><dd>4</dd></div>
+        <div><dt>licence libre, code public et auditable</dt><dd>AGPL</dd></div>
+      </dl>
+    </div>
   </section>
 
   <!-- ============ Hébergement : panneau sombre, photo en panse ============ -->
@@ -428,7 +509,7 @@
   </section>
 
   <!-- ============ Offres : les noms sont le sommaire, un seul chiffre vit ============ -->
-  <section class="plans" id="offres" aria-labelledby="titre-offres">
+  <section class="plans" data-air="64" id="offres" aria-labelledby="titre-offres">
     <h2 id="titre-offres" class="head plans-head">Trois façons d'adopter Parqueo.</h2>
     <div class="plans-grid">
       <div class="plan-names" role="tablist" aria-label="Offres">
@@ -460,7 +541,7 @@
   </section>
 
   <!-- ============ Questions ============ -->
-  <section class="faq" id="faq" aria-labelledby="titre-faq">
+  <section class="faq" data-air="64" id="faq" aria-labelledby="titre-faq">
     <h2 id="titre-faq" class="head faq-head">Avant de se lancer.</h2>
     <div class="faq-list" data-reveal>
       <details name="faq" open>
@@ -494,7 +575,7 @@
   </section>
 
   <!-- ============ Contact : un ticket à détacher ============ -->
-  <section class="contact" id="contact" aria-labelledby="titre-contact">
+  <section class="contact" data-air="64" id="contact" aria-labelledby="titre-contact">
     <form class="coupon" id="demo-form" action="mailto:contact@parqueo.fr" method="post" enctype="text/plain">
       <div class="coupon-stub">
         <h2 id="titre-contact" class="coupon-head">Voyons Parqueo sur votre parc.</h2>

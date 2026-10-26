@@ -45,7 +45,7 @@ section[id] { scroll-margin-top: 24px; }
 
 /* --- Jetons ---------------------------------------------------------------
    Une feuille blanche, une encre, un bleu : celui du panneau « P ». Le bleu
-   tient les grands aplats (la panse, les bandes) et l'action ; rien d'autre
+   tient les grands aplats (la panse, les champs) et l'action ; rien d'autre
    n'est teinté. Les mêmes valeurs que l'application (client/src/index.css). */
 :root {
   --ground: #ffffff;
@@ -57,7 +57,7 @@ section[id] { scroll-margin-top: 24px; }
   --accent-strong: #123a9e;
   --accent-field: #1a4bc4; /* les aplats bleus */
   --on-field: #ffffff;
-  --field-ink: #0f1115;  /* aplat sombre (bandes, panneau hébergement, pied) */
+  --field-ink: #0f1115;  /* aplat sombre (panneau hébergement, pied) */
   --on-field-ink: #f1f2f4;
   --on-field-ink-soft: #b4b8c0;
   --negative: #c4242a;
@@ -386,69 +386,178 @@ a { color: inherit; }
   width: 9px; height: 12px; border-radius: 0 999px 999px 0; background: var(--accent-field);
 }
 
-/* ======================= Bandes : une phrase, un interrupteur ======================= */
-.bands { margin-top: var(--sec); }
-.bands-head { padding: 0 var(--m) 40px; }
-.band {
-  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--gap);
-  min-height: max(20vh, 150px); padding: 28px var(--m);
-  background: var(--ground); color: var(--ink-soft);
-  transition: background-color 360ms var(--ease-in-out), color 360ms var(--ease-in-out);
+/* ======================= Ce que Parqueo fait : cinq tâches, leurs écrans ======================= */
+/* Chaque tâche est prouvée par l'écran de Parqueo qui la montre, posé dans la
+   panse. Grand écran : la section s'épingle, le défilement passe d'une tâche
+   à l'autre (site.js), un clic sur un titre y va directement. Sinon, les cinq
+   tâches à la suite, chacune avec son écran. */
+.feats { margin-top: var(--sec); padding: 0 var(--m); }
+.feats-head { max-width: 12em; margin-bottom: 48px; }
+.feats-list { display: grid; gap: 72px; }
+.feat-name { font-size: clamp(1.5rem, 1rem + 1.5vw, 2.25rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.feat-name button {
+  position: relative; display: block; width: 100%; padding: 0; border: 0; background: none;
+  text-align: left; font: inherit; letter-spacing: inherit; color: inherit; cursor: default;
 }
-.band h3 { font-size: var(--t-head); font-weight: 800; letter-spacing: -0.03em; line-height: 1.04; }
-.band-more { max-width: 46em; margin-top: 12px; display: none; }
-.band[data-on="true"] .band-more { display: block; animation: swap 260ms ease both; }
-.band[data-on="true"][data-tone="blue"] { background: var(--accent-field); color: var(--on-field); }
-.band[data-on="true"][data-tone="ink"] { background: var(--field-ink); color: var(--on-field-ink); }
-.band[data-on="true"][data-tone="grey"] { background: var(--surface-2); color: var(--ink); }
+.feat-more { max-width: 34em; margin-top: 12px; }
+.feat-shot {
+  display: grid; place-items: center; margin-top: 28px; padding: 40px 12% 40px 24px;
+  background: var(--accent-field); border-radius: 0 999px 999px 0;
+}
 
-.mini-switch {
-  position: relative; width: 64px; height: 36px; padding: 0; border: 0; border-radius: 18px;
-  background: #8a909c; cursor: pointer; flex: none;
-  transition: background-color 260ms ease;
+@media (min-width: 900px) {
+  .feat { display: grid; grid-template-columns: 5fr 7fr; column-gap: calc(var(--gap) * 2); align-items: center; }
+  .feat-shot { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; min-height: 440px; }
+  .feat-name, .feat-more { grid-column: 1; }
 }
-.mini-switch span {
-  position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%;
-  background: #ffffff; transition: transform 260ms var(--ease-out);
-}
-.mini-switch[aria-checked="true"] { background: #0f1115; }
-.band[data-tone="ink"] .mini-switch[aria-checked="true"] { background: var(--accent-field); }
-.mini-switch[aria-checked="true"] span { transform: translateX(28px); }
-.mini-switch:active span { scale: .94; }
-.mini-switch::after { content: ''; position: absolute; inset: -6px; } /* cible tactile de 48 px */
 
-/* ======================= Mur de tuiles ======================= */
-.wall { margin-top: var(--sec); padding: 0 8px; }
-.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.tile {
-  position: relative; aspect-ratio: 1; overflow: hidden;
-  display: grid; place-items: center; text-align: center;
-  background: var(--surface); color: var(--ink);
+/* L'épinglage : la panse occupe la moitié gauche de la fenêtre, depuis le
+   bord, et les écrans s'y relaient en fondu. La panse est un pseudo-élément
+   immobile : deux aplats bleus en fondu croisé pâliraient au milieu. */
+@media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .js .feats { --feat-step: max(160px, 22vh); height: calc(100svh + 4 * var(--feat-step)); padding: 0; }
+  .js .feats-pin {
+    position: sticky; top: 0; height: 100svh;
+    display: grid; grid-template-columns: 50% 1fr; column-gap: calc(var(--gap) * 2);
+    align-content: center; padding-right: var(--m);
+  }
+  .js .feats-pin::before {
+    content: ''; position: absolute; left: 0; top: 7svh; bottom: 7svh; width: 50%;
+    background: var(--accent-field); border-radius: 0 999px 999px 0;
+  }
+  .js .feats-head, .js .feats-list { grid-column: 2; }
+  .js .feats-head { margin-bottom: clamp(24px, 5vh, 48px); font-size: min(var(--t-head), 7vh); }
+  .js .feats-list { gap: 0; }
+  .js .feat { display: grid; grid-template-columns: none; grid-template-rows: auto 0fr; align-items: stretch; transition: grid-template-rows 420ms var(--ease-out); }
+  .js .feat.is-current { grid-template-rows: auto 1fr; }
+  .js .feat-name { font-size: min(clamp(1.5rem, 1rem + 1.5vw, 2.25rem), 5vh); }
+  .js .feat-name button {
+    padding: clamp(8px, 1.4vh, 14px) 0 clamp(8px, 1.4vh, 14px) 30px; color: var(--ink-soft); cursor: pointer;
+    transition: color var(--t-hover) ease;
+  }
+  /* Le repère de la tâche en cours : la panse du P, en petit. */
+  .js .feat-name button::before {
+    content: ''; position: absolute; left: 0; top: 50%; width: 14px; height: 19px; margin-top: -10px;
+    border-radius: 0 999px 999px 0; background: var(--accent);
+    transform: scaleX(0); transform-origin: left center; transition: transform 320ms var(--ease-out);
+  }
+  .js .feat.is-current .feat-name button { color: var(--ink); }
+  .js .feat.is-current .feat-name button::before { transform: none; }
+  .js .feat-more { min-height: 0; overflow: hidden; margin: 0; padding-left: 30px; opacity: 0; transition: opacity 240ms ease; }
+  .js .feat-more::after { content: ''; display: block; height: clamp(8px, 2vh, 20px); }
+  .js .feat.is-current .feat-more { opacity: 1; transition-delay: 120ms; }
+
+  /* `grid-area: auto` : sans elle, le placement du bloc précédent ferait de
+     la colonne de droite de l'épingle le bloc conteneur. */
+  .js .feat-shot {
+    position: absolute; grid-area: auto; left: 0; top: 7svh; bottom: 7svh; width: 50%; min-height: 0; margin: 0;
+    padding: 0 14% 0 var(--m); background: none;
+    opacity: 0; visibility: hidden; transform: translateY(16px);
+    transition: opacity 320ms ease, transform 420ms var(--ease-out), visibility 0s 420ms;
+  }
+  .js .feat.is-current .feat-shot { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 }
-.tile[data-tone="blue"] { background: var(--accent-field); color: var(--on-field); }
-.tile[data-tone="ink"] { background: var(--field-ink); color: var(--on-field-ink); }
-.tile[data-tone="grey"] { background: var(--surface-2); color: var(--ink); }
-.tile-word { font-size: var(--t-display); font-weight: 800; letter-spacing: -0.04em; line-height: .9; padding: 0 12%; }
-.tile-heading { font-size: var(--t-head); line-height: 1; hyphens: manual; }
-.tile-cap {
-  position: absolute; left: 12px; right: 12px; bottom: 18px;
-  font-size: var(--t-small); font-weight: 600; line-height: 1.3;
+/* Assez de place dans la panse : les écrans passent à 120 %, lisibles de loin. */
+@media (min-width: 1360px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+  .js .feat-shot .ui-card { zoom: 1.2; }
 }
-.tile[data-tone="ink"] .tile-cap { color: var(--on-field-ink-soft); }
-.tile-shot { background: var(--surface-2); }
-.tile-shot a { position: absolute; inset: 0; }
-.tile-shot video { position: absolute; left: -20%; top: 4%; width: 175%; max-width: none; height: auto; }
-.tile-shot img {
-  position: absolute; left: -36%; top: 7%; width: 210%; max-width: none; height: auto;
-  transition: transform 600ms var(--ease-out);
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .js .feat:not(.is-current) .feat-name button:hover { color: var(--ink); }
 }
-.tile-shot .tile-cap {
-  left: 0; right: auto; bottom: 0; padding: 10px 22px 10px 14px; text-align: left;
-  background: var(--ground); color: var(--ink); border-radius: 0 999px 999px 0;
+
+/* Les fragments : des écrans de Parqueo à leur taille réelle, dans les
+   couleurs de l'application, quel que soit le thème du site. */
+.ui-card {
+  width: min(440px, 100%);
+  background: #ffffff; color: #0f1115;
+  border: 1px solid #e3e6ec; border-radius: 12px; /* taste-skill-ignore : bord de carte du fragment data-ui */
+  font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums;
+  padding: 18px 20px 20px;
 }
+.ui-crumb { font-size: 12px; color: #646a77; margin-bottom: 10px; }
+.ui-mails li {
+  display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: start;
+  padding: 10px 0; border-top: 1px solid #eef0f4; /* taste-skill-ignore : filets du fragment data-ui */
+}
+.ui-mails b { display: block; font-size: 13.5px; font-weight: 600; }
+.ui-mails span:not(.av):not(.ui-arrow), .ui-mails div span { display: block; font-size: 13px; color: #555b68; }
+.ui-mails time { font-size: 12px; color: #646a77; }
+.ui-mails li:nth-child(even) { background: #f3f6fd; margin: 0 -20px; padding-inline: 20px; }
+.ui-arrow { width: 8px; height: 11px; margin: 5px 0 0 7px; border-radius: 0 999px 999px 0; background: #1a4bc4; }
+.ui-fields { display: grid; gap: 10px; }
+.ui-fields span { display: block; font-size: 12px; color: #646a77; margin-bottom: 3px; }
+.ui-input, .ui-select {
+  position: relative; display: block; padding: 7px 10px; font-size: 13.5px; font-weight: 500;
+  border: 1px solid #d9dde5; border-radius: 6px; /* taste-skill-ignore : champ de formulaire du fragment data-ui */
+}
+.ui-select::after { content: ''; position: absolute; right: 12px; top: 50%; margin-top: -3px; border: 5px solid transparent; border-top-color: #646a77; border-bottom: 0; }
+.ui-check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; }
+.ui-check i { position: relative; width: 16px; height: 16px; border-radius: 4px; background: #1a4bc4; flex: none; }
+.ui-check i::after { content: ''; position: absolute; left: 5px; top: 2px; width: 4px; height: 8px; border: solid #ffffff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.ui-result { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #eef0f4; } /* taste-skill-ignore : filet du fragment data-ui */
+.ui-result span { width: 100%; font-size: 12px; color: #646a77; }
+.ui-chip-blue { background: #e8eefc; color: #1a4bc4; }
+.ui-chip-grey { background: #eef0f4; color: #3a3f49; }
+.ui-typing::after { content: ''; display: inline-block; width: 1px; height: 1.1em; margin-left: 1px; vertical-align: -0.2em; background: #0f1115; animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.ui-suggest {
+  margin-top: 12px; padding: 10px 14px; background: #f6f7f9;
+  border: 1px solid #e3e6ec; border-radius: 6px; /* taste-skill-ignore : encadré du fragment data-ui */
+}
+.ui-suggest p { font-size: 12px; font-weight: 500; color: #555b68; margin-bottom: 4px; }
+.ui-suggest li { padding: 2px 0; font-size: 14px; color: #1a4bc4; }
+.ui-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ui-table th { text-align: left; font-size: 12px; font-weight: 500; color: #646a77; padding: 0 0 6px; }
+.ui-table td { padding: 7px 0; border-top: 1px solid #eef0f4; } /* taste-skill-ignore : lignes du tableau du fragment data-ui */
+.ui-table td:first-child { font-weight: 600; }
+.ui-src { padding: 1px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; background: #eef0f4; color: #3a3f49; }
+.ui-src[data-src="agent"] { background: #e8eefc; color: #1a4bc4; }
+.ui-src[data-src="intune"] { background: #e3e9f5; color: #0c2a66; }
+.ui-src[data-src="scan"] { background: #fff4dc; color: #9a5b00; }
+.ui-login { width: min(380px, 100%); padding: 24px; }
+.ui-title { font-size: 20px; font-weight: 700; letter-spacing: -0.015em; }
+.ui-intro { font-size: 13px; color: #555b68; margin: 2px 0 16px; }
+.ui-btn { padding: 9px; border-radius: 6px; background: #1a4bc4; color: #ffffff; font-weight: 600; font-size: 13.5px; text-align: center; }
+.ui-or { display: flex; align-items: center; gap: 10px; margin: 12px 0; font-size: 12px; color: #8a909c; }
+.ui-or::before, .ui-or::after { content: ''; flex: 1; height: 1px; background: #e3e6ec; } /* taste-skill-ignore : séparateur du fragment data-ui */
+
+/* ======================= L'application : quatre écrans, la fiche technique ======================= */
+.app { margin-top: var(--sec); padding: 0 var(--m); }
+.app-intro { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gap); align-items: end; margin-bottom: 48px; }
+.app-intro .head { grid-column: 1 / span 7; max-width: 11em; }
+.app-intro p { grid-column: 9 / -1; max-width: 26em; }
+/* Deux rangées en miroir : un grand écran et un écran de côté, puis
+   l'inverse. L'écran de côté prend la hauteur du grand et montre le coin
+   haut gauche de sa capture, là où l'interface commence. */
+.shots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px var(--gap); }
+.shot { display: grid; grid-template-rows: 1fr auto; gap: 14px; }
+.shot-main { grid-column: span 8; }
+.shot-side { grid-column: span 4; }
+.shot-frame { position: relative; display: block; overflow: hidden; background: var(--surface); }
+.shot-main .shot-frame { aspect-ratio: 16 / 10; }
+/* La vidéo est rognée en bas : certaines images de l'enregistrement y ont une bande grise. */
+.shot-main .shot-frame:has(video) { aspect-ratio: 16 / 9; }
+.shot-frame img, .shot-frame video {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  object-fit: cover; object-position: left top;
+  transition: transform 700ms var(--ease-out);
+}
+.shot-side .shot-frame img { width: 170%; max-width: none; height: auto; inset: 6% auto auto 6%; object-fit: initial; }
+.shot figcaption { font-size: var(--t-small); font-weight: 600; }
 @media (hover: hover) and (pointer: fine) {
-  .tile-shot a:hover img { transform: translate(-3%, -3%); }
+  a.shot-frame:hover img { transform: scale(1.03); }
 }
+
+.specs { margin: var(--sec) calc(var(--m) * -1) 0; padding: 72px var(--m) 88px; background: var(--surface); }
+.specs-head { font-size: var(--t-lead); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 48px; }
+.specs-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px var(--gap); }
+.specs-list div { display: flex; flex-direction: column; }
+.specs-list dd {
+  order: -1; margin: 0 0 10px;
+  font-size: var(--t-display); font-weight: 800; letter-spacing: -0.04em; line-height: .9;
+  font-variant-numeric: tabular-nums;
+}
+.specs-list dt { max-width: 15em; }
 
 /* ======================= Hébergement ======================= */
 .host { margin-top: var(--sec); padding: 0 20px; }
@@ -664,8 +773,9 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .tile-shot video { display: none; }
-  .tile-shot:has(video) { background: var(--surface-2) url(img/file-tickets-poster.webp) -20% 4% / 175% auto no-repeat; }
+  .shot-frame video { display: none; }
+  .shot-frame:has(video) { background: var(--surface) url(img/file-tickets-poster.webp) left top / cover no-repeat; }
+  .ui-typing::after { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
 
@@ -703,12 +813,18 @@ a { color: inherit; }
 
   .editor-band, .faq, .plans-grid, .host-panel, .page-head, .svc, .licence-panel, .cta-strip { display: block; }
   .editor-copy { margin-bottom: 40px; }
-  .band { min-height: 132px; padding: 22px var(--m); }
-  .band h3 { font-size: clamp(1.5rem, 6.4vw, 2.25rem); }
-  .tiles { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .wall { padding: 0 6px; }
-  .tile-word { font-size: clamp(2.5rem, 15vw, 5rem); }
-  .tile-heading { font-size: clamp(1.75rem, 8.5vw, 2.5rem); }
+  .feats-list { gap: 56px; }
+  .feat-shot { margin-right: calc(var(--m) * -1); padding: 28px 14% 28px 14px; }
+  .app-intro { display: block; }
+  .app-intro p { margin-top: 20px; font-size: 1.125rem; }
+  .shots { grid-template-columns: 1fr; gap: 32px; }
+  .shot-main, .shot-side { grid-column: auto; }
+  .shot-side .shot-frame { aspect-ratio: 16 / 10; }
+  .shot-side .shot-frame img { width: 100%; inset: 0; height: 100%; object-fit: cover; }
+  .specs { padding: 48px var(--m) 56px; }
+  .specs-list { grid-template-columns: 1fr 1fr; gap: 36px var(--gap); }
+  .specs-list dd { font-size: clamp(2.5rem, 13vw, 4rem); }
+  .specs-list dt { font-size: 1rem; }
 
   .host { padding: 0 10px; }
   .host-panel { padding: 40px calc(var(--m) - 10px + 12px) 0; min-height: 0; }
