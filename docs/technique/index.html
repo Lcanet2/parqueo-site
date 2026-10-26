@@ -735,8 +735,21 @@ supprimer, ni supprimer un compte porteur de tickets (409).</p>
 </tbody></table>
 </div>
 <p>Catégories et équipes se suppriment (<code>DELETE /api/categories/:id</code>,
-<code>/api/teams/:id</code>, admin) tant qu&#39;elles ne sont référencées par rien : sinon 409
-avec le détail des usages. Leurs noms sont <strong>uniques</strong>.</p>
+<code>/api/teams/:id</code>, admin). Sans paramètre, la suppression est refusée (409, avec
+le détail des usages) tant qu&#39;elles sont référencées. Le paramètre
+<code>reassignTo</code> lève le refus, en une transaction :</p>
+<ul>
+<li><code>?reassignTo=&lt;id&gt;</code> reporte tout sur la cible — tickets, formulaires,
+articles (catégorie) ; tickets et membres (équipe) — ainsi que les références
+des workflows : condition d&#39;entrée <code>categoryId</code>, blocs <code>condition</code> sur la
+catégorie, blocs <code>assign_team</code>. 400 si la cible est l&#39;élément lui-même ou
+n&#39;existe pas.</li>
+<li><code>?reassignTo=none</code> supprime sans déplacer. Équipe : tickets et membres
+passent à <code>teamId = null</code>. Catégorie : ses tickets (commentaires, pièces jointes
+et exécutions de workflow en cascade, fichiers effacés du disque) et ses
+formulaires sont <strong>supprimés</strong> ; les articles passent à <code>categoryId = null</code>.</li>
+</ul>
+<p>Leurs noms sont <strong>uniques</strong>.</p>
 <h3 id="56-paramètres">5.6 Paramètres<a class="anchor" href="#56-paramètres" aria-label="Lien vers cette section">#</a></h3>
 <div class="table-scroll"><table>
 <thead>
@@ -767,9 +780,10 @@ avec le détail des usages. Leurs noms sont <strong>uniques</strong>.</p>
 <h2 id="6-workflows">6. Workflows<a class="anchor" href="#6-workflows" aria-label="Lien vers cette section">#</a></h2>
 <p>Un workflow est un <strong>graphe orienté</strong> qui automatise le traitement des tickets.</p>
 <ul>
-<li><strong>Déclencheur</strong> : <code>ticket_created</code> ou <code>status_changed</code>.</li>
-<li><strong>Conditions d&#39;entrée</strong> (toutes vraies) : catégorie, formulaire, priorité,
-statut cible.</li>
+<li><strong>Déclencheur</strong> : <code>ticket_created</code>, <code>status_changed</code> ou
+<code>priority_changed</code>.</li>
+<li><strong>Conditions d&#39;entrée</strong> (toutes vraies) : catégorie, formulaire, priorité
+(la nouvelle, pour <code>priority_changed</code>), statut cible.</li>
 <li><strong>Blocs</strong> reliés par des fils, avec deux sorties oui/non pour les conditions :</li>
 </ul>
 <div class="table-scroll"><table>
@@ -813,10 +827,16 @@ statut cible.</li>
 </tbody></table>
 </div>
 <p><strong>Parking et reprise.</strong> Un ticket qui atteint un bloc d&#39;attente y reste
-« parqué » ; il repart de ce bloc dès qu&#39;un changement de statut ou d&#39;assignation
-satisfait la condition. Un même ticket n&#39;entre qu&#39;une fois dans un workflow
-donné, et une modification faite par un workflow ne peut pas en redéclencher un
-autre (anti-boucle par construction).</p>
+« parqué » ; il repart de ce bloc dès qu&#39;un changement de statut, de priorité ou
+d&#39;assignation satisfait la condition. Un <code>wait_status</code> sur <code>resolved</code> est aussi
+franchi par <code>closed</code> (ticket fermé sans passer par Résolu) ; les autres statuts
+attendus doivent être atteints exactement (<code>isGateSatisfied</code>,
+<code>src/lib/workflowUtils.js</code>).</p>
+<p>Un ticket n&#39;entre qu&#39;une fois dans un workflow <code>ticket_created</code> (une ligne
+<code>workflow_runs</code> par couple ticket/workflow). Les workflows <code>status_changed</code> et
+<code>priority_changed</code> sont <strong>réactifs</strong> : sans parking ni mémoire, ils s&#39;exécutent
+à chaque changement correspondant. Une modification faite par un workflow ne
+peut pas en redéclencher un autre (anti-boucle par construction).</p>
 <p><strong>Gabarits.</strong> Les notes et emails acceptent des variables <code>{{ticket.title}}</code>,
 <code>{{author.name}}</code>, <code>{{assignee.email}}</code>, <code>{{category.name}}</code>, etc.</p>
 <p><strong>Webhook.</strong> <code>POST</code> JSON <code>{ event, workflow, ticket }</code>, en-tête optionnel

@@ -394,9 +394,10 @@ liste correspondent toujours.</p>
 <h3 id="62-le-détail-dun-ticket">6.2 Le détail d&#39;un ticket<a class="anchor" href="#62-le-détail-dun-ticket" aria-label="Lien vers cette section">#</a></h3>
 <p><strong>Le fil.</strong> Description initiale, messages, pièces jointes et <strong>journal
 d&#39;événements</strong> sur une seule chronologie. Chaque changement de statut, de
-priorité, d&#39;assignation ou d&#39;équipe y laisse une trace horodatée et nominative —
-y compris quand l&#39;auteur du changement est un workflow, qui est nommé
-explicitement (« Affecté à l&#39;équipe Support N1 (workflow « Incident réseau ») »).</p>
+priorité, d&#39;assignation ou d&#39;équipe y laisse une trace horodatée et nominative,
+qu&#39;il vienne d&#39;une personne ou d&#39;un workflow. Le journal montre l&#39;action
+(« Affecté à l&#39;équipe Support N1 », « Assigné à Théo Technicien »), pas ce qui
+l&#39;a déclenchée : le fil reste lisible pour le demandeur.</p>
 <p><strong>Les pièces jointes.</strong> 10 Mo maximum par fichier ; images, PDF, documents
 bureautiques, archives, journaux, CSV. Les images s&#39;affichent en vignette
 directement dans le fil.</p>
@@ -506,6 +507,10 @@ la règle automatique.</p>
 </div>
 <p>Les statuts ne sont pas contraints : n&#39;importe quel passage est possible, et
 chacun est journalisé.</p>
+<p><strong>La couleur suit l&#39;avancement.</strong> La pastille de statut, dans la liste comme
+sur le tableau de bord, est un même bleu de plus en plus sombre : clair pour un
+ticket nouveau, presque noir pour un ticket fermé. On lit d&#39;un coup d&#39;œil où en
+est une file, sans légende.</p>
 <p><strong>Priorités</strong> : basse, moyenne, haute.</p>
 <p><strong>Clôture automatique.</strong> Un ticket <strong>Résolu</strong> sans nouvelle activité pendant le
 délai configuré (7 jours par défaut) passe automatiquement en <strong>Fermé</strong>, avec
@@ -617,6 +622,21 @@ l&#39;affectation ; les <strong>catégories</strong> classent les tickets, les f
 articles de la base de connaissances.</p>
 <p>Choisissez les catégories avec soin : elles conditionnent les filtres, les
 statistiques et le ciblage des workflows.</p>
+<p><strong>Supprimer.</strong> Chaque ligne a un bouton <strong>Supprimer</strong>. Une équipe ou une
+catégorie qui ne sert à rien disparaît après confirmation. Si elle est encore
+utilisée, Parqueo dit par quoi (« Catégorie utilisée par 7 tickets,
+1 formulaire ») et propose deux choix :</p>
+<ul>
+<li><strong>Déplacer et supprimer</strong> : tout ce qui en dépend passe sur une autre
+équipe ou catégorie au choix — tickets, formulaires, articles d&#39;aide, comptes
+des membres, et <strong>les workflows</strong> qui la visaient (déclencheur, condition,
+bloc « affecter à l&#39;équipe »). Rien ne reste orphelin.</li>
+<li><strong>Supprimer sans déplacer</strong> : pour une équipe, ses tickets et ses membres
+restent sans équipe. Pour une catégorie, obligatoire sur les tickets et les
+formulaires, <strong>ses tickets</strong> (avec leurs messages et pièces jointes) <strong>et ses
+formulaires sont supprimés définitivement</strong> ; les articles d&#39;aide restent,
+sans catégorie. Une confirmation le rappelle en toutes lettres.</li>
+</ul>
 <h3 id="103-formulaires">10.3 Formulaires<a class="anchor" href="#103-formulaires" aria-label="Lien vers cette section">#</a></h3>
 <p>Construction du catalogue de demandes : nom, description, catégorie, priorité
 imposée, activation, et liste de champs ordonnée. Un champ de type liste exige
@@ -633,14 +653,17 @@ soumission.</p>
 <p>Un workflow applique une procédure à un ticket, automatiquement. Il se dessine
 sur un canvas : un déclencheur, des blocs, des fils entre les blocs.</p>
 <h3 id="111-déclencheur-et-filtres">11.1 Déclencheur et filtres<a class="anchor" href="#111-déclencheur-et-filtres" aria-label="Lien vers cette section">#</a></h3>
-<p>Deux déclencheurs :</p>
+<p>Trois déclencheurs :</p>
 <ul>
 <li><strong>Un ticket est créé</strong> ;</li>
-<li><strong>Le statut change</strong>.</li>
+<li><strong>Le statut change</strong> ;</li>
+<li><strong>La priorité change</strong> — pour réagir à un ticket qui devient urgent après
+coup : la priorité d&#39;un ticket créé n&#39;est examinée qu&#39;à sa création.</li>
 </ul>
 <p>On restreint ensuite à ce qui compte : une <strong>catégorie</strong>, un <strong>formulaire
-d&#39;origine</strong>, une <strong>priorité</strong>, ou un <strong>statut atteint</strong>. Toutes les conditions
-renseignées doivent être vraies. Un workflow par procédure, pas un fourre-tout.</p>
+d&#39;origine</strong>, une <strong>priorité</strong> (la <em>nouvelle</em> priorité, pour « La priorité
+change »), ou un <strong>statut atteint</strong>. Toutes les conditions renseignées doivent
+être vraies. Un workflow par procédure, pas un fourre-tout.</p>
 <h3 id="112-les-blocs">11.2 Les blocs<a class="anchor" href="#112-les-blocs" aria-label="Lien vers cette section">#</a></h3>
 <p><strong>Actions</strong> — le workflow agit puis passe au bloc suivant :</p>
 <div class="table-scroll"><table>
@@ -698,7 +721,9 @@ condition est remplie :</p>
 </tr>
 <tr>
 <td>Attendre un statut</td>
-<td>le ticket atteint le statut choisi</td>
+<td>le ticket atteint le statut choisi. Une attente « Résolu » est aussi franchie
+par un ticket <strong>fermé directement</strong> : sans cela, il y resterait garé pour
+toujours</td>
 </tr>
 </tbody></table>
 </div>
@@ -744,8 +769,10 @@ qu&#39;un technicien se l&#39;assigne, le workflow <strong>repart tout seul</str
 et évalue la condition.</p>
 <h3 id="115-bon-à-savoir">11.5 Bon à savoir<a class="anchor" href="#115-bon-à-savoir" aria-label="Lien vers cette section">#</a></h3>
 <ul>
-<li><strong>Un ticket n&#39;entre qu&#39;une fois dans un workflow donné</strong>, même si l&#39;événement
-se répète.</li>
+<li><strong>Un ticket n&#39;entre qu&#39;une fois dans un workflow « ticket créé »</strong>.
+Les workflows « le statut change » et « la priorité change » réagissent, eux, à
+<strong>chaque</strong> changement : un ticket passé en haute, puis moyenne, puis de
+nouveau en haute, déclenche deux fois l&#39;escalade.</li>
 <li><strong>Les actions d&#39;un workflow ne déclenchent jamais un autre workflow.</strong> Pas de
 cascade, pas de boucle.</li>
 <li><strong>Une action en échec est ignorée</strong> (adresse invalide, équipe supprimée) : le
